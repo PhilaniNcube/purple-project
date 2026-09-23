@@ -1,11 +1,11 @@
-# Project Purple — Design System
+# Project Purple — Marketing Site & Design System
 
-Design tokens and a component foundation for **Project Purple**, a movement
-breaking the silence around gynaecological cancer.
+The marketing site for **Project Purple**, a movement breaking the silence
+around gynaecological cancer.
 
 Built with **Next.js 16** (App Router), **Tailwind CSS v4** and **shadcn**
 (Base UI primitives). Derived from the `General` Figma prototype — the exported
-reference frame lives in [`design-reference/`](./design-reference).
+reference frames belong in [`design-reference/`](./design-reference).
 
 ---
 
@@ -19,8 +19,8 @@ pnpm lint
 pnpm design:lint   # validate DESIGN.md against the DESIGN.md spec
 ```
 
-The home route (`/`) is the **living style guide**: every token and component
-below is rendered there.
+The home route (`/`) currently doubles as the **living style guide** — every
+token and component below is rendered there, alongside the production sections.
 
 ## DESIGN.md
 
@@ -52,22 +52,23 @@ illustration and future surfaces, and it exports cleanly to Tailwind and DTCG.
 ```
 DESIGN.md                # DESIGN.md-format spec (tokens + rationale)
 design-reference/        # exported Figma frames the system was derived from
+public/
+├─ images/                # brand artwork + editorial photography
+└─ videos/                # hero background footage
 src/
 ├─ app/
 │  ├─ globals.css          # ← single source of truth: all design tokens
-│  ├─ layout.tsx           # fonts + metadata
-│  └─ page.tsx             # the style guide / showcase
+│  ├─ layout.tsx           # fonts + metadata + global smooth scroll
+│  └─ page.tsx             # homepage (production sections + style guide)
 ├─ components/
+│  ├─ hero.tsx             # production sections …
+│  ├─ shining-a-light.tsx
+│  ├─ straight-from.tsx
+│  ├─ the-numbers.tsx
+│  ├─ share-the-knowledge.tsx
+│  ├─ navigation.tsx       # site chrome
+│  ├─ smooth-scroll.tsx    # Lenis provider
 │  ├─ ds/                  # design-system primitives (Container, Section, …)
-│  │  ├─ container.tsx
-│  │  ├─ section.tsx
-│  │  ├─ eyebrow.tsx
-│  │  ├─ display.tsx
-│  │  ├─ script.tsx
-│  │  ├─ stat.tsx
-│  │  ├─ quote.tsx
-│  │  ├─ logo.tsx
-│  │  └─ index.ts
 │  └─ ui/                  # shadcn components (button, card, input, …)
 └─ lib/
    └─ design-tokens.ts     # typed handles onto the CSS variables
@@ -134,6 +135,47 @@ Each size bundles its own line-height, letter-spacing and font-weight, so
 
 ---
 
+## Sections
+
+| Section       | File                              | Notes                                                                |
+| ------------- | --------------------------------- | -------------------------------------------------------------------- |
+| `Hero`        | `components/hero.tsx`             | Looping video band; "AGAINST" is inline SVG so its outline is a path |
+| `ShiningALight` | `components/shining-a-light.tsx` | Arched photo + outline type drawn on scroll                          |
+| `StraightFrom` | `components/straight-from.tsx`   | Dark editorial band; outline type drawn on scroll                    |
+| `TheNumbers`  | `components/the-numbers.tsx`      | Watermark headline over a four-up statistic row                      |
+| `ShareTheKnowledge` | `components/share-the-knowledge.tsx` | Scroll-linked clover backdrop; outline type drawn on scroll |
+
+> `design-reference/` is currently empty — drop the exported Figma frames in
+> there so the artwork provenance stays with the repo.
+
+### Scroll-driven animation
+
+Sections that animate on scroll all follow the same pattern:
+
+- **GSAP** with `@gsap/react`'s `useGSAP` hook, scoped to a ref. Plugins are
+  registered once at module scope (`gsap.registerPlugin(...)`).
+- **`gsap.matchMedia()`** gates every effect on
+  `(prefers-reduced-motion: no-preference)`, with a static fallback for
+  reduced motion. The stylesheet hides `[data-draw]` paths only under that
+  same query, and each section ships a `<noscript>` override so the outline
+  type is fully drawn with no JS at all.
+- **DrawSVGPlugin** draws the stroke-only headlines (`data-draw` paths, split
+  per `M…Z` subpath so each glyph animates independently) once the section
+  reaches ~72% of the viewport.
+- **ScrollTrigger** drives true scroll-linked effects. Scrub-based triggers
+  are kept in sync with the site's Lenis smooth scroll via
+  `useLenis(() => ScrollTrigger.update())`.
+
+`ShareTheKnowledge` is the reference implementation: the four-leaf clover
+artwork grows on a scrubbed timeline as the band rises into view, bleeding past
+the band's edges onto the sections above and below. It carries `isolate z-10`
+with `overflow-x-clip` so the spill paints *over* its neighbours horizontally
+clipped but vertically free, uses `perspective` so the animated `rotateX` reads
+with depth, and `will-change: transform` to keep the artwork on its own
+compositor layer. The clover's own `-z-10` keeps it behind the headline.
+
+---
+
 ## Components
 
 **Primitives** (`@/components/ds`)
@@ -167,11 +209,17 @@ accent:
 </Display>
 ```
 
-Outline (stroke-only) headlines use the `outline` prop:
+Outline (stroke-only) headlines use the `outline` prop for live type:
 
 ```tsx
 <Display size="xl" outline>Share the knowledge</Display>
 ```
+
+…or an inline SVG when the outline needs to be an animatable path (see
+`shining-a-light.tsx` and `straight-from.tsx`). Those embed the stroke-only
+geometry from the exports in `public/images/`, split into subpaths and stroked
+with `vectorEffect="non-scaling-stroke"` so the outline weight stays constant
+as the artwork scales.
 
 ---
 
@@ -194,13 +242,20 @@ Because everything reads from `globals.css`, rebranding is a one-file change:
 - Colour values are **close approximations sampled from the exported frame**,
   not exported styles. Confirm against the Figma styles before shipping.
 - `ButterflyMark` is a **placeholder** — replace it with the official logo SVG.
-- The prototype's large butterfly/flower background graphic is brand artwork
-  and is not reproduced here.
+- The exported outline artwork in `public/images/` has its own viewBoxes, which
+  do not always contain the full path. Where a component needs the whole shape
+  it re-derives the viewBox from the path's true bounds — see `CLOVER_PATH`
+  and the `viewBox` on `share-the-knowledge.tsx`.
+- Section copy and the statistics in `the-numbers.tsx` are **placeholders**.
+- Media in `public/videos/` is sample footage; swap the `src` for a hosted URL
+  when the final cut is ready.
 
 ## Next steps
 
-- Replace the placeholder logo and sample copy with real content.
-- Add the remaining prototype sections (hero, founder, numbers, CTA) as
-  composed patterns once content is available.
+- Replace the placeholder logo, copy and statistics with real content.
+- Swap the hero footage and founder poster for the final assets.
+- Split the style guide out of `/` into its own `/design-system` route, so the
+  homepage renders only production sections.
+- Point the navigation at real routes — the `primaryNav` links
+  (`/our-story`, `/know-your-body`, …) are not yet built.
 - Add `dark` class toggling if a dark theme is required in production.
-- Consider a `/design-system` route (currently the style guide lives at `/`).
