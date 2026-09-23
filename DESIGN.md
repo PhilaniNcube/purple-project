@@ -364,7 +364,10 @@ Four ideas drive every stylistic decision:
   emotional beat is always an italic serif accent layered against them.
 - **Tonal bands, not chrome.** The page alternates full-bleed bands of white,
   lavender, brand purple and near-black. Structure comes from these bands, not
-  from boxes or heavy borders.
+  from boxes or heavy borders — and where a band needs to overflow its own
+  edges, the answer is an unclipped brand motif, not a box. The clover on the
+  knowledge band is the clearest example: it spills onto its neighbours instead
+  of being contained by a card.
 - **Quiet UI.** Controls are small, thin-bordered and secondary. The marketing
   voice should be the loudest thing on the screen.
 
@@ -474,6 +477,51 @@ Borders are thin (1px) and low-contrast (`border` / `input`). The one
 exception is the *inverse outline* button, which uses a 45%-alpha white border
 so it reads on photography.
 
+Depth is also created by **motion**, which is scroll-driven rather than
+automatic. Page bands do not animate on a timer; they respond to the reader's
+position. Three motions are available:
+
+- **Reveal** — `animate-fade-up` / `animate-fade-in` bring a band in as it
+  enters the viewport.
+- **Draw** — stroke-only headline type is *drawn on* as the band scrolls into
+  view, using GSAP's DrawSVGPlugin. Letters draw left to right with a small
+  stagger, so the statement assembles itself.
+- **Scrub** — genuinely scroll-linked effects (an element's scale, rotation or
+  position bound to scroll progress) use GSAP ScrollTrigger with `scrub: true`,
+  kept in sync with the site's Lenis smooth scroll.
+
+The motion values are CSS custom properties in `globals.css`, listed here for
+reference. They cannot be expressed as DESIGN.md `spacing` tokens — that group
+admits only `px` / `em` / `rem` — so they are documented rather than tokenised:
+
+| Token | Value | Used for |
+| :---- | :---- | :------- |
+| `--ease-brand` | `cubic-bezier(0.22, 1, 0.36, 1)` | Default curve for reveals and UI transitions |
+| `--ease-out-quart` | `cubic-bezier(0.25, 1, 0.5, 1)` | Overshoot-free exits |
+| `--ease-in-out-quart` | `cubic-bezier(0.76, 0, 0.24, 1)` | Symmetric moves |
+| `--animate-fade-up` | `fade-up 0.7s var(--ease-brand) both` | Band reveal on scroll |
+| `--animate-fade-in` | `fade-in 0.6s var(--ease-brand) both` | Softer reveal |
+| `--animate-float` | `float 7s ease-in-out infinite` | Hero scroll cue |
+| `--animate-marquee` | `marquee 32s linear infinite` | Continuous ticker |
+
+Hover and colour transitions run at 200–300ms; layout changes at 300ms. Anything
+scroll-linked is driven by scroll position, not a timer.
+
+`ShareTheKnowledge` is the reference implementation for scrub: the four-leaf
+clover grows as its band rises into view. Because the artwork must bleed past
+its own band onto the sections above and below, the band carries
+`isolate z-10` with `overflow-x-clip` — the spill paints *over* its neighbours,
+clipped horizontally so it can never create a sideways scrollbar but free
+vertically. A `perspective` on the artwork's layer gives the animated `rotateX`
+real depth, and `will-change: transform` keeps it on its own compositor layer.
+The clover sits at `-z-10` so it stays behind the headline.
+
+**Motion is always optional.** Every effect is gated on
+`prefers-reduced-motion: no-preference` via `gsap.matchMedia()`, with a static
+fallback. Outline type is hidden only under that same query and each section
+ships a `<noscript>` override, so the drawn-on headlines render fully with no
+JS at all. Never make meaning depend on an animation completing.
+
 ## Shapes
 
 The shape language is **sharp and architectural**: every UI element is square,
@@ -489,6 +537,9 @@ with no corner radius.
   hero-adjacent imagery only — never to UI.
 - **Outline type.** Headlines may be rendered as stroke-only (transparent fill,
   1.5px stroke of the text colour). Use it for one line per section at most.
+  On the marketing site it appears once per band — the "SHINING A LIGHT ON",
+  "STRAIGHT FROM" and "SHARE THE KNOWLEDGE." lines, each of which is a single
+  declarative statement set against one italic serif accent.
 
 Do not apply the arch mask to UI controls; it is reserved for imagery.
 
@@ -538,12 +589,39 @@ Every page band is one of five tones: `section-surface` (white),
 (brand-700) and `section-night` (ink-950). Alternate tones to create rhythm, and
 never place two adjacent bands of the same tone.
 
+> **Brand bands and the clover.** `section-brand` is `brand-700` by default, but
+> the knowledge band deliberately lightens its ground to `brand-400`
+> (`#a88efc`) so the clover can be painted in `brand-800` (`#591cb4`) at full
+> opacity and still separate cleanly. Keep this relationship when reusing the
+> clover motif: the artwork reads as a deeper tint of its own band, never as a
+> second colour, and never via transparency (the exported SVG's `fill-opacity`
+> is intentionally dropped — the contrast is carried by the ramp step alone).
+> Like the arch mask, the clover is a **brand motif reserved for imagery** — do
+> not apply it to UI.
+
 ### Editorial patterns
 
 **Stats** pair a large Archivo figure in `primary` with a small
 `muted-foreground` caption; they are set four-up on desktop. **Quotes** are
 centred, use `body-lg`, and are preceded by an oversized Playfair quotation
 glyph in `primary`.
+
+**Lockups** are the signature headline pattern: a declarative uppercase line
+that may be solid or stroke-only, followed by a short Playfair italic accent one
+step down the script scale. The accent shrinks to the next size class on smaller
+viewports, so the pairing holds without the italic ever wrapping:
+
+| Band | Statement | Accent |
+| :--- | :-------- | :----- |
+| Hero | "AGAINST" (outline) + "GYNAECOLOGICAL CANCER" (solid) | `script-xl` — "Join the fight" |
+| Mission | "SHINING A LIGHT ON" (outline) | `script-md` — "together." |
+| Founder | "STRAIGHT FROM" (outline) | `script-xl` — "the founder" |
+| Numbers | "The numbers" watermark | `display-xl` + an unqualified `font-display` italic |
+| Knowledge | "SHARE THE KNOWLEDGE." (outline) | `script-lg` — "Protect women." |
+
+The rule of thumb: **the statement carries the message, the accent carries the
+feeling.** Never let the accent grow to compete with the statement, and never
+set the accent in all-caps.
 
 ## Do's and Don'ts
 
@@ -560,6 +638,12 @@ glyph in `primary`.
 - Don't set Playfair Display in all-caps, in body copy, or for more than a
   short phrase.
 - Don't use the outline-type treatment on more than one line per section.
-- Don't apply the arch image mask to UI controls; it is reserved for imagery.
+- Don't apply the arch image mask or the clover motif to UI controls; both are
+  reserved for imagery.
+- Don't carry brand contrast with transparency. Separate a motif from its band
+  by moving along the `brand` ramp — the clover uses a solid `brand-800` on
+  `brand-400`, not an alpha fill.
+- Don't ship scroll-driven motion without a `prefers-reduced-motion` fallback
+  and a no-JS path.
 - Don't reach for a hard grey drop shadow — use tonal contrast instead.
 - Don't use pure black (`#000000`) for text; use `ink-900` so it stays tinted.
