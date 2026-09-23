@@ -14,6 +14,7 @@ import { Hero } from "@/components/hero";
 import { ShareTheKnowledge } from "@/components/share-the-knowledge";
 import { ShiningALight } from "@/components/shining-a-light";
 import { StraightFrom } from "@/components/straight-from";
+import { Testimonial } from "@/components/testimonial";
 import { TheNumbers } from "@/components/the-numbers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -120,6 +121,11 @@ export default function DesignSystemPage() {
       {/* Knowledge — "Share the knowledge. Protect women."                */}
       {/* ---------------------------------------------------------------- */}
       <ShareTheKnowledge />
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Testimonial — "In their words."                                  */}
+      {/* ---------------------------------------------------------------- */}
+      <Testimonial />
 
       {/* ---------------------------------------------------------------- */}
       {/* Colour                                                           */}
