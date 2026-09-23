@@ -301,7 +301,7 @@ export function Navigation() {
           <Link
             href="/quiz"
             onClick={() => setOpen(false)}
-            className="mt-4 flex items-center justify-center rounded-none bg-white px-6 py-3 font-heading text-eyebrow uppercase text-brand-800 transition-colors hover:bg-white/90"
+            className="mt-4  flex items-center justify-center rounded-none bg-white px-6 py-3 font-heading text-eyebrow uppercase text-brand-800 transition-colors hover:bg-white/90"
           >
             Take a quiz
           </Link>

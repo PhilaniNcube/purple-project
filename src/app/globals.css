@@ -80,7 +80,7 @@
      `display`  heavy uppercase sans (section headlines)
      `script`   italic serif accent
      --------------------------------------------------------------------- */
-  --text-eyebrow: 0.75rem;
+  --text-eyebrow: 1rem;
   --text-eyebrow--line-height: 1.1;
   --text-eyebrow--letter-spacing: 0.2em;
   --text-eyebrow--font-weight: 600;
