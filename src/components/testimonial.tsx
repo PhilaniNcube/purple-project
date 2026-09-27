@@ -46,7 +46,7 @@ export function Testimonial() {
           />
 
           <blockquote className="mt-8 max-w-4xl text-xl leading-relaxed font-semibold text-brand-700 sm:mt-0 sm:pl-32 sm:text-2xl">
-            Project Purple is making a meaningful impact by advancing
+            Purple Project is making a meaningful impact by advancing
             gynaecological cancer awareness and encouraging early detection
             through education and advocacy. Their work helps break stigma and
             save lives.

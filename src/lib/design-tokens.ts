@@ -1,5 +1,5 @@
 /**
- * Project Purple — design token reference.
+ * Purple Project — design token reference.
  *
  * These are thin, typed handles onto the CSS custom properties defined in
  * `src/app/globals.css`. They exist so tooling, tests and documentation can

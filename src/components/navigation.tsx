@@ -238,12 +238,12 @@ export function Navigation() {
       >
         <Link
           href="/"
-          aria-label="Project Purple — home"
+          aria-label="Purple Project — home"
           className="shrink-0 rounded-none outline-none focus-visible:ring-2 focus-visible:ring-white/70"
         >
           <Image
             src="/images/logo-white.png"
-            alt="Project Purple"
+            alt="Purple Project"
             width={282}
             height={55}
             priority

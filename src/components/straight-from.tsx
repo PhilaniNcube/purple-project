@@ -146,7 +146,7 @@ export function StraightFrom() {
             <div className="relative w-full max-w-3xl overflow-hidden rounded-3xl shadow-2xl">
               <Image
                 src="/images/founder.png"
-                alt="Dr. Melissa Pietersen, the founder of Project Purple, speaking on camera"
+                alt="Dr. Melissa Pietersen, the founder of Purple Project, speaking on camera"
                 width={801}
                 height={413}
                 sizes="(min-width: 768px) 48rem, 100vw"

@@ -4,7 +4,7 @@ import { cn } from "cn";
 /**
  * Placeholder butterfly mark.
  *
- * NOTE: This is an approximation of the Project Purple logo — replace the
+ * NOTE: This is an approximation of the Purple Project logo — replace the
  * paths with the official SVG exported from Figma when it is available.
  */
 export function ButterflyMark({

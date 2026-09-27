@@ -110,7 +110,7 @@ export function Footer() {
           <div className="max-w-sm">
             <Image
               src="/images/logo-white.png"
-              alt="Project Purple"
+              alt="Purple Project"
               width={282}
               height={55}
               className="h-8 w-auto sm:h-9"
@@ -145,7 +145,7 @@ export function Footer() {
             </div>
 
             <p className="text-xs font-medium tracking-[0.18em] text-white/75 uppercase">
-              © Project Purple {year}.
+              © Purple Project {year}.
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@ import { SmoothScroll } from "@/components/smooth-scroll";
 import "./globals.css";
 
 /**
- * Type roles for Project Purple.
+ * Type roles for Purple Project.
  * - Inter    -> body copy (`font-sans`)
  * - Archivo  -> heavy uppercase display (`font-heading`)
  * - Playfair -> italic serif accents (`font-display`)
@@ -40,11 +40,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Project Purple — Design System",
-    template: "%s · Project Purple",
+    default: "Purple Project — Design System",
+    template: "%s · Purple Project",
   },
   description:
-    "Design tokens and components for Project Purple, a movement breaking the silence around gynaecological cancer.",
+    "Design tokens and components for Purple Project, a movement breaking the silence around gynaecological cancer.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

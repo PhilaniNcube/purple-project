@@ -1,6 +1,6 @@
-# Project Purple — Marketing Site & Design System
+# Purple Project — Marketing Site & Design System
 
-The marketing site for **Project Purple**, a movement breaking the silence
+The marketing site for **Purple Project**, a movement breaking the silence
 around gynaecological cancer.
 
 Built with **Next.js 16** (App Router), **Tailwind CSS v4** and **shadcn**

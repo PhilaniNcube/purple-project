@@ -1,13 +1,13 @@
 ---
 version: alpha
-name: Project Purple
+name: Purple Project
 description: >-
-  Design tokens for Project Purple, a movement breaking the silence around
+  Design tokens for Purple Project, a movement breaking the silence around
   gynaecological cancer. A vivid violet brand system with a heavy uppercase
   display voice, an italic serif accent and purple-tinted neutrals.
 colors:
   # ---------------------------------------------------------------------
-  # Brand — "Project Purple" (violet-blue hue, ~293deg)
+  # Brand — "Purple Project" (violet-blue hue, ~293deg)
   # ---------------------------------------------------------------------
   brand-50: "#f7f6ff"
   brand-100: "#eeebff"
@@ -343,11 +343,11 @@ components:
     textColor: "{colors.accent-foreground}"
 ---
 
-# Project Purple — Design System
+# Purple Project — Design System
 
 ## Overview
 
-Project Purple is a gynaecological cancer awareness movement. The identity has
+Purple Project is a gynaecological cancer awareness movement. The identity has
 to carry difficult subject matter without becoming clinical or cold, so it is
 built on **editorial contrast**: loud, declarative statements set against soft,
 human asides.
@@ -358,7 +358,7 @@ activist poster rather than a hospital brochure — confident enough to say
 
 Four ideas drive every stylistic decision:
 
-- **One colour does the work.** A single vivid violet ("Project Purple") is the
+- **One colour does the work.** A single vivid violet ("Purple Project") is the
   brand and the only driver of interaction. Everything else is neutral.
 - **Two voices, one headline.** Headlines are heavy uppercase sans; the
   emotional beat is always an italic serif accent layered against them.
@@ -382,7 +382,7 @@ partners. Prioritise legibility, large tap targets and calm, generous spacing.
 The palette is a single purple ramp plus purple-tinted neutrals. There are no
 competing brand colours — restraint is the point.
 
-- **Primary — "Project Purple" (#6E25D9):** The sole driver for interaction.
+- **Primary — "Purple Project" (#6E25D9):** The sole driver for interaction.
   Used for primary buttons, links, stat figures and the brand bands. It is a
   violet-blue purple, deliberately cooler than a magenta purple.
 - **Lavender (#EEEBFF):** `brand-100`. The soft brand surface. Used for

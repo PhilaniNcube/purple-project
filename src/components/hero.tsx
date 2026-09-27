@@ -5,7 +5,7 @@ import { Container } from "@/components/ds";
 /**
  * Homepage hero.
  *
- * Full-viewport brand band: a looping video washed in Project Purple, the
+ * Full-viewport brand band: a looping video washed in Purple Project, the
  * three-line headline lockup (italic serif → outline SVG → display sans) and a
  * scroll cue. The site navigation floats transparently above it.
  *
