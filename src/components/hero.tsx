@@ -1,6 +1,7 @@
 import { ArrowDown } from "lucide-react";
 
 import { Container } from "@/components/ds";
+import Link from "next/link";
 
 /**
  * Homepage hero.
@@ -85,13 +86,13 @@ export function Hero() {
         </p>
       </Container>
 
-      <a
-        href="#colour"
+      <Link
+        href="#mission"
         aria-label="Scroll to explore"
-        className="relative mx-auto mb-10 flex size-14 shrink-0 items-center justify-center rounded-none border border-white/60 text-white transition-colors outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/70"
+        className="relative mx-auto mb-10 rounded-full flex size-14 shrink-0 items-center justify-center border border-white/60 text-white transition-colors outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/70"
       >
         <ArrowDown aria-hidden className="size-6 animate-float" />
-      </a>
+      </Link>
     </section>
   );
 }
