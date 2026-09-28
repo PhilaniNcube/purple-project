@@ -102,7 +102,7 @@ export function Footer() {
       as="footer"
       tone="brand"
       padding="none"
-      className="mt-auto"
+      className="mt-auto bg-brand-800"
       aria-label="Site footer"
     >
       <Container size="wide" className="py-14 sm:py-16 lg:py-20">
@@ -135,7 +135,7 @@ export function Footer() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={label}
-                      className="flex size-10 items-center justify-center rounded-full bg-white text-brand-700 transition-colors outline-none hover:bg-white/85 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-700"
+                      className="flex size-10 items-center justify-center rounded-full bg-white text-brand-700 transition-colors outline-none hover:bg-white/85 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-800"
                     >
                       <Icon />
                     </a>
