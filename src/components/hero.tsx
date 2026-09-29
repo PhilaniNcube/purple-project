@@ -44,7 +44,7 @@ export function Hero() {
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-900/70 via-brand-800/20 to-brand-950/80"
+        className="absolute inset-0 -z-10 bg-linear-to-b from-brand-900/70 via-brand-800/20 to-brand-950/80"
       />
 
       <Container className="relative flex flex-1 flex-col items-center justify-center py-32 text-center">
