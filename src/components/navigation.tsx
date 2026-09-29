@@ -198,6 +198,10 @@ function MobileNavItem({
  */
 export function Navigation() {
   const pathname = usePathname();
+  /** Only the homepage opens on a full-bleed dark hero, so only there does the
+   *  bar start transparent. Every other route needs the solid brand bar so the
+   *  white wordmark and links stay legible from the first pixel. */
+  const isOverHero = pathname === "/";
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -228,9 +232,10 @@ export function Navigation() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled || open
-          ? "bg-brand-800/95 shadow-sm backdrop-blur-md"
-          : "bg-transparent",
+        isOverHero
+          ? "bg-transparent"
+          : "bg-brand-800/95 shadow-sm backdrop-blur-md",
+        (scrolled || open) && "bg-brand-800/95 shadow-sm backdrop-blur-md",
       )}
     >
       <Container
