@@ -98,7 +98,7 @@ export function ShiningALight() {
           className="grid gap-12 lg:grid-cols-2 lg:items-stretch lg:gap-16"
         >
           {/* Arched editorial photograph */}
-          <div className="relative aspect-[560/518] overflow-hidden rounded-arch bg-muted lg:aspect-auto lg:h-full">
+          <div className="relative aspect-560/518 overflow-hidden lg:aspect-auto lg:h-full">
             <Image
               src="/images/womens-health.png"
               alt="Three women sitting together on a bed, looking up and out of frame"

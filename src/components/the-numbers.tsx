@@ -28,20 +28,20 @@ type Stat = { value: string; label: string };
 /** Placeholder figures — swap for the final dataset. */
 const STATS: Stat[] = [
   {
-    value: "13,800",
-    label: "New cases of cervical cancer annually reported in South Africa",
+    value: "76%",
+    label: "76% of cervical cancers are caused by just two strains of HPV.",
   },
   {
-    value: "13,800",
-    label: "New cases of cervical cancer annually reported in South Africa",
+    value: "1 in 41",
+    label: "The cancer South African women die from most.",
   },
   {
-    value: "13,800",
-    label: "New cases of cervical cancer annually reported in South Africa",
+    value: "3 hours",
+    label: "How often cervical cancer claims a South African woman.",
   },
   {
-    value: "13,800",
-    label: "New cases of cervical cancer annually reported in South Africa",
+    value: "1",
+    label: "Vaccine dose is all it takes for strong, lasting protection.",
   },
 ];
 
@@ -93,10 +93,10 @@ function StatCard({ value, label, reveal }: Stat & { reveal: Reveal }) {
     // description is reachable without a pointer.
     <div
       tabIndex={0}
-      className="group rounded-2xl outline-none [perspective:1000px] focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+      className="group rounded-2xl outline-none perspective:[1000px] focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
     >
       <div
-        className={`relative min-h-44 [transform-style:preserve-3d] transition-transform will-change-transform motion-reduce:transition-none ${reveal.shell}`}
+        className={`relative min-h-44 transform-3d transition-transform will-change-transform motion-reduce:transition-none ${reveal.shell}`}
       >
         {/* Front — the figure alone. */}
         <div

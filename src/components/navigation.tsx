@@ -8,6 +8,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "cn";
 
 import { Container } from "@/components/ds";
+import { Button } from "./ui/button";
 
 type SubNavLink = { href: string; label: string };
 
@@ -21,7 +22,7 @@ type NavLink = {
 /** Primary site navigation, mirroring the links in the homepage prototype. */
 export const primaryNav: NavLink[] = [
   { href: "/our-story", label: "Our Story" },
-  { href: "/know-your-body", label: "Know Your Body" },
+  { href: "/get-the-facts", label: "Get The facts" },
   {
     href: "/get-involved",
     label: "Get Involved",
@@ -247,7 +248,7 @@ export function Navigation() {
             width={282}
             height={55}
             priority
-            className="h-10 w-auto sm:h-12"
+            className="h-8 w-auto"
           />
         </Link>
 
@@ -259,7 +260,7 @@ export function Navigation() {
           </ul>
         </nav>
 
-        <button
+        <Button
           type="button"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
@@ -272,7 +273,7 @@ export function Navigation() {
           ) : (
             <Menu aria-hidden className="size-6" />
           )}
-        </button>
+        </Button>
       </Container>
 
       {/* Mobile drawer */}
