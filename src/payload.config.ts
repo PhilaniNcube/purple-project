@@ -20,12 +20,15 @@ const dirname = path.dirname(filename)
  * uploads go to local disk in development and switch over to R2 the moment
  * the credentials are added — no code change required.
  */
+/** Public bucket base URL, without a trailing slash. */
+const r2PublicUrl = (process.env.R2_PUBLIC_URL || '').replace(/\/+$/, '')
+
 const r2Configured = Boolean(
   process.env.R2_BUCKET &&
     process.env.R2_ACCESS_KEY_ID &&
     process.env.R2_SECRET_ACCESS_KEY &&
     process.env.R2_ENDPOINT &&
-    process.env.R2_PUBLIC_URL,
+    r2PublicUrl,
 )
 
 export default buildConfig({
@@ -59,7 +62,7 @@ export default buildConfig({
           disablePayloadAccessControl: true,
           generateFileURL: ({ filename, prefix }) => {
             const key = prefix ? `${prefix}/${filename}` : filename
-            return `${process.env.R2_PUBLIC_URL}/${key}`
+            return `${r2PublicUrl}/${key}`
           },
         },
       },

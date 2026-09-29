@@ -164,7 +164,6 @@ export default async function ResourcePage({ params }: Args) {
                 fill
                 priority
                 sizes="(min-width: 1024px) 72rem, 100vw"
-                unoptimized={/^https?:/.test(coverUrl)}
                 className="object-cover"
               />
             </div>
