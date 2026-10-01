@@ -46,7 +46,7 @@ export function NoShame() {
           <Display as="span" size="md">
             No shame.
           </Display>
-          <span  className="mt-1 font-display italic text-5xl sm:text-6xl lg:text-7xl translate-x-8 md:translate-x-10 lg:translate-x-16 text-primary sm:mt-2">
+          <span  className="mt-1 font-display italic text-5xl sm:text-6xl lg:text-8xl translate-x-8 md:translate-x-10 lg:translate-x-16 text-primary sm:mt-2">
             Just support.
           </span>
         </h2>
