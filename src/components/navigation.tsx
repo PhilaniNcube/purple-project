@@ -253,7 +253,7 @@ export function Navigation() {
             width={282}
             height={55}
             priority
-            className="h-8 w-auto"
+            className="h-6 md:h-8 w-auto"
           />
         </Link>
 

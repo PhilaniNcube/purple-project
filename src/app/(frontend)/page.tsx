@@ -12,6 +12,7 @@ import {
 } from "@/components/ds";
 import { Hero } from "@/components/hero";
 import { JoinUs } from "@/components/join-us";
+import { NoShame } from "@/components/no-shame";
 import { ShareTheKnowledge } from "@/components/share-the-knowledge";
 import { ShiningALight } from "@/components/shining-a-light";
 import { StraightFrom } from "@/components/straight-from";
@@ -102,6 +103,11 @@ export default function DesignSystemPage() {
       {/* Hero — the production homepage hero                              */}
       {/* ---------------------------------------------------------------- */}
       <Hero />
+
+      {/* ---------------------------------------------------------------- */}
+      {/* No shame — "No shame. Just support."                             */}
+      {/* ---------------------------------------------------------------- */}
+      <NoShame />
 
       {/* ---------------------------------------------------------------- */}
       {/* Mission — "Shining a light on women's health, together."         */}
