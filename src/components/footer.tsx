@@ -91,22 +91,22 @@ type SocialLink = {
 const socialLinks: SocialLink[] = [
   {
     label: "Facebook",
-    href: "https://www.facebook.com/projectpurple",
+    href: "https://www.facebook.com/purpleprojectcancerawareness",
     icon: FacebookIcon,
   },
   {
     label: "Instagram",
-    href: "https://www.instagram.com/projectpurple",
+    href: "https://www.instagram.com/purpleproject_za/",
     icon: InstagramIcon,
   },
   {
     label: "TikTok",
-    href: "https://www.tiktok.com/@projectpurple",
+    href: "https://www.tiktok.com/@purpleproject_za?lang=en-GB",
     icon: TikTokIcon,
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/projectpurple",
+    href: "https://www.linkedin.com/in/purple-project-npo-399782420/?isSelfProfile=false",
     icon: LinkedInIcon,
   },
   {
