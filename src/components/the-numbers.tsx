@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Container, Section } from "@/components/ds";
 
 /**
@@ -8,86 +10,73 @@ import { Container, Section } from "@/components/ds";
  * four-up row of figures.
  *
  * Each figure is a two-sided card: the front shows only the figure, and
- * hovering (or keyboard-focusing) it turns the card over in 3D to reveal the
- * description on the reverse. Every card turns a *different* way — over the
- * horizontal hinge, the vertical hinge, a diagonal corner, and a quarter-turn
- * revolve — and each is given its own `perspective` so the turn reads as an
- * object rotating in space rather than a flat squash.
+ * hovering (or keyboard-focusing) it turns 180° about the vertical hinge to
+ * reveal the description on the reverse. A `perspective` on the card gives the
+ * turn depth, so it reads as an object rotating in space rather than a flat
+ * squash.
  *
- * The reverse face is pre-rotated by the inverse of its card's turn (`back`
- * below), so once the shell finishes rotating it lands upright and facing the
- * viewer; `backface-visibility: hidden` keeps it invisible until then.
+ * The reverse face is pre-rotated by the same 180° (`back` below), so once the
+ * shell finishes turning it lands upright and facing the viewer;
+ * `backface-visibility: hidden` keeps it invisible until then.
  *
  * Motion is progressive: under `prefers-reduced-motion` the shell never
  * rotates and the description simply cross-fades in, so the copy stays
  * reachable without any movement.
  */
 
-type Stat = { value: string; label: string };
+type Stat = {
+  value: string;
+  label: string;
+  /** The figure's artwork, with the intrinsic size `next/image` needs. */
+  icon: { src: string; width: number; height: number };
+};
 
 /** Placeholder figures — swap for the final dataset. */
 const STATS: Stat[] = [
   {
     value: "76%",
     label: "76% of cervical cancers are caused by just two strains of HPV.",
+    icon: { src: "/images/76-percent.svg", width: 141, height: 65 },
   },
   {
     value: "1 in 41",
     label: "The cancer South African women die from most.",
+    icon: { src: "/images/1-in-4.svg", width: 188, height: 55 },
   },
   {
     value: "3 hours",
     label: "How often cervical cancer claims a South African woman.",
+    icon: { src: "/images/3-hours.svg", width: 207, height: 65 },
   },
   {
     value: "1",
     label: "Vaccine dose is all it takes for strong, lasting protection.",
+    icon: { src: "/images/1-dose.svg", width: 207, height: 65 },
   },
 ];
 
 /**
- * One hover "turn" per card.
+ * The card turn, shared by every figure.
  *
  * - `shell` — the transform the card performs on hover/focus (plus its timing).
- * - `back`  — the inverse pre-applied to the reverse face so it lands upright.
- * - `front` — any base transform the front face needs (only the revolve).
+ * - `back`  — the same turn pre-applied to the reverse face so it lands upright
+ *   and facing the viewer once the shell has turned.
  *
- * `shell`/`back`/`front` are `motion-safe:` so reduced-motion visitors are
- * never rotated; the cross-fade fallback lives on the faces.
+ * Both are `motion-safe:` so reduced-motion visitors are never rotated; the
+ * cross-fade fallback lives on the faces.
  */
-type Reveal = { shell: string; front?: string; back: string };
+type Reveal = { shell: string; back: string };
 
-const REVEALS: Reveal[] = [
-  // 1 — lifts away on the horizontal hinge
-  {
-    shell:
-      "duration-500 ease-brand motion-safe:group-hover:[transform:rotateX(-180deg)] motion-safe:group-focus-within:[transform:rotateX(-180deg)]",
-    back: "motion-safe:[transform:rotateX(-180deg)]",
-  },
-  // 2 — turns on the vertical hinge
-  {
-    shell:
-      "duration-500 ease-out-quart motion-safe:group-hover:[transform:rotateY(180deg)] motion-safe:group-focus-within:[transform:rotateY(180deg)]",
-    back: "motion-safe:[transform:rotateY(180deg)]",
-  },
-  // 3 — tumbles over a diagonal corner
-  {
-    shell:
-      "duration-700 ease-in-out-quart motion-safe:group-hover:[transform:rotate3d(1,1,0,-180deg)] motion-safe:group-focus-within:[transform:rotate3d(1,1,0,-180deg)]",
-    back: "motion-safe:[transform:rotate3d(1,1,0,-180deg)]",
-  },
-  // 4 — revolves a quarter turn to present its reverse
-  {
-    shell:
-      "duration-500 ease-brand motion-safe:group-hover:[transform:rotateY(-90deg)] motion-safe:group-focus-within:[transform:rotateY(-90deg)]",
-    back: "motion-safe:[transform:rotateY(90deg)]",
-  },
-];
+const REVEAL: Reveal = {
+  shell:
+    "duration-500 ease-out-quart motion-safe:group-hover:[transform:rotateY(180deg)] motion-safe:group-focus-within:[transform:rotateY(180deg)]",
+  back: "motion-safe:[transform:rotateY(180deg)]",
+};
 
 const FACE =
   "absolute inset-0 flex flex-col items-center justify-center rounded-2xl border p-4 text-center [backface-visibility:hidden] motion-reduce:transition-opacity";
 
-function StatCard({ value, label, reveal }: Stat & { reveal: Reveal }) {
+function StatCard({ value, label, icon }: Stat) {
   return (
     // The card's own perspective gives its turn depth. It's focusable so the
     // description is reachable without a pointer.
@@ -96,11 +85,11 @@ function StatCard({ value, label, reveal }: Stat & { reveal: Reveal }) {
       className="group rounded-2xl outline-none perspective:[1000px] focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
     >
       <div
-        className={`relative min-h-44 transform-3d transition-transform will-change-transform motion-reduce:transition-none ${reveal.shell}`}
+        className={`relative min-h-44 transform-3d transition-transform will-change-transform motion-reduce:transition-none ${REVEAL.shell}`}
       >
         {/* Front — the figure alone. */}
         <div
-          className={`${FACE} border-brand-200/70 bg-lavender/60 motion-reduce:group-hover:opacity-0 motion-reduce:group-focus-within:opacity-0 ${reveal.front ?? ""}`}
+          className={`${FACE} border-brand-200/70 bg-lavender/60 motion-reduce:group-hover:opacity-0 motion-reduce:group-focus-within:opacity-0`}
         >
           <span className="font-heading text-4xl font-extrabold tracking-tight text-primary sm:text-5xl">
             {value}
@@ -109,8 +98,16 @@ function StatCard({ value, label, reveal }: Stat & { reveal: Reveal }) {
 
         {/* Reverse — the description, revealed by the turn. */}
         <div
-          className={`${FACE} border-brand-800/30 bg-brand-700 text-white/95 shadow-brand motion-reduce:opacity-0 motion-reduce:group-hover:opacity-100 motion-reduce:group-focus-within:opacity-100 ${reveal.back}`}
+          className={`${FACE} border-brand-800/30 bg-brand-700 text-white/95 shadow-brand motion-reduce:opacity-0 motion-reduce:group-hover:opacity-100 motion-reduce:group-focus-within:opacity-100 ${REVEAL.back}`}
         >
+          <Image
+            src={icon.src}
+            alt=""
+            aria-hidden
+            width={icon.width}
+            height={icon.height}
+            className="h-auto max-w-full"
+          />
           <span className="max-w-[24ch] text-sm leading-relaxed">{label}</span>
         </div>
       </div>
@@ -135,11 +132,7 @@ export function TheNumbers() {
 
         <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4 lg:gap-16">
           {STATS.map((stat, index) => (
-            <StatCard
-              key={index}
-              {...stat}
-              reveal={REVEALS[index % REVEALS.length]}
-            />
+            <StatCard key={index} {...stat} />
           ))}
         </div>
       </Container>
