@@ -176,7 +176,8 @@ export function OurStoryFounder() {
               width={595}
               height={562}
               sizes="(min-width: 1024px) 34rem, (min-width: 640px) 32rem, 100vw"
-              className="h-auto w-full max-w-md sm:max-w-lg lg:max-w-[34rem]"
+              className="h-auto w-full max-w-md sm:max-w-lg lg:max-w-136"
+              loading="eager"
             />
           </div>
         </div>
