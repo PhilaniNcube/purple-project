@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone, isAdmin, isAdminOrEditor } from '../access'
 import { slugField } from '../fields/slug'
+import { revalidatePublicCache } from '../lib/revalidate-cache'
 
 /** Categories used to filter the public resources page. */
 export const Categories: CollectionConfig = {
@@ -17,6 +18,15 @@ export const Categories: CollectionConfig = {
     delete: isAdmin,
     read: anyone,
     update: isAdminOrEditor,
+  },
+  /**
+   * A category rename or removal changes both the filter tabs (`'categories'`)
+   * and the cached resources grid, which stores the populated category objects
+   * (`'resources'`), so both tags are dropped.
+   */
+  hooks: {
+    afterChange: [() => revalidatePublicCache('categories', 'resources')],
+    afterDelete: [() => revalidatePublicCache('categories', 'resources')],
   },
   fields: [
     {

@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { isAdmin, isAdminOrEditor, publishedOrStaff } from '../access'
 import { slugField } from '../fields/slug'
 import { resourceTypeOptions } from '../lib/resource-types'
+import { revalidatePublicCache } from '../lib/revalidate-cache'
 
 /**
  * The content the client asked for: articles, papers and other resources,
@@ -28,6 +29,15 @@ export const Resources: CollectionConfig = {
     delete: isAdmin,
     read: publishedOrStaff,
     update: isAdminOrEditor,
+  },
+  /**
+   * Keep the cached public resources list in step with the CMS. The data layer
+   * tags `getLatestResources` with `'resources'`; dropping that tag makes the
+   * next request re-read from Payload instead of serving a stale grid.
+   */
+  hooks: {
+    afterChange: [() => revalidatePublicCache('resources')],
+    afterDelete: [() => revalidatePublicCache('resources')],
   },
   versions: {
     drafts: {
