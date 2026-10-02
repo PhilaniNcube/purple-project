@@ -9,7 +9,8 @@ import { Container, Section } from "@/components/ds";
  * watermark (heavy sans + italic serif, in a pale lavender) sitting behind a
  * four-up row of figures.
  *
- * Each figure is a two-sided card: the front shows only the figure, and
+ * Each figure is a two-sided card. The front sets the figure as the brand's
+ * two-voice lockup — a heavy display number with an italic serif accent — and
  * hovering (or keyboard-focusing) it turns 180° about the vertical hinge to
  * reveal the description on the reverse. A `perspective` on the card gives the
  * turn depth, so it reads as an object rotating in space rather than a flat
@@ -25,7 +26,16 @@ import { Container, Section } from "@/components/ds";
  */
 
 type Stat = {
+  /** The headline figure, set in the heavy display face. */
   value: string;
+  /** The italic serif accent. Omitted for a bare figure. */
+  accent?: string;
+  /**
+   * Where the accent sits: `inline` for a superscript-style unit beside the
+   * figure (e.g. "76" + "%"), `below` for a caption tucked under it (e.g.
+   * "1" + "in 41"). Defaults to `below`.
+   */
+  accentPlacement?: "inline" | "below";
   label: string;
   /** The figure's artwork, with the intrinsic size `next/image` needs. */
   icon: { src: string; width: number; height: number };
@@ -34,17 +44,21 @@ type Stat = {
 /** Placeholder figures — swap for the final dataset. */
 const STATS: Stat[] = [
   {
-    value: "76%",
+    value: "76",
+    accent: "%",
+    accentPlacement: "inline",
     label: "76% of cervical cancers are caused by just two strains of HPV.",
     icon: { src: "/images/76-percent.svg", width: 141, height: 65 },
   },
   {
-    value: "1 in 41",
+    value: "1",
+    accent: "in 41",
     label: "The cancer South African women die from most.",
     icon: { src: "/images/1-in-4.svg", width: 188, height: 55 },
   },
   {
-    value: "3 hours",
+    value: "3",
+    accent: "hours",
     label: "How often cervical cancer claims a South African woman.",
     icon: { src: "/images/3-hours.svg", width: 207, height: 65 },
   },
@@ -76,7 +90,7 @@ const REVEAL: Reveal = {
 const FACE =
   "absolute inset-0 flex flex-col items-center justify-center rounded-2xl border p-4 text-center [backface-visibility:hidden] motion-reduce:transition-opacity";
 
-function StatCard({ value, label, icon }: Stat) {
+function StatCard({ value, accent, accentPlacement, label, icon }: Stat) {
   return (
     // The card's own perspective gives its turn depth. It's focusable so the
     // description is reachable without a pointer.
@@ -87,13 +101,29 @@ function StatCard({ value, label, icon }: Stat) {
       <div
         className={`relative min-h-44 transform-3d transition-transform will-change-transform motion-reduce:transition-none ${REVEAL.shell}`}
       >
-        {/* Front — the figure alone. */}
+        {/* Front — the figure, set as the brand's two-voice lockup. */}
         <div
           className={`${FACE} border-brand-200/70 bg-lavender/60 motion-reduce:group-hover:opacity-0 motion-reduce:group-focus-within:opacity-0`}
         >
-          <span className="font-heading text-4xl font-extrabold tracking-tight text-primary sm:text-5xl">
-            {value}
-          </span>
+          {accent && accentPlacement === "inline" ? (
+            <span className="flex items-start font-heading text-display-lg text-primary">
+              {value}
+              <span className="mt-[0.06em] ml-0.5 font-display text-script-md italic text-brand-400">
+                {accent}
+              </span>
+            </span>
+          ) : (
+            <span className="flex flex-col items-start">
+              <span className="font-heading text-display-lg text-primary">
+                {value}
+              </span>
+              {accent ? (
+                <span className="-mt-[0.42em] font-display text-script-md italic text-brand-400">
+                  {accent}
+                </span>
+              ) : null}
+            </span>
+          )}
         </div>
 
         {/* Reverse — the description, revealed by the turn. */}
@@ -102,7 +132,7 @@ function StatCard({ value, label, icon }: Stat) {
         >
           <Image
             src={icon.src}
-            alt=""
+            alt={value}
             aria-hidden
             width={icon.width}
             height={icon.height}
