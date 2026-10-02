@@ -198,10 +198,11 @@ function MobileNavItem({
  */
 export function Navigation() {
   const pathname = usePathname();
-  /** Only the homepage opens on a full-bleed dark hero, so only there does the
-   *  bar start transparent. Every other route needs the solid brand bar so the
-   *  white wordmark and links stay legible from the first pixel. */
-  const isOverHero = pathname === "/";
+  /** The homepage and the Our Story page open on a full-bleed dark hero, so
+   *  only there does the bar start transparent. Every other route needs the
+   *  solid brand bar so the white wordmark and links stay legible from the
+   *  first pixel. */
+  const isOverHero = pathname === "/" || pathname.startsWith("/our-story");
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
