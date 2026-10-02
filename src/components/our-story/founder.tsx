@@ -116,12 +116,16 @@ export function OurStoryFounder() {
             <h2 className="flex flex-col items-start">
               {/* "MEET OUR" — stroke-only type, drawn on scroll */}
               <span className="block text-display-lg">
+                {/* The viewBox carries a ~2% margin on every side (the path
+                    itself is tight to the glyphs at `0 0 5679 711`) so the
+                    1.5px stroke isn't clipped at the rounded bottoms of the
+                    O and U. */}
                 <svg
-                  viewBox="0 0 5679 711"
+                  viewBox="-24 -24 5727 759"
                   fill="none"
                   role="img"
                   aria-label="Meet our"
-                  className="block h-[0.72em] w-auto max-w-full"
+                  className="block h-[0.75em] w-auto max-w-full"
                 >
                   {OUTLINE_SUBPATHS.map((d, index) => (
                     <path
@@ -143,6 +147,7 @@ export function OurStoryFounder() {
               <Script
                 as="span"
                 size="xl"
+                style={{ color: "black" }}
                 className="mt-1 ml-[18%] sm:ml-[24%]"
               >
                 Founder
