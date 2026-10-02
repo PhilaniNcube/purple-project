@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Syringe } from "lucide-react";
 
 import { Container, Section } from "@/components/ds";
 
@@ -30,6 +31,8 @@ type Stat = {
   value: string;
   /** The italic serif accent. Omitted for a bare figure. */
   accent?: string;
+  /** An optional icon set beside the figure in place of a text accent. */
+  accentIcon?: "syringe";
   /**
    * Where the accent sits: `inline` for a superscript-style unit beside the
    * figure (e.g. "76" + "%"), `below` for a caption tucked under it (e.g.
@@ -64,6 +67,8 @@ const STATS: Stat[] = [
   },
   {
     value: "1",
+    accentIcon: "syringe",
+    accentPlacement: "inline",
     label: "Vaccine dose is all it takes for strong, lasting protection.",
     icon: { src: "/images/1-dose.svg", width: 207, height: 65 },
   },
@@ -90,7 +95,7 @@ const REVEAL: Reveal = {
 const FACE =
   "absolute inset-0 flex flex-col items-center justify-center rounded-2xl border p-4 text-center [backface-visibility:hidden] motion-reduce:transition-opacity";
 
-function StatCard({ value, accent, accentPlacement, label, icon }: Stat) {
+function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: Stat) {
   return (
     // The card's own perspective gives its turn depth. It's focusable so the
     // description is reachable without a pointer.
@@ -105,12 +110,21 @@ function StatCard({ value, accent, accentPlacement, label, icon }: Stat) {
         <div
           className={`${FACE} border-brand-200/70 bg-lavender/60 motion-reduce:group-hover:opacity-0 motion-reduce:group-focus-within:opacity-0`}
         >
-          {accent && accentPlacement === "inline" ? (
+          {accentPlacement === "inline" ? (
             <span className="flex items-start font-heading text-display-lg text-primary">
               {value}
-              <span className="mt-[0.06em] ml-0.5 font-display text-script-md italic text-brand-400">
-                {accent}
-              </span>
+              {accent ? (
+                <span className="mt-[0.06em] ml-0.5 font-display text-script-md italic text-brand-400">
+                  {accent}
+                </span>
+              ) : null}
+              {accentIcon === "syringe" ? (
+                <Syringe
+                  aria-hidden
+                  strokeWidth={1.5}
+                  className="mt-[0.08em] ml-1 size-[0.6em] text-brand-400"
+                />
+              ) : null}
             </span>
           ) : (
             <span className="flex flex-col items-start">
