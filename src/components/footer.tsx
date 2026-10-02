@@ -1,5 +1,7 @@
 import * as React from "react";
+import { Suspense } from "react";
 import Image from "next/image";
+import { connection } from "next/server";
 import { cn } from "cn";
 
 import { Container, Section } from "@/components/ds";
@@ -121,6 +123,18 @@ const socialLinks: SocialLink[] = [
 /* -------------------------------------------------------------------------- */
 
 /**
+ * The copyright year is read from the clock at request time. Under Cache
+ * Components `new Date()` is synchronous IO that would block the static shell,
+ * so it is deferred behind `connection()` and streamed into the footer through
+ * a Suspense boundary.
+ */
+async function CopyrightYear() {
+  await connection();
+
+  return <>© Purple Project {new Date().getFullYear()}.</>;
+}
+
+/**
  * Global site footer.
  *
  * A solid brand-purple band that closes every page: the white wordmark and
@@ -133,8 +147,6 @@ const socialLinks: SocialLink[] = [
  * up with the foot of the mission copy — the arrangement in the prototype.
  */
 export function Footer() {
-  const year = new Date().getFullYear();
-
   return (
     <Section
       as="footer"
@@ -183,7 +195,9 @@ export function Footer() {
             </div>
 
             <p className="text-xs font-medium tracking-[0.18em] text-white/75 uppercase">
-              © Purple Project {year}.
+              <Suspense fallback={<>© Purple Project.</>}>
+                <CopyrightYear />
+              </Suspense>
             </p>
           </div>
         </div>

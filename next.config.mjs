@@ -33,6 +33,7 @@ if (process.env.R2_PUBLIC_URL) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  cacheComponents: true,
   images: {
     remotePatterns,
   },
