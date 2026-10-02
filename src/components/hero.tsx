@@ -34,7 +34,7 @@ export function Hero() {
         poster="/images/womens-health.png"
         aria-hidden
       >
-        <source src="/videos/purple-video.mp4" type="video/mp4" />
+        <source src="https://pub-7e130f14f1c94305b5e36bb3e6acc9d6.r2.dev/videos/video_4.mp4" type="video/mp4" />
       </video>
 
       {/* Brand wash — unifies the footage with the violet palette */}
