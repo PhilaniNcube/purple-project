@@ -50,27 +50,27 @@ const STATS: Stat[] = [
     value: "76",
     accent: "%",
     accentPlacement: "inline",
-    label: "76% of cervical cancers are caused by just two strains of HPV.",
-    icon: { src: "/images/76-percent.svg", width: 141, height: 65 },
+    label: "of cervical cancers are caused by just two strains of HPV",
+    icon: { src: "/images/76-percent.svg", width: 53, height: 53 },
   },
   {
     value: "1",
     accent: "in 41",
     label: "The cancer South African women die from most.",
-    icon: { src: "/images/1-in-4.svg", width: 188, height: 55 },
+    icon: { src: "/images/1-in-4.svg", width: 93, height: 37 },
   },
   {
     value: "3",
     accent: "hours",
     label: "How often cervical cancer claims a South African woman.",
-    icon: { src: "/images/3-hours.svg", width: 207, height: 65 },
+    icon: { src: "/images/3-hours.svg", width: 47, height: 55 },
   },
   {
     value: "1",
     accentIcon: "syringe",
     accentPlacement: "inline",
     label: "Vaccine dose is all it takes for strong, lasting protection.",
-    icon: { src: "/images/1-dose.svg", width: 207, height: 65 },
+    icon: { src: "/images/1-dose.svg", width: 52, height: 52 },
   },
 ];
 
