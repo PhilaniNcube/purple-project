@@ -49,7 +49,7 @@ export function ResourceCard({
       {/* Darken the lower half of the image so the overlaid copy stays legible. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-linear-to-t from-brand-950 via-brand-950/35 to-transparent"
+        className="absolute inset-0 bg-linear-to-t from-black via-black/45 to-transparent"
       />
 
       <Badge className="absolute top-3 left-3 z-10 bg-brand-600 text-white shadow-sm">
