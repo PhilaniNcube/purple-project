@@ -33,3 +33,29 @@ export async function revalidatePublicCache(...tags: string[]): Promise<void> {
     // No Next.js cache to revalidate (e.g. CLI or seed context).
   }
 }
+
+/**
+ * Cache tags owned by the public engagement data layer (`@/lib/engagement`)
+ * and dropped by the Comments/Likes collection hooks when a document changes.
+ *
+ * These are plain string builders with no Next.js imports, so a collection
+ * config can use them without pulling the framework runtime into the CLI.
+ */
+export const likesTag = (resourceId: number | string): string => `likes:${resourceId}`
+
+export const commentsTag = (resourceId: number | string): string => `comments:${resourceId}`
+
+/**
+ * Reads the id off a relationship value that may be a bare id or a populated
+ * document, so a hook can build a per-resource cache tag either way.
+ */
+export const relationshipId = (value: unknown): number | string | undefined => {
+  if (typeof value === 'number' || typeof value === 'string') return value
+
+  if (value && typeof value === 'object' && 'id' in value) {
+    const id = (value as { id?: unknown }).id
+    if (typeof id === 'number' || typeof id === 'string') return id
+  }
+
+  return undefined
+}

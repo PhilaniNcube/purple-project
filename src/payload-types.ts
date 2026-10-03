@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     categories: Category;
     resources: Resource;
+    comments: Comment;
+    likes: Like;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +84,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    likes: LikesSelect<false> | LikesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -288,6 +292,44 @@ export interface Resource {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Reader comments held for moderation. Approve a comment to publish it on the resource page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  resource: number | Resource;
+  authorName: string;
+  /**
+   * Optional. Never shown publicly — kept only so the team can follow up.
+   */
+  authorEmail?: string | null;
+  body: string;
+  /**
+   * Only approved comments are shown on the public site.
+   */
+  status: 'pending' | 'approved' | 'spam';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * One like per anonymous visitor, per resource.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "likes".
+ */
+export interface Like {
+  id: number;
+  resource: number | Resource;
+  /**
+   * Anonymous cookie value used to keep likes unique.
+   */
+  visitorId: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -326,6 +368,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'resources';
         value: number | Resource;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'likes';
+        value: number | Like;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -485,6 +535,29 @@ export interface ResourcesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  resource?: T;
+  authorName?: T;
+  authorEmail?: T;
+  body?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "likes_select".
+ */
+export interface LikesSelect<T extends boolean = true> {
+  resource?: T;
+  visitorId?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

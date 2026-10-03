@@ -7,8 +7,11 @@ import { cn } from 'cn'
 import { ArrowLeft, Download, ExternalLink } from 'lucide-react'
 
 import { Container, Display, Section } from '@/components/ds'
+import { CommentsSection } from '@/components/resources/comments-section'
+import { EngagementBar } from '@/components/resources/engagement-bar'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
+import { getEngagementCounts, hasVisitorLiked, readVisitorId } from '@/lib/engagement'
 import { getPayloadClient } from '@/lib/payload'
 import { formatPublishDate, labelForResourceType } from '@/lib/resource-format'
 import type { Category, Resource } from '@/payload-types'
@@ -76,6 +79,14 @@ export default async function ResourcePage({ params }: Args) {
   const tags = (resource.tags ?? []).filter((tag) => tag.label)
   const date = formatPublishDate(resource.publishDate)
   const hasAction = Boolean(file?.url || resource.externalUrl)
+
+  // Per-visitor, so this read stays outside the cache. Engagement counts are
+  // cached per resource and refreshed by the collection hooks.
+  const visitorId = await readVisitorId()
+  const [engagement, liked] = await Promise.all([
+    getEngagementCounts(resource.id),
+    hasVisitorLiked(resource.id, visitorId),
+  ])
 
   return (
     <main className="flex flex-1 flex-col">
@@ -195,6 +206,25 @@ export default async function ResourcePage({ params }: Args) {
           </Container>
         </Section>
       ) : null}
+
+      <Section tone="light">
+        <Container size="sm">
+          <div className="border-t border-border pt-8">
+            <EngagementBar
+              resourceId={resource.id}
+              resourceTitle={resource.title}
+              resourcePath={`/resources/${resource.slug}`}
+              likeCount={engagement.likes}
+              commentCount={engagement.comments}
+              liked={liked}
+            />
+          </div>
+
+          <div className="mt-16">
+            <CommentsSection resourceId={resource.id} />
+          </div>
+        </Container>
+      </Section>
     </main>
   )
 }
