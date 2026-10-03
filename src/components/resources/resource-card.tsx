@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Heart, MessageCircle } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/components/ui/card'
 import type { EngagementCounts } from '@/lib/engagement'
 import { formatPublishDate, labelForResourceType } from '@/lib/resource-format'
 import type { Category, Resource } from '@/payload-types'
@@ -30,62 +31,71 @@ export function ResourceCard({
   const date = formatPublishDate(resource.publishDate)
 
   return (
-    <article className="group relative flex flex-col overflow-hidden bg-card ring-1 ring-foreground/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative aspect-[16/10] overflow-hidden bg-lavender">
-        {coverUrl ? (
-          <Image
-            src={coverUrl}
-            alt={cover?.alt ?? ''}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <span className="absolute inset-0 flex items-center justify-center font-heading text-[0.7rem] tracking-[0.2em] text-brand-700/50 uppercase">
-            Purple Project
-          </span>
-        )}
-        <Badge className="absolute top-3 left-3 bg-white text-brand-800 shadow-sm">
-          {labelForResourceType(resource.resourceType)}
-        </Badge>
-      </div>
+    <Card className="group relative aspect-5/4 gap-0 overflow-hidden bg-brand-950 py-0 text-white ring-1 ring-foreground/10 transition-all duration-300 hover:shadow-lg">
+      {coverUrl ? (
+        <Image
+          src={coverUrl}
+          alt={cover?.alt ?? ''}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover transition-transform duration-500 "
+        />
+      ) : (
+        <span className="absolute inset-0 flex items-center justify-center bg-brand-gradient font-heading text-[0.7rem] tracking-[0.2em] text-white/50 uppercase">
+          Purple Project
+        </span>
+      )}
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      {/* Darken the lower half of the image so the overlaid copy stays legible. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-t from-brand-950 via-brand-950/55 to-transparent"
+      />
+
+      <Badge className="absolute top-3 left-3 z-10 bg-brand-600 text-white shadow-sm">
+        {labelForResourceType(resource.resourceType)}
+      </Badge>
+
+      <CardContent className="z-10 mt-auto flex flex-col gap-3 p-5">
         {categories.length > 0 ? (
           <ul className="flex flex-wrap gap-1.5">
             {categories.map((category) => (
               <li key={category.id}>
-                <Badge variant="outline">{category.title}</Badge>
+                <Badge className="bg-brand-600 text-white">{category.title}</Badge>
               </li>
             ))}
           </ul>
         ) : null}
 
-        <h3 className="font-heading text-lg leading-snug font-bold text-foreground">
+        <CardTitle
+          role="heading"
+          aria-level={3}
+          className="font-heading text-lg leading-snug font-bold text-white"
+        >
           <Link
             href={href}
             className="outline-none after:absolute after:inset-0 focus-visible:underline"
           >
             {resource.title}
           </Link>
-        </h3>
+        </CardTitle>
 
-        <p className="text-sm leading-relaxed text-muted-foreground">
+        <CardDescription className="line-clamp-2 text-sm leading-relaxed text-white/80">
           {resource.summary}
-        </p>
+        </CardDescription>
 
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-2">
+        <CardFooter className="mt-1 flex-wrap items-center justify-between gap-x-3 gap-y-2 border-0 bg-transparent p-0">
           {date ? (
             <time
               dateTime={resource.publishDate ?? undefined}
-              className="text-[0.7rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase"
+              className="text-[0.7rem] font-semibold tracking-[0.18em] text-white/70 uppercase"
             >
               {date}
             </time>
           ) : null}
 
           {counts ? (
-            <div className="ml-auto flex items-center gap-3 text-xs font-medium text-muted-foreground">
+            <div className="ml-auto flex items-center gap-3 text-xs font-medium text-white/70">
               <span className="inline-flex items-center gap-1">
                 <Heart aria-hidden className="size-3.5" />
                 {counts.likes}
@@ -100,8 +110,8 @@ export function ResourceCard({
               </span>
             </div>
           ) : null}
-        </div>
-      </div>
-    </article>
+        </CardFooter>
+      </CardContent>
+    </Card>
   )
 }
