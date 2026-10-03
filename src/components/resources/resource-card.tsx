@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Heart, MessageCircle } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
+import type { EngagementCounts } from '@/lib/engagement'
 import { formatPublishDate, labelForResourceType } from '@/lib/resource-format'
 import type { Category, Resource } from '@/payload-types'
 
@@ -9,7 +11,13 @@ const asCategory = (value: Category | number): Category | null =>
   typeof value === 'object' && value !== null ? value : null
 
 /** A single resource in the public grid. */
-export function ResourceCard({ resource }: { resource: Resource }) {
+export function ResourceCard({
+  resource,
+  counts,
+}: {
+  resource: Resource
+  counts?: EngagementCounts
+}) {
   const cover =
     typeof resource.coverImage === 'object' && resource.coverImage !== null
       ? resource.coverImage
@@ -66,14 +74,33 @@ export function ResourceCard({ resource }: { resource: Resource }) {
           {resource.summary}
         </p>
 
-        {date ? (
-          <time
-            dateTime={resource.publishDate ?? undefined}
-            className="mt-auto pt-2 text-[0.7rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase"
-          >
-            {date}
-          </time>
-        ) : null}
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-2">
+          {date ? (
+            <time
+              dateTime={resource.publishDate ?? undefined}
+              className="text-[0.7rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase"
+            >
+              {date}
+            </time>
+          ) : null}
+
+          {counts ? (
+            <div className="ml-auto flex items-center gap-3 text-xs font-medium text-muted-foreground">
+              <span className="inline-flex items-center gap-1">
+                <Heart aria-hidden className="size-3.5" />
+                {counts.likes}
+                <span className="sr-only">{counts.likes === 1 ? 'like' : 'likes'}</span>
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <MessageCircle aria-hidden className="size-3.5" />
+                {counts.comments}
+                <span className="sr-only">
+                  {counts.comments === 1 ? 'comment' : 'comments'}
+                </span>
+              </span>
+            </div>
+          ) : null}
+        </div>
       </div>
     </article>
   )

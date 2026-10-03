@@ -2,7 +2,7 @@ import { cacheLife, cacheTag } from 'next/cache'
 import { cookies } from 'next/headers'
 
 import { getPayloadClient } from '@/lib/payload'
-import { commentsTag, likesTag } from '@/lib/revalidate-cache'
+import { commentsTag, likesTag, relationshipId } from '@/lib/revalidate-cache'
 import type { Comment } from '@/payload-types'
 
 /**
@@ -105,4 +105,64 @@ export async function getEngagementCounts(
   ])
 
   return { comments: comments.totalDocs, likes: likes.totalDocs }
+}
+
+export type EngagementCounts = { comments: number; likes: number }
+
+/**
+ * Like and approved-comment totals for many resources at once, keyed by
+ * resource id. Used by the listing grid so it can show counts without a query
+ * per card. Tagged with every resource's tags, so a like or an approval
+ * invalidates the batch.
+ */
+export async function getEngagementCountsForResources(
+  resourceIds: number[],
+): Promise<Record<number, EngagementCounts>> {
+  'use cache'
+  cacheLife('minutes')
+
+  const counts: Record<number, EngagementCounts> = {}
+  for (const resourceId of resourceIds) {
+    counts[resourceId] = { comments: 0, likes: 0 }
+  }
+
+  if (resourceIds.length === 0) return counts
+
+  cacheTag(...resourceIds.map(likesTag), ...resourceIds.map(commentsTag))
+
+  const payload = await getPayloadClient()
+
+  const [likes, comments] = await Promise.all([
+    payload.find({
+      collection: 'likes',
+      where: { resource: { in: resourceIds } },
+      depth: 0,
+      limit: 0,
+      pagination: false,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'comments',
+      where: {
+        resource: { in: resourceIds },
+        status: { equals: 'approved' },
+      },
+      depth: 0,
+      limit: 0,
+      pagination: false,
+      overrideAccess: false,
+    }),
+  ])
+
+  for (const like of likes.docs) {
+    const id = relationshipId(like.resource)
+    if (typeof id === 'number' && counts[id]) counts[id].likes += 1
+  }
+
+  for (const comment of comments.docs) {
+    const id = relationshipId(comment.resource)
+    if (typeof id === 'number' && counts[id]) counts[id].comments += 1
+  }
+
+  return counts
 }

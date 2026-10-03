@@ -3,8 +3,9 @@ import Link from 'next/link'
 import type { Where } from 'payload'
 import { cn } from 'cn'
 
-import { Container, Display, Eyebrow, Script, Section } from '@/components/ds'
+import { Container, Display, Eyebrow, Section } from '@/components/ds'
 import { ResourceCard } from '@/components/resources/resource-card'
+import { getEngagementCountsForResources } from '@/lib/engagement'
 import { getPayloadClient } from '@/lib/payload'
 import { resourceTypeOptions, type ResourceType } from '@/lib/resource-types'
 
@@ -112,6 +113,10 @@ export default async function ResourcesPage({ searchParams }: Args) {
     where,
   })
 
+  const counts = await getEngagementCountsForResources(
+    resources.docs.map((resource) => resource.id),
+  )
+
   const hasFilters = Boolean(activeCategorySlug || activeType)
 
   return (
@@ -203,7 +208,11 @@ export default async function ResourcesPage({ searchParams }: Args) {
           {resources.docs.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {resources.docs.map((resource) => (
-                <ResourceCard key={resource.id} resource={resource} />
+                <ResourceCard
+                  key={resource.id}
+                  resource={resource}
+                  counts={counts[resource.id]}
+                />
               ))}
             </div>
           ) : (
