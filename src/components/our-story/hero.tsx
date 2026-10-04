@@ -69,7 +69,7 @@ export function OurStoryHero() {
       </Container>
 
       <Link
-        href="#no-shame"
+        href="#founder"
         aria-label="Scroll to explore"
         className="relative mx-auto mb-10 flex size-14 shrink-0 items-center justify-center rounded-full border border-white/60 text-white transition-colors outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/70"
       >
