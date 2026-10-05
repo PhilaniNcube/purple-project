@@ -93,7 +93,7 @@ const REVEAL: Reveal = {
 };
 
 const FACE =
-  "absolute inset-0 flex flex-col items-center justify-center rounded-2xl border p-4 text-center [backface-visibility:hidden] motion-reduce:transition-opacity";
+  "absolute inset-0 flex flex-col items-center rounded-2xl border p-4 text-center [backface-visibility:hidden] motion-reduce:transition-opacity";
 
 function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: Stat) {
   return (
@@ -108,7 +108,7 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
       >
         {/* Front — the figure, set as the brand's two-voice lockup. */}
         <div
-          className={`${FACE} border-brand-200/70 bg-lavender/60 motion-reduce:group-hover:opacity-0 motion-reduce:group-focus-within:opacity-0`}
+          className={`${FACE} justify-start border-brand-200/70 bg-lavender/60 motion-reduce:group-hover:opacity-0 motion-reduce:group-focus-within:opacity-0`}
         >
           {accentPlacement === "inline" ? (
             <span className="flex items-start font-heading text-display-lg text-primary">
@@ -142,7 +142,7 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
 
         {/* Reverse — the description, revealed by the turn. */}
         <div
-          className={`${FACE} border-brand-800/30 bg-brand-700 text-white/95 shadow-brand motion-reduce:opacity-0 motion-reduce:group-hover:opacity-100 motion-reduce:group-focus-within:opacity-100 ${REVEAL.back}`}
+          className={`${FACE} justify-center border-brand-800/30 bg-brand-700 text-white/95 shadow-brand motion-reduce:opacity-0 motion-reduce:group-hover:opacity-100 motion-reduce:group-focus-within:opacity-100 ${REVEAL.back}`}
         >
           <Image
             src={icon.src}
