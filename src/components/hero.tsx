@@ -1,6 +1,7 @@
 import { ArrowDown } from "lucide-react";
 
 import { Container } from "@/components/ds";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 /**
@@ -49,15 +50,13 @@ export function Hero() {
 
       <Container className="relative flex flex-1 flex-col items-center justify-center py-32 text-center">
         <h1 className="flex w-full flex-col items-center">
-          <span className="block font-display text-script-xl italic text-white">
-            Join the fight
-          </span>
+       
 
           {/* "AGAINST" — stroke-only outline type. The path is filled with
               `none` and stroked, so the outline can be drawn on later with
               `stroke-dasharray` / `stroke-dashoffset` (or its width, colour and
               dash pattern transitioned). */}
-          <svg
+          {/* <svg
             viewBox="0 0 202 51"
             fill="none"
             role="img"
@@ -73,17 +72,29 @@ export function Hero() {
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
             />
-          </svg>
+          </svg> */}
 
           <span className="mt-2 block font-heading text-display-md uppercase text-white lg:whitespace-nowrap">
-            Gynaecological Cancer
+            Silence has cost us enough
+          </span>
+             <span className="block font-display text-script-xl italic text-white">
+            Let's talk
           </span>
         </h1>
 
         <p className="mt-8 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-          Join a movement breaking the stigma around gynaecological cancer and
-          sparking life-saving conversations.
+        Join a movement breaking the stigma around gynaecological cancer and sparking life-saving conversations.
         </p>
+
+        <Button
+          variant="inverse"
+          size="cta"
+          nativeButton={false}
+          className="mt-10"
+          render={<Link href="/get-the-facts" />}
+        >
+          Get the facts
+        </Button>
       </Container>
 
       <Link

@@ -1,8 +1,10 @@
 
 
 
+import { GetInvolved } from "@/components/get-involved";
 import { Hero } from "@/components/hero";
 import { JoinUs } from "@/components/join-us";
+import { KnowTheFacts } from "@/components/know-the-facts";
 import { NoShame } from "@/components/no-shame";
 import { ShareTheKnowledge } from "@/components/share-the-knowledge";
 import { ShiningALight } from "@/components/shining-a-light";
@@ -58,9 +60,19 @@ export default function DesignSystemPage() {
       <StraightFrom />
 
       {/* ---------------------------------------------------------------- */}
+      {/* Get involved — "Be part of the movement."                        */}
+      {/* ---------------------------------------------------------------- */}
+      <GetInvolved />
+
+      {/* ---------------------------------------------------------------- */}
       {/* Numbers — "The numbers" watermark band                           */}
       {/* ---------------------------------------------------------------- */}
       <TheNumbers />
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Quiz — "Think you know the facts?"                               */}
+      {/* ---------------------------------------------------------------- */}
+      <KnowTheFacts />
 
       {/* ---------------------------------------------------------------- */}
       {/* Knowledge — "Share the knowledge. Protect women."                */}

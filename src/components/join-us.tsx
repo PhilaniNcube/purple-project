@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container, Section } from "@/components/ds";
@@ -9,8 +10,8 @@ import { Button } from "@/components/ui/button";
  *
  * A full-bleed documentary photograph of women standing together, dimmed until
  * it reads almost as a texture, with the invitation centred on top: the heavy
- * uppercase display line, the italic serif accent, and a single Contact Us
- * button.
+ * uppercase display line, the italic serif accent, a supporting line of copy
+ * widening the invitation to every visitor, and a single Contact Us button.
  *
  * The button is deliberately quieter than the headline — an outlined ghost at
  * rest that, on hover, fills white, darkens its label to the brand purple and
@@ -62,12 +63,18 @@ export function JoinUs() {
           </span>
         </h2>
 
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+          Questions, stories or ideas for working together? Whether
+          you&rsquo;re a patient, parent, school or business, there&rsquo;s a
+          place for you here.
+        </p>
+
         <Button
           variant="inverse-outline"
           size="cta"
           nativeButton={false}
           className="mt-10 hover:bg-white hover:text-brand-800 focus-visible:ring-white/70"
-          render={<a href="/contact" />}
+          render={<Link href="/contact" />}
         >
           Contact Us
           <ArrowRight

@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Syringe } from "lucide-react";
 
 import { Container, Section } from "@/components/ds";
+import { Button } from "@/components/ui/button";
 
 /**
  * "The numbers"
@@ -169,15 +171,26 @@ export function TheNumbers() {
     >
       <Container>
         {/* Watermark headline — pale, oversized, bleeding slightly left */}
-        <h2 className="font-heading text-display-xl leading-[0.85] text-brand-200 select-none lg:-ml-12">
-          <span className="mr-[0.12em]">The</span>
-          <span className="font-display font-medium italic">numbers</span>
+        <h2 className="font-heading text-display-lg leading-[0.85] select-none pt-10 lg:pt-14">
+          <span className="uppercase">The numbers </span>
+          <span className="font-display text-brand-800 font-medium italic">behind the silence</span>
         </h2>
 
         <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4 lg:gap-16">
           {STATS.map((stat, index) => (
             <StatCard key={index} {...stat} />
           ))}
+        </div>
+
+        <div className="mt-14 flex justify-center lg:mt-20">
+          <Button
+            variant="brand"
+            size="cta"
+            nativeButton={false}
+            render={<Link href="/get-the-facts" />}
+          >
+            Get the facts
+          </Button>
         </div>
       </Container>
     </Section>

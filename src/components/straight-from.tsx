@@ -2,11 +2,13 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 
 import { Container, Section } from "@/components/ds";
+import { Button } from "@/components/ui/button";
 
 gsap.registerPlugin(useGSAP, DrawSVGPlugin);
 
@@ -153,6 +155,18 @@ export function StraightFrom() {
                 className="h-auto w-full"
               />
             </div>
+          </div>
+
+          <div className="mt-10 flex justify-center sm:mt-12">
+            <Button
+              variant="inverse-outline"
+              size="cta"
+              nativeButton={false}
+              className="hover:bg-white hover:text-brand-800 focus-visible:ring-white/70"
+              render={<Link href="/our-story" />}
+            >
+              Read her story
+            </Button>
           </div>
         </div>
       </Container>

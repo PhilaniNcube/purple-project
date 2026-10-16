@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Container, Section } from "@/components/ds";
@@ -67,7 +68,7 @@ export function JoinUs() {
           size="cta"
           nativeButton={false}
           className="mt-10 hover:bg-white hover:text-brand-800 focus-visible:ring-white/70"
-          render={<a href="/contact" />}
+          render={<Link href="/contact" />}
         >
           Contact Us
           <ArrowRight

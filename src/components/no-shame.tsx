@@ -41,7 +41,7 @@ export function NoShame() {
         className="-z-20 object-cover object-[50%_46%]"
       />
 
-      <Container className="relative pt-24 text-center sm:pt-32 lg:pt-44">
+      <Container className="relative pt-24 text-center sm:pt-32 lg:pt-38">
         <h2 className="flex flex-col items-center">
           <Display as="span" size="md">
             No shame.
@@ -50,6 +50,9 @@ export function NoShame() {
             Just support.
           </span>
         </h2>
+        <p className="mt-8 text-base leading-relaxed sm:text-lg">
+          Whatever you&rsquo;re facing, there&rsquo;s a seat for you here.
+        </p>
       </Container>
     </Section>
   );

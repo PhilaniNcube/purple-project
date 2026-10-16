@@ -44,11 +44,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Purple Project — Design System",
+    default: "Purple Project",
     template: "%s · Purple Project",
   },
   description:
-    "Design tokens and components for Purple Project, a movement breaking the silence around gynaecological cancer.",
+    "",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

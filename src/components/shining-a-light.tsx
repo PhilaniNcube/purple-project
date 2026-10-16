@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
@@ -149,7 +150,7 @@ export function ShiningALight() {
 
               <span className="mt-[0.08em] block">Women&rsquo;s health,</span>
 
-              <span className="block font-display text-script-md normal-case italic">
+              <span className="block font-display text-script-md normal-case italic text-brand-900">
                 together.
               </span>
             </h2>
@@ -157,23 +158,26 @@ export function ShiningALight() {
             <div className="mt-8 max-w-xl space-y-5 text-base leading-relaxed text-muted-foreground">
               <p>
                 Our mission is simple: to turn silence into strength. Whether
-                you&rsquo;re a young person overwhelmed by health information, a
-                mom looking for answers, or a donor wanting to make a real
-                impact, this is your space. Gynaecological health is often
-                overlooked, yet early awareness can save lives.
+                you&rsquo;re a young person with questions, a parent looking for
+                answers or someone who wants to help, this is your space.
               </p>
               <p>
                 By sharing knowledge about prevention, symptoms, and treatment,
                 we empower women to take charge of their health.
               </p>
               <p className="font-semibold italic text-foreground">
-                The colour purple &ndash; symbolic of gynaecological cancer,
-                stand for courage, dignity, and hope.
+                Purple stands for courage, dignity and hope. Our aim is to make it as well known as pink.
               </p>
             </div>
 
-            <Button variant="brand-outline" size="lg" className="mt-10 px-5">
-              Learn more
+            <Button
+              variant="brand"
+              size="lg"
+              nativeButton={false}
+              className="mt-10 px-5"
+              render={<Link href="/our-story" />}
+            >
+              Read our story
             </Button>
           </div>
         </div>

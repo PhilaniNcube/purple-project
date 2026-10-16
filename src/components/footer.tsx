@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { connection } from "next/server";
 import { cn } from "cn";
 
@@ -119,6 +120,60 @@ const socialLinks: SocialLink[] = [
 ];
 
 /* -------------------------------------------------------------------------- */
+/* Navigation                                                                 */
+/* -------------------------------------------------------------------------- */
+
+type FooterLink = { label: string; href: string };
+type FooterColumn = { heading: string; links: FooterLink[] };
+
+/** The four link columns, grouped under the site's primary sections. */
+const footerColumns: FooterColumn[] = [
+  {
+    heading: "Our story",
+    links: [
+      { label: "Our story", href: "/our-story" },
+      { label: "Meet the founder", href: "/our-story#founder" },
+      { label: "Partners", href: "/partners" },
+      { label: "Survivor stories", href: "/survivor-stories" },
+    ],
+  },
+  {
+    heading: "Get involved",
+    links: [
+      { label: "Donate", href: "/donate" },
+      { label: "Volunteer", href: "/volunteer" },
+      { label: "Partner with us", href: "/partner-with-us" },
+      { label: "FAQs", href: "/faqs" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Articles", href: "/resources" },
+      { label: "Guides", href: "/resources" },
+      { label: "For parents", href: "/resources" },
+      { label: "Take the quiz", href: "/quiz" },
+    ],
+  },
+  {
+    heading: "Contact",
+    links: [
+      { label: "Contact us", href: "/contact" },
+      { label: "WhatsApp", href: "https://wa.me/27000000000" },
+      // Placeholder inbox — swap for the real address.
+      { label: "Email us", href: "mailto:hello@purpleproject.org.za" },
+    ],
+  },
+];
+
+/** The legal links, set beside the copyright on the footer's closing line. */
+const legalLinks: FooterLink[] = [
+  { label: "Privacy policy", href: "/privacy-policy" },
+  { label: "Terms of use", href: "/terms-of-use" },
+  { label: "Cookie policy", href: "/cookie-policy" },
+];
+
+/* -------------------------------------------------------------------------- */
 /* Footer                                                                     */
 /* -------------------------------------------------------------------------- */
 
@@ -131,20 +186,20 @@ const socialLinks: SocialLink[] = [
 async function CopyrightYear() {
   await connection();
 
-  return <>© Purple Project {new Date().getFullYear()}.</>;
+  return <>© {new Date().getFullYear()} Purple Project. All rights reserved.</>;
 }
 
 /**
  * Global site footer.
  *
- * A solid brand-purple band that closes every page: the white wordmark and
- * mission statement on the left, and a "Follow us" row with the social
- * marks plus the copyright on the right. Rendered once in `app/layout.tsx`, so
- * it trails every route.
+ * A solid brand-purple band that closes every page. It opens with the white
+ * wordmark and the movement's mission statement beside the social marks, then
+ * sets four link columns — Our story, Get involved, Resources and Contact —
+ * over a hairline rule, and closes on a second rule with the copyright line and
+ * the legal links. Rendered once in `app/layout.tsx`, so it trails every route.
  *
- * The two columns stretch to a shared height on desktop (`items-stretch` +
- * `justify-between`), which parks the copyright under the icons and lines it
- * up with the foot of the mission copy — the arrangement in the prototype.
+ * Structure comes from those two rules rather than a boxed grid, keeping with
+ * the system's preference for tonal bands over chrome.
  */
 export function Footer() {
   return (
@@ -156,8 +211,9 @@ export function Footer() {
       aria-label="Site footer"
     >
       <Container size="wide" className="py-14 sm:py-16 lg:py-20">
-        <div className="flex flex-col gap-12 sm:flex-row sm:items-stretch sm:justify-between">
-          <div className="max-w-sm">
+        {/* Intro — wordmark and mission, with the social marks alongside. */}
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
+          <div className="max-w-xl">
             <Image
               src="/images/logo-white.png"
               alt="Purple Project"
@@ -166,40 +222,83 @@ export function Footer() {
               className="h-8 w-auto sm:h-9"
             />
             <p className="mt-6 text-sm leading-relaxed text-white/80">
-              Our mission is simple: raise awareness of gynaecological cancers
-              and empower and support those affected through sharing stories and
-              community.
+              Purple Project is a South African movement, founded in 2022,
+              breaking the silence around gynaecological cancer through
+              education, early detection and practical support. No Shame, Just
+              Support. No One Fights Alone.
             </p>
           </div>
 
-          <div className="flex flex-col gap-8 sm:items-end sm:justify-between">
-            <div className="flex items-center gap-6">
+          <div className="flex flex-col gap-4 lg:items-end">
+            <h2 className="font-heading text-sm font-bold tracking-[0.18em] uppercase">
+              Follow us
+            </h2>
+            <ul className="flex flex-wrap items-center gap-3">
+              {socialLinks.map(({ label, href, icon: Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="flex size-10 items-center justify-center rounded-full bg-white text-brand-700 transition-colors outline-none hover:bg-white/85 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-800"
+                  >
+                    <Icon />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Link columns */}
+        <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-white/15 pt-10 sm:grid-cols-4 lg:mt-14">
+          {footerColumns.map(({ heading, links }) => (
+            <nav key={heading} aria-label={heading}>
               <h2 className="font-heading text-sm font-bold tracking-[0.18em] uppercase">
-                Follow us
+                {heading}
               </h2>
-              <ul className="flex items-center gap-3">
-                {socialLinks.map(({ label, href, icon: Icon }) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={label}
-                      className="flex size-10 items-center justify-center rounded-full bg-white text-brand-700 transition-colors outline-none hover:bg-white/85 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-800"
-                    >
-                      <Icon />
-                    </a>
-                  </li>
-                ))}
+              <ul className="mt-4 space-y-2.5">
+                {links.map(({ label, href }) => {
+                  const external = href.startsWith("http");
+                  return (
+                    <li key={label}>
+                      <Link
+                        href={href}
+                        {...(external
+                          ? { target: "_blank", rel: "noreferrer" }
+                          : {})}
+                        className="text-sm text-white/80 transition-colors outline-none hover:text-white focus-visible:underline"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
-            </div>
+            </nav>
+          ))}
+        </div>
 
-            <p className="text-xs font-medium tracking-[0.18em] text-white/75 uppercase">
-              <Suspense fallback={<>© Purple Project.</>}>
-                <CopyrightYear />
-              </Suspense>
-            </p>
-          </div>
+        {/* Closing line — copyright and legal links */}
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/15 pt-6 text-xs text-white/70 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <p>
+            <Suspense fallback={<>© Purple Project.</>}>
+              <CopyrightYear />
+            </Suspense>
+          </p>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {legalLinks.map(({ label, href }) => (
+              <li key={label}>
+                <Link
+                  href={href}
+                  className="transition-colors outline-none hover:text-white focus-visible:underline"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </Section>
