@@ -131,10 +131,10 @@ const footerColumns: FooterColumn[] = [
   {
     heading: "Our story",
     links: [
-      { label: "Our story", href: "/our-story" },
       { label: "Meet the founder", href: "/our-story#founder" },
+      { label: "Our reason for being", href: "/our-story" },
       { label: "Partners", href: "/partners" },
-      { label: "Survivor stories", href: "/survivor-stories" },
+      { label: "Initiatives and Campaigns", href: "/survivor-stories" },
     ],
   },
   {
@@ -143,25 +143,25 @@ const footerColumns: FooterColumn[] = [
       { label: "Donate", href: "/donate" },
       { label: "Volunteer", href: "/volunteer" },
       { label: "Partner with us", href: "/partner-with-us" },
-      { label: "FAQs", href: "/faqs" },
+      { label: "Share your story", href: "/faqs" },
     ],
   },
   {
     heading: "Resources",
     links: [
+      { label: "Blog", href: "/resources" },
       { label: "Articles", href: "/resources" },
-      { label: "Guides", href: "/resources" },
-      { label: "For parents", href: "/resources" },
+      { label: "Downloads", href: "/resources" },
       { label: "Take the quiz", href: "/quiz" },
     ],
   },
   {
     heading: "Contact",
     links: [
-      { label: "Contact us", href: "/contact" },
       { label: "WhatsApp", href: "https://wa.me/27000000000" },
-      // Placeholder inbox — swap for the real address.
       { label: "Email us", href: "mailto:hello@purpleproject.org.za" },
+      { label: "FAQs", href: "/faq" },
+      // Placeholder inbox — swap for the real address.
     ],
   },
 ];

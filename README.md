@@ -193,7 +193,7 @@ Each size bundles its own line-height, letter-spacing and font-weight, so
 | `Hero`        | `components/hero.tsx`             | Looping video band; "AGAINST" is inline SVG so its outline is a path |
 | `ShiningALight` | `components/shining-a-light.tsx` | Arched photo + outline type drawn on scroll                          |
 | `StraightFrom` | `components/straight-from.tsx`   | Dark editorial band; outline type drawn on scroll                    |
-| `TheNumbers`  | `components/the-numbers.tsx`      | Watermark headline over a four-up statistic row                      |
+| `TheNumbers`  | `components/the-numbers.tsx`      | Watermark headline over a five-card statistic row                    |
 | `ShareTheKnowledge` | `components/share-the-knowledge.tsx` | Scroll-linked clover backdrop; outline type drawn on scroll |
 
 > `design-reference/` is currently empty — drop the exported Figma frames in

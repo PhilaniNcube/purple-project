@@ -1,6 +1,3 @@
-
-
-
 import { GetInvolved } from "@/components/get-involved";
 import { Hero } from "@/components/hero";
 import { JoinUs } from "@/components/join-us";
@@ -12,25 +9,9 @@ import { StraightFrom } from "@/components/straight-from";
 import { Testimonial } from "@/components/testimonial";
 import { TheNumbers } from "@/components/the-numbers";
 
-
-
-
-
-
-
-
-
 // TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
 // See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
 export const instant = false;
-
-
-
-
-
-
-
-
 
 /* -------------------------------------------------------------------------- */
 /* Page                                                                       */
@@ -39,54 +20,22 @@ export const instant = false;
 export default function DesignSystemPage() {
   return (
     <main className="flex flex-1 flex-col">
-      {/* ---------------------------------------------------------------- */}
-      {/* Hero — the production homepage hero                              */}
-      {/* ---------------------------------------------------------------- */}
       <Hero />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* No shame — "No shame. Just support."                             */}
-      {/* ---------------------------------------------------------------- */}
       <NoShame />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Mission — "Shining a light on women's health, together."         */}
-      {/* ---------------------------------------------------------------- */}
       <ShiningALight />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Founder — "Straight from the founder."                           */}
-      {/* ---------------------------------------------------------------- */}
       <StraightFrom />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Get involved — "Be part of the movement."                        */}
-      {/* ---------------------------------------------------------------- */}
-      <GetInvolved />
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Numbers — "The numbers" watermark band                           */}
-      {/* ---------------------------------------------------------------- */}
       <TheNumbers />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Quiz — "Think you know the facts?"                               */}
-      {/* ---------------------------------------------------------------- */}
-      <KnowTheFacts />
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Knowledge — "Share the knowledge. Protect women."                */}
-      {/* ---------------------------------------------------------------- */}
       <ShareTheKnowledge />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Testimonial — "In their words."                                  */}
-      {/* ---------------------------------------------------------------- */}
-      <Testimonial />
+      <KnowTheFacts />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Join us — the closing call to action                             */}
-      {/* ---------------------------------------------------------------- */}
+    
+
       <JoinUs />
     </main>
   );

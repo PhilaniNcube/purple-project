@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Syringe } from "lucide-react";
 
 import { Container, Section } from "@/components/ds";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import { Button } from "@/components/ui/button";
  *
  * A quiet statistics band. The headline is set as an oversized, low-contrast
  * watermark (heavy sans + italic serif, in a pale lavender) sitting behind a
- * four-up row of figures.
+ * row of five figures.
  *
  * Each figure is a two-sided card. The front sets the figure as the brand's
  * two-voice lockup — a heavy display number with an italic serif accent — and
@@ -33,12 +32,10 @@ type Stat = {
   value: string;
   /** The italic serif accent. Omitted for a bare figure. */
   accent?: string;
-  /** An optional icon set beside the figure in place of a text accent. */
-  accentIcon?: "syringe";
   /**
    * Where the accent sits: `inline` for a superscript-style unit beside the
-   * figure (e.g. "76" + "%"), `below` for a caption tucked under it (e.g.
-   * "1" + "in 41"). Defaults to `below`.
+   * figure, `below` for a caption tucked under it (e.g. "1.5" + "million+").
+   * Defaults to `below`.
    */
   accentPlacement?: "inline" | "below";
   label: string;
@@ -46,33 +43,37 @@ type Stat = {
   icon: { src: string; width: number; height: number };
 };
 
-/** Placeholder figures — swap for the final dataset. */
 const STATS: Stat[] = [
   {
-    value: "76",
-    accent: "%",
-    accentPlacement: "inline",
-    label: "of cervical cancers are caused by just two strains of HPV",
-    icon: { src: "/images/76-percent.svg", width: 53, height: 53 },
+    value: "1.5",
+    accent: "million+",
+    label: "Girls reached by school-based HPV vaccination every year.",
+    icon: { src: "/images/vaccination.svg", width: 56, height: 56 },
+  },
+  {
+    value: "1.8",
+    accent: "million+",
+    label: "Women screened for cervical cancer every year.",
+    icon: { src: "/images/screening.svg", width: 56, height: 56 },
+  },
+  {
+    value: "90",
+    accent: "70 · 90",
+    label:
+      "South Africa’s 2030 targets for vaccination, screening and treatment.",
+    icon: { src: "/images/targets.svg", width: 56, height: 56 },
+  },
+  {
+    value: "2030",
+    label:
+      "The year South Africa aims to eliminate cervical cancer as a public health problem.",
+    icon: { src: "/images/calendar-2030.svg", width: 56, height: 56 },
   },
   {
     value: "1",
-    accent: "in 41",
-    label: "The cancer South African women die from most.",
-    icon: { src: "/images/1-in-4.svg", width: 93, height: 37 },
-  },
-  {
-    value: "3",
-    accent: "hours",
-    label: "How often cervical cancer claims a South African woman.",
-    icon: { src: "/images/3-hours.svg", width: 47, height: 55 },
-  },
-  {
-    value: "1",
-    accentIcon: "syringe",
-    accentPlacement: "inline",
-    label: "Vaccine dose is all it takes for strong, lasting protection.",
-    icon: { src: "/images/1-dose.svg", width: 52, height: 52 },
+    label:
+      "Cervical cancer is the leading cause of cancer-related death of women in South Africa.",
+    icon: { src: "/images/ribbon.svg", width: 56, height: 56 },
   },
 ];
 
@@ -97,7 +98,13 @@ const REVEAL: Reveal = {
 const FACE =
   "absolute inset-0 flex flex-col items-center rounded-2xl border p-4 text-center [backface-visibility:hidden] motion-reduce:transition-opacity";
 
-function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: Stat) {
+function StatCard({
+  value,
+  accent,
+  accentPlacement = "below",
+  label,
+  icon,
+}: Stat) {
   return (
     // The card's own perspective gives its turn depth. It's focusable so the
     // description is reachable without a pointer.
@@ -106,7 +113,7 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
       className="group rounded-2xl outline-none perspective:[1000px] focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
     >
       <div
-        className={`relative min-h-44 transform-3d transition-transform will-change-transform motion-reduce:transition-none ${REVEAL.shell}`}
+        className={`relative min-h-50 transform-3d transition-transform will-change-transform motion-reduce:transition-none ${REVEAL.shell}`}
       >
         {/* Front — the figure, set as the brand's two-voice lockup. */}
         <div
@@ -120,13 +127,6 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
                   {accent}
                 </span>
               ) : null}
-              {accentIcon === "syringe" ? (
-                <Syringe
-                  aria-hidden
-                  strokeWidth={1.5}
-                  className="mt-[0.08em] ml-1 size-[0.6em] text-brand-400"
-                />
-              ) : null}
             </span>
           ) : (
             <span className="flex flex-col items-start">
@@ -134,7 +134,7 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
                 {value}
               </span>
               {accent ? (
-                <span className="-mt-[0.42em] font-display text-script-md italic text-brand-400">
+                <span className="-mt-[0.24em] font-display text-script-md italic text-brand-400">
                   {accent}
                 </span>
               ) : null}
@@ -144,7 +144,7 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
 
         {/* Reverse — the description, revealed by the turn. */}
         <div
-          className={`${FACE} justify-center border-brand-800/30 bg-brand-700 text-white/95 shadow-brand motion-reduce:opacity-0 motion-reduce:group-hover:opacity-100 motion-reduce:group-focus-within:opacity-100 ${REVEAL.back}`}
+          className={`${FACE} justify-center gap-4 border-brand-800/30 bg-brand-700 text-white/95 shadow-brand motion-reduce:opacity-0 motion-reduce:group-hover:opacity-100 motion-reduce:group-focus-within:opacity-100 ${REVEAL.back}`}
         >
           <Image
             src={icon.src}
@@ -154,7 +154,9 @@ function StatCard({ value, accent, accentIcon, accentPlacement, label, icon }: S
             height={icon.height}
             className="h-auto max-w-full"
           />
-          <span className="max-w-[24ch] text-sm leading-relaxed">{label}</span>
+          <span className="max-w-[28ch] text-sm leading-relaxed text-balance">
+            {label}
+          </span>
         </div>
       </div>
     </div>
@@ -173,12 +175,24 @@ export function TheNumbers() {
         {/* Watermark headline — pale, oversized, bleeding slightly left */}
         <h2 className="font-heading text-display-lg leading-[0.85] select-none pt-10 lg:pt-14">
           <span className="uppercase">The numbers </span>
-          <span className="font-display text-brand-800 font-medium italic">behind the silence</span>
+          <span className="font-display text-brand-800 font-medium italic">
+            behind the silence
+          </span>
         </h2>
 
-        <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4 lg:gap-16">
+        <p className="max-w-md text-sm leading-relaxed sm:text-base xl:pt-3">
+          Behind every number is a woman who deserves to hear about this sooner.
+        </p>
+
+        {/* Five figures: two-up on small screens, then three over two, centred. */}
+        <div className="mt-16 flex flex-wrap justify-center gap-10 lg:mt-24 lg:gap-12">
           {STATS.map((stat, index) => (
-            <StatCard key={index} {...stat} />
+            <div
+              key={index}
+              className="w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-2rem)]"
+            >
+              <StatCard {...stat} />
+            </div>
           ))}
         </div>
 

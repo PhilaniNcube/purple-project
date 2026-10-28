@@ -6,8 +6,10 @@ import gsap from "gsap";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
+import Link from "next/link";
 
 import { Container, Script, Section } from "@/components/ds";
+import { Button } from "@/components/ui/button";
 
 gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger);
 
@@ -198,6 +200,16 @@ export function ShareTheKnowledge() {
           <Script size="lg" className="mt-2 block sm:mt-3">
             Protect women.
           </Script>
+
+          <Button
+            variant="inverse"
+            size="cta"
+            nativeButton={false}
+            className="mt-8 sm:mt-10"
+            render={<Link href="/resources" />}
+          >
+            Explore resources
+          </Button>
         </Container>
       </div>
     </Section>

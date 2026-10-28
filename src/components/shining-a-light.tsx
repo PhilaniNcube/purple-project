@@ -157,16 +157,15 @@ export function ShiningALight() {
 
             <div className="mt-8 max-w-xl space-y-5 text-base leading-relaxed text-muted-foreground">
               <p>
-                Our mission is simple: to turn silence into strength. Whether
-                you&rsquo;re a young person with questions, a parent looking for
-                answers or someone who wants to help, this is your space.
+                Our mission is simple: to turn silence into strength. For the
+                woman with questions, the man who wants to understand, a parent
+                looking for answers or someone who wants to help, this is your
+                space.
               </p>
-              <p>
-                By sharing knowledge about prevention, symptoms, and treatment,
-                we empower women to take charge of their health.
-              </p>
+
               <p className="font-semibold italic text-foreground">
-                Purple stands for courage, dignity and hope. Our aim is to make it as well known as pink.
+                Purple is the colour representing the group of gynaecological
+                cancers. It stands for courage, dignity and hope.
               </p>
             </div>
 

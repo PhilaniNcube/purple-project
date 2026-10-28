@@ -50,9 +50,7 @@ export function NoShame() {
             Just support.
           </span>
         </h2>
-        <p className="mt-8 text-base leading-relaxed sm:text-lg">
-          Whatever you&rsquo;re facing, there&rsquo;s a seat for you here.
-        </p>
+      
       </Container>
     </Section>
   );

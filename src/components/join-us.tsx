@@ -64,9 +64,7 @@ export function JoinUs() {
         </h2>
 
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
-          Questions, stories or ideas for working together? Whether
-          you&rsquo;re a patient, parent, school or business, there&rsquo;s a
-          place for you here.
+        Questions or ideas for working together? For a patient, parent, school or business, there&rsquo;s a place for you here.
         </p>
 
         <Button
