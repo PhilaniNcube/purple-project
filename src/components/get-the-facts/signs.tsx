@@ -15,22 +15,7 @@ const SIGNS = [
   "Abnormal growths on the vulva",
 ];
 
-/**
- * "Know the signs."
- *
- * A light band after the prevention statement. A photograph of two women
- * embracing at a cancer walk runs full height down the left, bleeding off the
- * top, bottom and left edges. Its inner edge is carved by a huge circle in the
- * band's own ground, so the picture curves into the page instead of ending on a
- * straight join — the same soft-edged artwork language as the helix band.
- *
- * The copy takes the right side: the statement split into stroke-only "KNOW"
- * and solid "THE SIGNS.", a bold italic serif lede, the seven symptoms as a
- * plain list, the note on age and HIV, and one outlined call to action. Type
- * steps down deliberately from headline to list so the symptoms stay scannable.
- *
- * The photograph is decorative; the signs themselves carry the meaning.
- */
+
 export function Signs() {
   return (
     <Section
@@ -43,7 +28,7 @@ export function Signs() {
         {/* Photograph — full height on desktop, a wide band on smaller screens.
             The top-right corner is cut to a long ellipse so the picture curves
             into the page instead of ending on a square join. */}
-        <div className="relative aspect-3/2 w-full overflow-hidden [border-top-right-radius:5rem_55%] lg:aspect-auto lg:h-full lg:[border-top-right-radius:9rem_60%]">
+        <div className="relative aspect-3/2 w-full overflow-hidden rounded-tr-[5rem_55%] lg:aspect-auto lg:h-full lg:rounded-tr-[9rem_60%]">
           <Image
             src="/images/signs.webp"
             alt="Two women embracing at a cancer awareness walk"
@@ -63,7 +48,7 @@ export function Signs() {
               <span className="block text-foreground">The signs.</span>
             </h2>
 
-            <div className="lg:pl-[8.5rem]">
+            <div className="lg:pl-34">
               <p className="mt-8 max-w-xl font-display text-lg leading-snug font-bold italic text-pretty text-foreground">
                 Early on, these cancers can be quiet, or look like everyday
                 things. These are worth getting checked:
