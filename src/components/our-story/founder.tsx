@@ -155,17 +155,21 @@ export function OurStoryFounder() {
             </h2>
 
             <p className="mt-8 max-w-xl text-lg leading-snug font-semibold text-primary sm:mt-10 sm:text-xl">
-              With more than 10 years of experience, Melissa Peterson has
-              significantly contributed to research, teaching and applied
-              science.
+              A doctor in radiation oncology, and the heart behind Purple
+              Project.
             </p>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/80">
-              After earning her doctorate from a leading university, Dr
-              Pietersen established herself as a thought leader through her work
-              in both academic and professional settings. Her research has been
-              published in several peer reviewed journals and cited for its
-              originality and practical relevance.
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-foreground/80">
+              Dr Melissa Pietersen is a doctor in radiation oncology. Raised in
+              Atlantis along the West Coast, she was the first in her family to
+              go to university, studying medicine at Stellenbosch University
+              before working in Gqeberha and Kimberley, where her path in
+              oncology took root. Witnessing a growing number of young women
+              dying in their prime from late presentation and advanced disease,
+              mostly due to a lack of awareness and the silence and shame it
+              carries, led her to start Purple Project: a place where
+              gynaecological cancer can be talked about openly, early and
+              without shame.
             </p>
           </div>
 
@@ -181,7 +185,7 @@ export function OurStoryFounder() {
               width={595}
               height={562}
               sizes="(min-width: 1024px) 34rem, (min-width: 640px) 32rem, 100vw"
-              className="h-auto w-full max-w-md sm:max-w-lg lg:max-w-136"
+              className="h-auto w-full max-w-md sm:max-w-lg lg:max-w-136 "
               loading="eager"
             />
           </div>

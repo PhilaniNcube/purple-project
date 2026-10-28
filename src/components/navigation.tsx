@@ -22,15 +22,15 @@ type NavLink = {
 /** Primary site navigation, mirroring the links in the homepage prototype. */
 export const primaryNav: NavLink[] = [
   { href: "/our-story", label: "Our Story" },
-  { href: "/get-the-facts", label: "Get The facts" },
+  { href: "/get-the-facts", label: "Get the Facts" },
   {
     href: "/get-involved",
     label: "Get Involved",
     children: [
       { href: "/donate", label: "Donate" },
       { href: "/volunteer", label: "Volunteer" },
-      { href: "/partner-with-us", label: "Partner With Us" },
-      { href: "/tell-your-story", label: "Tell your story" },
+      { href: "/partner-with-us", label: "Partner with Us" },
+      { href: "/share-your-story", label: "Share Your Story" },
     ],
   },
   { href: "/resources", label: "Resources" },
@@ -202,7 +202,10 @@ export function Navigation() {
    *  only there does the bar start transparent. Every other route needs the
    *  solid brand bar so the white wordmark and links stay legible from the
    *  first pixel. */
-  const isOverHero = pathname === "/" || pathname.startsWith("/our-story");
+  const isOverHero =
+    pathname === "/" ||
+    pathname.startsWith("/our-story") ||
+    pathname.startsWith("/get-the-facts");
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 

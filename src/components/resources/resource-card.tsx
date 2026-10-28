@@ -31,7 +31,7 @@ export function ResourceCard({
   const date = formatPublishDate(resource.publishDate)
 
   return (
-    <Card className="group relative aspect-5/4 gap-0 overflow-hidden bg-brand-950 py-0 text-white ring-1 ring-foreground/10 transition-all duration-300 hover:shadow-lg">
+    <Card className="group rounded-2xl relative aspect-5/4 gap-0 overflow-hidden bg-brand-950 py-0 text-white ring-1 ring-foreground/10 transition-all duration-300 hover:shadow-lg">
       {coverUrl ? (
         <Image
           src={coverUrl}
@@ -52,9 +52,9 @@ export function ResourceCard({
         className="absolute inset-0 bg-linear-to-t from-black via-black/45 to-transparent"
       />
 
-      <Badge className="absolute top-3 left-3 z-10 bg-brand-600 text-white shadow-sm">
+      {/* <Badge className="absolute top-3 left-3 z-10 bg-brand-600 text-white shadow-sm">
         {labelForResourceType(resource.resourceType)}
-      </Badge>
+      </Badge> */}
 
       <CardContent className="z-10 mt-auto flex flex-col gap-3 p-5">
         {categories.length > 0 ? (

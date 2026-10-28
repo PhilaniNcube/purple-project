@@ -78,7 +78,7 @@ export function Hero() {
             Silence has cost us enough
           </span>
              <span className="block font-display text-script-xl italic text-white">
-            Let's talk
+            Let&rsquo;s talk
           </span>
         </h1>
 

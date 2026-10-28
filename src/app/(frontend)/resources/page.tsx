@@ -1,44 +1,44 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import type { Where } from 'payload'
-import { cn } from 'cn'
+import type { Metadata } from "next";
+import Link from "next/link";
+import type { Where } from "payload";
+import { cn } from "cn";
 
-import { Container, Display, Eyebrow, Section } from '@/components/ds'
-import { ResourceCard } from '@/components/resources/resource-card'
-import { getEngagementCountsForResources } from '@/lib/engagement'
-import { getPayloadClient } from '@/lib/payload'
-import { resourceTypeOptions, type ResourceType } from '@/lib/resource-types'
+import { Container, Display, Eyebrow, Section } from "@/components/ds";
+import { ResourceCard } from "@/components/resources/resource-card";
+import { getEngagementCountsForResources } from "@/lib/engagement";
+import { getPayloadClient } from "@/lib/payload";
+import { resourceTypeOptions, type ResourceType } from "@/lib/resource-types";
 
 // TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
 // See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
 export const instant = false;
 
 export const metadata: Metadata = {
-  title: 'Resources',
+  title: "Resources",
   description:
-    'Articles, papers, guides and reports on gynaecological cancer — curated by the Purple Project team.',
-}
+    "Articles, papers, guides and reports on gynaecological cancer — curated by the Purple Project team.",
+};
 
 type Args = {
   searchParams: Promise<{
-    category?: string
-    type?: string
-  }>
-}
+    category?: string;
+    type?: string;
+  }>;
+};
 
 /** Builds a /resources URL, omitting blank filters. */
 function resourcesHref({
   category,
   type,
 }: {
-  category?: null | string
-  type?: null | string
+  category?: null | string;
+  type?: null | string;
 }): string {
-  const params = new URLSearchParams()
-  if (category) params.set('category', category)
-  if (type) params.set('type', type)
-  const query = params.toString()
-  return query ? `/resources?${query}` : '/resources'
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (type) params.set("type", type);
+  const query = params.toString();
+  return query ? `/resources?${query}` : "/resources";
 }
 
 function FilterChip({
@@ -46,78 +46,78 @@ function FilterChip({
   children,
   href,
 }: {
-  active: boolean
-  children: React.ReactNode
-  href: string
+  active: boolean;
+  children: React.ReactNode;
+  href: string;
 }) {
   return (
     <Link
       href={href}
-      aria-current={active ? 'page' : undefined}
+      aria-current={active ? "page" : undefined}
       className={cn(
-        'inline-flex items-center rounded-none border px-3 py-1.5 font-heading text-[0.7rem] font-semibold tracking-[0.14em] uppercase transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
+        "inline-flex items-center rounded-none border px-3 py-1.5 font-heading text-[0.7rem] font-semibold tracking-[0.14em] uppercase transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
         active
-          ? 'border-primary bg-primary text-primary-foreground'
-          : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground',
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground",
       )}
     >
       {children}
     </Link>
-  )
+  );
 }
 
 export default async function ResourcesPage({ searchParams }: Args) {
-  const { category: categoryParam, type: typeParam } = await searchParams
+  const { category: categoryParam, type: typeParam } = await searchParams;
 
   const activeCategorySlug =
-    typeof categoryParam === 'string' && categoryParam.length > 0
+    typeof categoryParam === "string" && categoryParam.length > 0
       ? categoryParam
-      : undefined
+      : undefined;
   const activeType: ResourceType | undefined = resourceTypeOptions.find(
     (option) => option.value === typeParam,
-  )?.value
+  )?.value;
 
-  const payload = await getPayloadClient()
+  const payload = await getPayloadClient();
 
   const categories = await payload.find({
-    collection: 'categories',
+    collection: "categories",
     depth: 0,
     limit: 100,
     overrideAccess: false,
-    sort: 'title',
-  })
+    sort: "title",
+  });
 
   const activeCategory = activeCategorySlug
     ? categories.docs.find((category) => category.slug === activeCategorySlug)
-    : undefined
+    : undefined;
 
-  const where: Where = { _status: { equals: 'published' } }
+  const where: Where = { _status: { equals: "published" } };
   if (activeCategory) {
-    where.categories = { in: [activeCategory.id] }
+    where.categories = { in: [activeCategory.id] };
   }
   if (activeType) {
-    where.resourceType = { equals: activeType }
+    where.resourceType = { equals: activeType };
   }
   // A category was requested that no longer exists — return nothing rather
   // than silently showing every resource.
   if (activeCategorySlug && !activeCategory) {
-    where.id = { equals: -1 }
+    where.id = { equals: -1 };
   }
 
   const resources = await payload.find({
-    collection: 'resources',
+    collection: "resources",
     depth: 2,
     limit: 60,
     overrideAccess: false,
-    sort: '-featured,-publishDate',
+    sort: "-featured,-publishDate",
     where,
-  })
+  });
 
   const counts = await getEngagementCountsForResources(
     resources.docs.map((resource) => resource.id),
-  )
+  );
 
-  const hasFilters = Boolean(activeCategorySlug || activeType)
+  const hasFilters = Boolean(activeCategorySlug || activeType);
 
   return (
     <main className="flex flex-1 flex-col">
@@ -137,13 +137,21 @@ export default async function ResourcesPage({ searchParams }: Args) {
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">
             {activeCategory?.description ??
-              'Browse articles, papers, guides and reports on gynaecological cancer, curated for patients, supporters and healthcare partners.'}
+              "Browse articles, guides and reports on gynaecological cancer, chosen for patients, supporters and healthcare partners."}
+          </p>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">
+            We strive to share information that is fact-checked and
+            evidence-based, backed by reputable medical sources.
           </p>
         </Container>
       </Section>
 
       {/* Filters */}
-      <Section padding="none" tone="muted" className="border-y border-border py-5">
+      <Section
+        padding="none"
+        tone="muted"
+        className="border-y border-border py-5"
+      >
         <Container size="wide" className="flex flex-col gap-4">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="font-heading text-[0.7rem] font-bold tracking-[0.18em] text-muted-foreground uppercase">
@@ -160,7 +168,10 @@ export default async function ResourcesPage({ searchParams }: Args) {
                 <FilterChip
                   key={category.id}
                   active={category.slug === activeCategorySlug}
-                  href={resourcesHref({ category: category.slug, type: activeType })}
+                  href={resourcesHref({
+                    category: category.slug,
+                    type: activeType,
+                  })}
                 >
                   {category.title}
                 </FilterChip>
@@ -200,9 +211,9 @@ export default async function ResourcesPage({ searchParams }: Args) {
       <Section tone="light">
         <Container size="wide">
           <p className="mb-8 text-sm text-muted-foreground">
-            {resources.totalDocs}{' '}
-            {resources.totalDocs === 1 ? 'resource' : 'resources'}
-            {hasFilters ? ' match your filters' : ''}.
+            {resources.totalDocs}{" "}
+            {resources.totalDocs === 1 ? "resource" : "resources"}
+            {hasFilters ? " match your filters" : ""}.
           </p>
 
           {resources.docs.length > 0 ? (
@@ -237,5 +248,5 @@ export default async function ResourcesPage({ searchParams }: Args) {
         </Container>
       </Section>
     </main>
-  )
+  );
 }

@@ -143,7 +143,7 @@ const footerColumns: FooterColumn[] = [
       { label: "Donate", href: "/donate" },
       { label: "Volunteer", href: "/volunteer" },
       { label: "Partner with us", href: "/partner-with-us" },
-      { label: "Share your story", href: "/faqs" },
+      { label: "Share your story", href: "/share-your-story" },
     ],
   },
   {
@@ -160,7 +160,7 @@ const footerColumns: FooterColumn[] = [
     links: [
       { label: "WhatsApp", href: "https://wa.me/27000000000" },
       { label: "Email us", href: "mailto:hello@purpleproject.org.za" },
-      { label: "FAQs", href: "/faq" },
+      { label: "FAQs", href: "/faqs" },
       // Placeholder inbox — swap for the real address.
     ],
   },

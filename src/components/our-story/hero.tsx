@@ -10,8 +10,8 @@ import Image from "next/image";
  * Full-bleed opening band for the Our Story page: the community group
  * photograph, washed dark so the headline stays legible, the brand's two
  * voices in lockup — a heavy uppercase statement ("No shame") answered by its
- * italic serif counterweight ("Just support") — the one-line promise beneath,
- * and a scroll cue. The site navigation floats transparently above it.
+ * italic serif counterweight ("Just support") — the origin story beneath, and
+ * a scroll cue. The site navigation floats transparently above it.
  *
  * "NO SHAME" is outlined the CSS way: the fill is knocked out
  * (`-webkit-text-fill-color: transparent`) and a stroke is drawn around the
@@ -50,7 +50,10 @@ export function OurStoryHero() {
         className="absolute inset-0 -z-10 bg-linear-to-b from-black/80 via-black/10 to-black/85"
       />
 
-      <Container className="relative flex flex-1 flex-col items-center justify-center py-32 text-center">
+      {/* `py-24` is only a floor: on tall screens the flex centring supplies the
+          breathing room, while on short ones the longer story copy still fits
+          above the scroll cue. */}
+      <Container className="relative flex flex-1 flex-col items-center justify-center py-24 text-center">
         <h1 className="flex w-full flex-col items-center">
           {/* "NO SHAME" — transparent fill, stroked outline (currentColor =
               white via `text-white`). */}
@@ -63,9 +66,22 @@ export function OurStoryHero() {
           </span>
         </h1>
 
-        <p className="mt-20 text-base leading-relaxed text-white/85 sm:text-lg ">
-          This is our story.
-        </p>
+        {/* Origin story — the two paragraphs sit in one centred measure so the
+            first line and the last line share the same column width. */}
+        <div className="mt-12 flex max-w-2xl flex-col gap-4 text-pretty text-base leading-relaxed text-white/85 sm:mt-16 sm:text-lg">
+          <p>
+            Purple Project began in 2022 with a sanitary drive for women in
+            cancer care: a small gesture that helped them keep their dignity
+            through treatment. It also showed us how many young women were
+            arriving with advanced cancers, and how little was known and talked
+            about.
+          </p>
+
+          <p className="font-medium text-white">
+            That&rsquo;s still our focus today: starting conversations about
+            women&rsquo;s health, at every age.
+          </p>
+        </div>
       </Container>
 
       <Link
