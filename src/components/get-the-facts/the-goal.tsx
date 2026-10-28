@@ -89,7 +89,7 @@ export function TheGoal() {
                 {target.value}
                 <span className="font-display text-5xl">%</span>
               </p>
-              <p className="mx-auto mt-6 max-w-[13rem] text-sm leading-snug text-pretty text-white/90">
+              <p className="mx-auto mt-6 max-w-52 text-sm leading-snug text-pretty text-white/90">
                 {target.label}
               </p>
             </li>
