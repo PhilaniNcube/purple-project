@@ -8,6 +8,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "cn";
 
 import { Container } from "@/components/ds";
+import { SectionLink } from "@/components/section-link";
 import { Button } from "./ui/button";
 
 type SubNavLink = { href: string; label: string };
@@ -26,11 +27,16 @@ export const primaryNav: NavLink[] = [
   {
     href: "/get-involved",
     label: "Get Involved",
+    /**
+     * The submenu jumps to the bands on the get-involved page rather than to
+     * separate routes, so the four entries match the four sections the page is
+     * built from.
+     */
     children: [
-      { href: "/donate", label: "Donate" },
-      { href: "/volunteer", label: "Volunteer" },
-      { href: "/partner-with-us", label: "Partner with Us" },
-      { href: "/share-your-story", label: "Share Your Story" },
+      { href: "/get-involved#ways", label: "Ways to start" },
+      { href: "/get-involved#give", label: "Give" },
+      { href: "/get-involved#use-your-voice", label: "Use your voice" },
+      { href: "/get-involved#collaboration", label: "Collaboration" },
     ],
   },
   { href: "/resources", label: "Resources" },
@@ -93,12 +99,12 @@ function DesktopNavItem({ link, pathname }: { link: NavLink; pathname: string })
         <ul className="min-w-52 rounded-none bg-white p-2 shadow-lg ring-1 ring-brand-950/5">
           {link.children.map((child) => (
             <li key={child.href}>
-              <Link
+              <SectionLink
                 href={child.href}
                 className="block rounded-none px-4 py-3 text-sm font-medium text-brand-700 transition-colors outline-none hover:bg-brand-50 hover:text-brand-900 focus-visible:bg-brand-50"
               >
                 {child.label}
-              </Link>
+              </SectionLink>
             </li>
           ))}
         </ul>
@@ -170,13 +176,13 @@ function MobileNavItem({
         <ul className="overflow-hidden pl-3">
           {link.children.map((child) => (
             <li key={child.href}>
-              <Link
+              <SectionLink
                 href={child.href}
                 onClick={onNavigate}
                 className="block rounded-none px-3 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
               >
                 {child.label}
-              </Link>
+              </SectionLink>
             </li>
           ))}
         </ul>

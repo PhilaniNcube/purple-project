@@ -6,6 +6,7 @@ import { connection } from "next/server";
 import { cn } from "cn";
 
 import { Container, Section } from "@/components/ds";
+import { SectionLink } from "@/components/section-link";
 
 /* -------------------------------------------------------------------------- */
 /* Social marks                                                               */
@@ -140,10 +141,10 @@ const footerColumns: FooterColumn[] = [
   {
     heading: "Get involved",
     links: [
-      { label: "Donate", href: "/donate" },
-      { label: "Volunteer", href: "/volunteer" },
-      { label: "Partner with us", href: "/partner-with-us" },
-      { label: "Share your story", href: "/share-your-story" },
+      { label: "Ways to start", href: "/get-involved#ways" },
+      { label: "Give", href: "/get-involved#give" },
+      { label: "Use your voice", href: "/get-involved#use-your-voice" },
+      { label: "Collaboration", href: "/get-involved#collaboration" },
     ],
   },
   {
@@ -263,7 +264,7 @@ export function Footer() {
                   const external = href.startsWith("http");
                   return (
                     <li key={label}>
-                      <Link
+                      <SectionLink
                         href={href}
                         {...(external
                           ? { target: "_blank", rel: "noreferrer" }
@@ -271,7 +272,7 @@ export function Footer() {
                         className="text-sm text-white/80 transition-colors outline-none hover:text-white focus-visible:underline"
                       >
                         {label}
-                      </Link>
+                      </SectionLink>
                     </li>
                   );
                 })}
