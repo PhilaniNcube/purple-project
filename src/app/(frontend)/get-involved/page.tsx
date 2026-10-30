@@ -5,6 +5,7 @@ import { Give } from "@/components/get-involved/give";
 import { InvolvedHero } from "@/components/get-involved/hero";
 import { UseYourVoice } from "@/components/get-involved/use-your-voice";
 import { WaysToStart } from "@/components/get-involved/ways-to-start";
+import { YourStory } from "@/components/get-involved/your-story";
 import { JoinUs } from "@/components/join-us";
 
 export const metadata: Metadata = {
@@ -25,6 +26,8 @@ export default function GetInvolvedPage() {
       <UseYourVoice />
 
       <Collaboration />
+
+      <YourStory />
 
       <JoinUs />
     </main>
