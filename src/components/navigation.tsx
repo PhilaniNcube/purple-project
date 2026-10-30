@@ -205,7 +205,9 @@ export function Navigation() {
   const isOverHero =
     pathname === "/" ||
     pathname.startsWith("/our-story") ||
-    pathname.startsWith("/get-the-facts");
+    pathname.startsWith("/get-the-facts") ||
+    pathname.startsWith("/get-involved") ||
+    pathname.startsWith("/donate");
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
