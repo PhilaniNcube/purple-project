@@ -365,9 +365,7 @@ Four ideas drive every stylistic decision:
 - **Tonal bands, not chrome.** The page alternates full-bleed bands of white,
   lavender, brand purple and near-black. Structure comes from these bands, not
   from boxes or heavy borders — and where a band needs to overflow its own
-  edges, the answer is an unclipped brand motif, not a box. The clover on the
-  knowledge band is the clearest example: it spills onto its neighbours instead
-  of being contained by a card.
+  edges, the answer is an unclipped brand motif, not a box.
 - **Quiet UI.** Controls are small, thin-bordered and secondary. The marketing
   voice should be the loudest thing on the screen.
 
@@ -507,14 +505,10 @@ admits only `px` / `em` / `rem` — so they are documented rather than tokenised
 Hover and colour transitions run at 200–300ms; layout changes at 300ms. Anything
 scroll-linked is driven by scroll position, not a timer.
 
-`ShareTheKnowledge` is the reference implementation for scrub: the four-leaf
-clover grows as its band rises into view. Because the artwork must bleed past
-its own band onto the sections above and below, the band carries
-`isolate z-10` with `overflow-x-clip` — the spill paints *over* its neighbours,
-clipped horizontally so it can never create a sideways scrollbar but free
-vertically. A `perspective` on the artwork's layer gives the animated `rotateX`
-real depth, and `will-change: transform` keeps it on its own compositor layer.
-The clover sits at `-z-10` so it stays behind the headline.
+Outline headlines are time-based, not scrubbed: the `DrawSVG` draw starts once
+the band reaches ~72% of the viewport, fired by an `IntersectionObserver` so the
+letters always complete rather than being cut off by a fast scroll. Nothing on
+the site rides the scroll position itself.
 
 **Motion is always optional.** Every effect is gated on
 `prefers-reduced-motion: no-preference` via `gsap.matchMedia()`, with a static
@@ -589,15 +583,16 @@ Every page band is one of five tones: `section-surface` (white),
 (brand-700) and `section-night` (ink-950). Alternate tones to create rhythm, and
 never place two adjacent bands of the same tone.
 
-> **Brand bands and the clover.** `section-brand` is `brand-700` by default, but
+> **The knowledge band's ground.** `section-brand` is `brand-700` by default, but
 > the knowledge band deliberately lightens its ground to `brand-400`
-> (`#a88efc`) so the clover can be painted in `brand-800` (`#591cb4`) at full
-> opacity and still separate cleanly. Keep this relationship when reusing the
-> clover motif: the artwork reads as a deeper tint of its own band, never as a
-> second colour, and never via transparency (the exported SVG's `fill-opacity`
-> is intentionally dropped — the contrast is carried by the ramp step alone).
-> Like the arch mask, the clover is a **brand motif reserved for imagery** — do
-> not apply it to UI.
+> (`#a88efc`), which leaves white type too low-contrast. Its outline headline is
+> therefore stroked in `brand-950` (`#301064`) — a deep step down the same ramp,
+> never a second colour and never alpha. That clears the ground at 5.7:1, where
+> white sits at 2.6:1. The clover artwork
+> (`public/images/clover.svg`) is currently unused; if it returns it should
+> likewise be painted in `brand-800` (`#591cb4`) at full opacity. Like the arch
+> mask, the clover is a **brand motif reserved for imagery** — do not apply it
+> to UI.
 
 ### Editorial patterns
 
@@ -641,8 +636,8 @@ set the accent in all-caps.
 - Don't apply the arch image mask or the clover motif to UI controls; both are
   reserved for imagery.
 - Don't carry brand contrast with transparency. Separate a motif from its band
-  by moving along the `brand` ramp — the clover uses a solid `brand-800` on
-  `brand-400`, not an alpha fill.
+  by moving along the `brand` ramp — the knowledge band's outline sits in
+  `brand-950` on `brand-400`, not at reduced-opacity white.
 - Don't ship scroll-driven motion without a `prefers-reduced-motion` fallback
   and a no-JS path.
 - Don't reach for a hard grey drop shadow — use tonal contrast instead.

@@ -194,7 +194,7 @@ Each size bundles its own line-height, letter-spacing and font-weight, so
 | `ShiningALight` | `components/shining-a-light.tsx` | Arched photo + outline type drawn on scroll                          |
 | `StraightFrom` | `components/straight-from.tsx`   | Dark editorial band; outline type drawn on scroll                    |
 | `TheNumbers`  | `components/the-numbers.tsx`      | Watermark headline over a five-card statistic row                    |
-| `ShareTheKnowledge` | `components/share-the-knowledge.tsx` | Scroll-linked clover backdrop; outline type drawn on scroll |
+| `ShareTheKnowledge` | `components/share-the-knowledge.tsx` | Light brand band; outline type drawn on scroll     |
 
 > `design-reference/` is currently empty — drop the exported Figma frames in
 > there so the artwork provenance stays with the repo.
@@ -213,17 +213,10 @@ Sections that animate on scroll all follow the same pattern:
 - **DrawSVGPlugin** draws the stroke-only headlines (`data-draw` paths, split
   per `M…Z` subpath so each glyph animates independently) once the section
   reaches ~72% of the viewport.
-- **ScrollTrigger** drives true scroll-linked effects. Scrub-based triggers
-  are kept in sync with the site's Lenis smooth scroll via
-  `useLenis(() => ScrollTrigger.update())`.
-
-`ShareTheKnowledge` is the reference implementation: the four-leaf clover
-artwork grows on a scrubbed timeline as the band rises into view, bleeding past
-the band's edges onto the sections above and below. It carries `isolate z-10`
-with `overflow-x-clip` so the spill paints *over* its neighbours horizontally
-clipped but vertically free, uses `perspective` so the animated `rotateX` reads
-with depth, and `will-change: transform` to keep the artwork on its own
-compositor layer. The clover's own `-z-10` keeps it behind the headline.
+- **No scrub.** The draw is a timed tween kicked off by an `IntersectionObserver`,
+  so the letters always finish rather than being cut off by a fast scroll;
+  nothing is tied to scroll position, so ScrollTrigger and its Lenis sync are
+  no longer needed.
 
 ---
 

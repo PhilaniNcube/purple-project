@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
  *
  * The band is deliberately quiet — no artwork, no motion — so the call to action
  * reads as the natural next step after the figures rather than competing with
- * the clover band below it.
+ * the knowledge band below it.
  */
 export function KnowTheFacts() {
   return (

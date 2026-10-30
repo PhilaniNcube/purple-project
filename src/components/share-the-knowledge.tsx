@@ -4,49 +4,26 @@ import * as React from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLenis } from "lenis/react";
 import Link from "next/link";
 
 import { Container, Script, Section } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 
-gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger);
+gsap.registerPlugin(useGSAP, DrawSVGPlugin);
 
 /**
  * "Share the knowledge. Protect women."
  *
- * A full-bleed brand band whose backdrop is the four-leaf clover artwork from
- * the prototype. The clover is decorative and scroll-linked: a scrubbed
- * ScrollTrigger grows it as the band travels through the viewport, so its
- * leaves spill past the band and overlap the sections above and below.
- *
- * Two details make that spill work:
- *
- * - The band carries a stacking context (`isolate` + `z-10`), which lifts it —
- *   and therefore the clover bleeding out of it — above its neighbouring
- *   sections, while the clover's own `-z-10` still keeps it behind this band's
- *   headline. Overflow is clipped on the x-axis only (`overflow-x-clip`), so
- *   the enlarged artwork can bleed vertically but can never create a sideways
- *   scrollbar.
- * - `perspective` on the clover layer gives the scrubbed `rotateX` real depth,
- *   and `will-change: transform` keeps the animated SVG on its own compositor
- *   layer so the scrub stays smooth.
+ * A full-bleed brand band carrying the headline lockup on its own: the outline
+ * type is drawn on as the band scrolls in, with nothing behind it to compete.
  *
  * The headline mirrors `straight-from`: "SHARE THE KNOWLEDGE." is the outline
  * SVG from `public/images/SHARE THE KNOWLEDGE.svg`, split into its `M…Z`
  * subpaths and drawn on with DrawSVGPlugin as the band scrolls in, followed by
- * the italic serif accent at the same `text-script-xl` size.
+ * the italic serif accent at the same `text-script-xl` size. The band's ground
+ * is `brand-400`, so the outline is stroked in `brand-950` — a deep step down
+ * the ramp — to keep it legible against the light purple.
  */
-
-/**
- * Clover geometry, from `public/images/clover.svg`. That export's own viewBox
- * (1134 × 806) crops the top and bottom leaves, so this component uses a
- * viewBox fitted to the path's true bounds (`x 64→1070`, `y -83.5→889.5`) with
- * an even margin, showing the whole clover.
- */
-const CLOVER_PATH =
-  "M566.987 639.726C510.037 740.145 413.576 903.243 294.877 888.575C254.257 883.562 219.669 863.059 200.097 834.996C175.069 799.086 170.761 759.107 181.88 715.801C105.195 706.391 52.6771 639.706 66.0938 561.804C84.2291 456.66 182.988 421.53 283.757 402.301C177.572 362.939 66.1759 305.58 72.8638 186.836C77.254 108.852 140.645 56.4649 218.274 62.2994C214.786 18.9107 229.598 -19.5475 257.088 -46.5422C284.578 -73.5368 324.541 -86.9725 366.186 -82.6994C482.424 -70.7018 534.163 54.9447 567.028 162.595C599.77 55.0679 651.837 -70.825 767.91 -82.6994C809.35 -86.9315 848.329 -74.3175 876.927 -46.46C905.524 -18.6025 919.146 19.1161 915.741 62.0939C993 56.7525 1056.88 109.057 1061.19 186.754C1067.8 305.786 956.689 362.774 850.298 402.342C949.549 421.612 1046.71 455.016 1067.22 558.106C1082.9 636.912 1030.58 706.638 951.683 715.883C975.398 796.579 929.937 871.893 849.724 887.054C725.567 910.557 629.188 742.898 566.987 639.726Z";
 
 /** Mask-path geometry from the exported "SHARE THE KNOWLEDGE" artwork. */
 const OUTLINE_PATH =
@@ -61,72 +38,39 @@ const OUTLINE_SUBPATHS = OUTLINE_PATH.match(/M[^M]+/g) ?? [];
 export function ShareTheKnowledge() {
   const root = React.useRef<HTMLDivElement>(null);
 
-  // Keep ScrollTrigger's measurements in step with Lenis' smooth scroll.
-  const syncScrollTrigger = React.useCallback(() => ScrollTrigger.update(), []);
-  useLenis(syncScrollTrigger);
-
   useGSAP(
     () => {
-      const clover = root.current?.querySelector<SVGElement>("[data-clover]");
+      if (!root.current) return;
+
       const paths = gsap.utils.toArray<SVGPathElement>("[data-draw]", root.current);
-      const section = root.current?.closest("section") ?? root.current;
-      if (!clover || !root.current) return;
+      const section = root.current.closest("section") ?? root.current;
 
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // --- Clover: grows as the band rises into view ---------------------
-        // Growth runs from the moment the section enters the viewport until
-        // its bottom is 110vh from the bottom of the screen, then it holds.
-        if (section) {
-          gsap.fromTo(
-            clover,
-            { scale: 0.15, rotateX: 32, yPercent: 6, transformOrigin: "50% 50%" },
-            {
-              scale: 1,
-              rotateX: 0,
-              yPercent: 0,
-              ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom bottom+=110vh",
-                scrub: true,
-              },
-            },
-          );
-        }
-
         // --- Outline headline: drawn on as the band scrolls in -------------
-        if (paths.length) {
-          gsap.set(paths, { drawSVG: "0%" });
+        gsap.set(paths, { drawSVG: "0%" });
 
-          const timeline = gsap.timeline({
-            paused: true,
-            defaults: { duration: 0.6, ease: "power2.out" },
-          });
-          // Draw the letters on one after another, left to right.
-          timeline.to(paths, { drawSVG: "100%", stagger: 0.05 });
+        const timeline = gsap.timeline({
+          paused: true,
+          defaults: { duration: 0.6, ease: "power2.out" },
+        });
+        // Draw the letters on one after another, left to right.
+        timeline.to(paths, { drawSVG: "100%", stagger: 0.05 });
 
-          const observer = new IntersectionObserver(
-            (entries) => {
-              if (entries.some((entry) => entry.isIntersecting)) {
-                timeline.play();
-                observer.disconnect();
-              }
-            },
-            // Fire once the band has risen to roughly 72% of the viewport.
-            { rootMargin: "0px 0px -28% 0px" },
-          );
-          if (section) observer.observe(section);
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              timeline.play();
+              observer.disconnect();
+            }
+          },
+          // Fire once the band has risen to roughly 72% of the viewport.
+          { rootMargin: "0px 0px -28% 0px" },
+        );
+        observer.observe(section);
 
-          return () => observer.disconnect();
-        }
-      });
-
-      // Reduced motion: a single, static clover drawn in full.
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(clover, { scale: 1 });
+        return () => observer.disconnect();
       });
 
       return () => mm.revert();
@@ -138,7 +82,7 @@ export function ShareTheKnowledge() {
     <Section
       id="knowledge"
       tone="brand"
-      className="isolate z-10 flex min-h-[80svh] items-center overflow-x-clip bg-brand-400 text-white"
+      className="flex min-h-[80svh] items-center bg-brand-400 text-white"
     >
       {/* No-JS fallback: reveal the outline paths that the stylesheet hides. */}
       <noscript>
@@ -146,40 +90,20 @@ export function ShareTheKnowledge() {
       </noscript>
 
       <div ref={root} className="relative w-full">
-        {/* Clover backdrop — grows and spills on scroll. Horizontal overflow is
-            clipped at the band edge so the enlarged artwork can't create a
-            sideways scrollbar; vertical overflow stays visible so the leaves
-            still spill onto the bands above and below. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center [perspective:1000px] will-change-transform"
-        >
-          <svg
-            data-clover
-            viewBox="14 -134 1106 1074"
-            className="h-[95svh] w-auto max-w-none shrink-0 will-change-transform"
-          >
-            <path
-              d={CLOVER_PATH}
-              fill="currentColor"
-              className="text-brand-800"
-            />
-          </svg>
-        </div>
-
         {/* Headline lockup */}
         <Container className="relative flex flex-col items-center text-center">
           {/* "SHARE THE KNOWLEDGE." — stroke-only type, drawn on scroll. Given
               its own fluid size with a 24px ceiling so it sits close in scale
               to the "Protect women." accent; `max-w-full` lets it shrink rather
-              than overflow on narrow viewports. */}
+              than overflow on narrow viewports. The band is `brand-400`, so the
+              stroke drops to `brand-950` for legibility. */}
           <span className="block text-[clamp(1rem,0.7rem+1vw,1.5rem)]">
             <svg
               viewBox="0 0 398 148"
               fill="none"
               role="img"
               aria-label="Share the knowledge."
-              className="mx-auto block h-auto w-[16.5em] max-w-full"
+              className="mx-auto block h-auto w-[16.5em] max-w-full text-brand-950"
             >
               {OUTLINE_SUBPATHS.map((d, index) => (
                 <path
