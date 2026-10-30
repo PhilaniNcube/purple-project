@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Check } from "lucide-react";
 
-import { Container, Display, Eyebrow, Script, Section } from "@/components/ds";
+import { Container, Section } from "@/components/ds";
 
 /** The three pillars from 03 WHERE YOUR SUPPORT GOES in the copy deck. */
 const SUPPORT_PILLARS = [

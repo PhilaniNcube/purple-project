@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     "Give what you can. Every gift helps a woman keep her dignity through treatment, and helps another recognise the signs sooner.",
 };
 
+// TODO: Cache Components adoption. Refactor this route so this opt-out can be removed.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export default function DonatePage() {
   return (
     <main className="flex flex-1 flex-col">

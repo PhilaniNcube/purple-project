@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, CreditCard, Package } from "lucide-react";
 
-import { Container, Display, Eyebrow, Script, Section } from "@/components/ds";
+import { Container, Section } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 
 const PAYMENT_HREF =
