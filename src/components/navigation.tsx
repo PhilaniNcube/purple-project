@@ -210,7 +210,8 @@ export function Navigation() {
     pathname.startsWith("/donate") ||
     pathname.startsWith("/volunteer") ||
     pathname.startsWith("/partner-with-us") ||
-    pathname.startsWith("/share-your-story");
+    pathname.startsWith("/share-your-story") ||
+    pathname.startsWith("/quiz");
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 

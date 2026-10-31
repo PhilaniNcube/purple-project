@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Check, RotateCcw, X } from "lucide-react";
+import { Check, RotateCcw, Share2, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "cn";
@@ -17,117 +17,71 @@ type Question = {
 
 const QUESTIONS: Question[] = [
   {
-    prompt: "Which virus causes most cervical cancers?",
-    options: [
-      "Human papillomavirus (HPV)",
-      "Herpes simplex virus",
-      "HIV",
-      "Epstein–Barr virus",
-    ],
-    answer: 0,
+    prompt: "How many gynaecological cancers are there?",
+    options: ["Two", "Five", "Eight"],
+    answer: 1,
     explanation:
-      "Persistent infection with high-risk types of HPV causes almost all cervical cancers. The HPV vaccine protects against the types responsible for most cases.",
+      "Cervical, ovarian, uterine, vaginal and vulval. Most people only hear about one.",
   },
   {
-    prompt: "What is the strongest way to lower your risk of cervical cancer?",
+    prompt: "What causes nearly all cervical cancers?",
     options: [
-      "Avoiding all sugar",
-      "HPV vaccination and regular screening",
-      "Only having check-ups when something hurts",
-      "Taking antibiotics every year",
+      "A bacterial infection",
+      "HPV (human papillomavirus)",
+      "A vitamin deficiency",
     ],
     answer: 1,
     explanation:
-      "HPV vaccination and regular cervical screening work together: the vaccine prevents most HPV infections, and screening finds changes early, before they become cancer.",
+      "HPV is behind nearly all cervical cancer cases, and a vaccine helps protect against it.",
   },
   {
-    prompt: "Which of these is a warning sign worth checking?",
-    options: [
-      "Bleeding between periods or after sex",
-      "A headache that goes away",
-      "Occasional sneezing",
-      "Feeling tired after exercise",
-    ],
+    prompt: "Who does South Africa’s school programme offer the HPV vaccine to?",
+    options: ["Girls aged 9 to 15", "Women over 30", "Boys only"],
     answer: 0,
     explanation:
-      "Unusual bleeding — between periods, after sex or after menopause — is one of the most important signs to raise with a healthcare professional.",
+      "The programme reaches more than 1.5 million girls every year, and the country plans to extend vaccination to boys when feasible.",
   },
   {
-    prompt: "True or false: cervical cancer is one of the most preventable cancers.",
-    options: ["True", "False"],
+    prompt:
+      "How many doses does South Africa’s HPV vaccine schedule need now?",
+    options: ["One", "Two", "Three"],
     answer: 0,
     explanation:
-      "It is. Vaccination against HPV and regular screening can prevent most cervical cancers, which is why awareness and access to care matter so much.",
+      "South Africa has adopted the single-dose schedule recommended by the WHO.",
   },
   {
-    prompt: "What does a Pap smear mainly screen for?",
+    prompt: "Which of these is worth getting checked?",
     options: [
-      "Every gynaecological cancer",
-      "Cervical cancer and pre-cancerous changes",
-      "Ovarian cancer only",
-      "Infertility",
+      "Unusual vaginal bleeding or discharge",
+      "Bleeding after menopause",
+      "Lower abdominal pain or bloating that won’t go away",
+      "All of the above",
     ],
+    answer: 3,
+    explanation:
+      "Any of these can need urgent attention. If something feels off, ask.",
+  },
+  {
+    prompt:
+      "How much higher is the risk of cervical cancer for women living with HIV?",
+    options: ["About the same", "Double", "Around six times higher"],
+    answer: 2,
+    explanation: "That’s why regular screening matters so much.",
+  },
+  {
+    prompt:
+      "What is becoming South Africa’s main screening test for cervical cancer?",
+    options: ["A Pap smear only", "An HPV DNA test", "A blood test"],
     answer: 1,
     explanation:
-      "A Pap smear looks for abnormal cells on the cervix. It does not screen for ovarian, uterine, vulvar or vaginal cancer, so symptoms elsewhere still need a conversation with a clinician.",
-  },
-  {
-    prompt: "Which of these is NOT a risk factor for gynaecological cancer?",
-    options: [
-      "Smoking",
-      "A family history of some cancers",
-      "Regular cervical screening",
-      "Persistent HPV infection",
-    ],
-    answer: 2,
-    explanation:
-      "Regular screening is protective — it helps find changes early. Smoking, HPV infection and some family histories can raise risk.",
-  },
-  {
-    prompt: "Can gynaecological cancers affect people of any age?",
-    options: [
-      "Yes, though risk generally rises with age",
-      "No, only people over 60",
-      "No, only people who have had children",
-      "Only people with a family history",
-    ],
-    answer: 0,
-    explanation:
-      "Gynaecological cancers can occur at any age. Risk generally increases with age, but knowing your body and acting on changes matters at every stage of life.",
-  },
-  {
-    prompt: "You notice a change that lasts more than a few weeks. What is the best next step?",
-    options: [
-      "Wait a year and see what happens",
-      "Search for a diagnosis online and self-treat",
-      "Speak to a healthcare professional",
-      "Assume it will pass because you feel fine",
-    ],
-    answer: 2,
-    explanation:
-      "Most changes will not turn out to be cancer, but they deserve a proper conversation. You know your body best — it is always okay to ask.",
+      "HPV is behind nearly all cervical cancer, so South Africa is moving to HPV DNA testing as the main way to screen.",
   },
 ];
 
 function resultFor(score: number, total: number) {
-  const share = score / total;
-
-  if (share === 1) {
-    return {
-      title: "Fact champion",
-      body: "You know the signs, the prevention and the next step. Share this quiz with someone who could use it.",
-    };
-  }
-  if (share >= 0.6) {
-    return {
-      title: "Strong start",
-      body: "You have a solid grasp of the basics. A few small facts could make a real difference — have a look at what you missed.",
-    };
-  }
-  return {
-    title: "There is more to learn",
-    body: "That is exactly why we are here. The facts are simple, and knowing them could help you or someone you love.",
-  };
+  return score === total
+    ? "You know your stuff. Now share the quiz with someone who needs to hear it."
+    : "Now you know more than you did a minute ago. Share what you learned with someone you love.";
 }
 
 const optionBase =
@@ -138,6 +92,7 @@ export function KnowledgeQuiz() {
   const [selected, setSelected] = React.useState<number | null>(null);
   const [score, setScore] = React.useState(0);
   const [finished, setFinished] = React.useState(false);
+  const [shareMessage, setShareMessage] = React.useState("");
 
   const question = QUESTIONS[index];
   const answered = selected !== null;
@@ -163,39 +118,82 @@ export function KnowledgeQuiz() {
     setSelected(null);
     setScore(0);
     setFinished(false);
+    setShareMessage("");
+  }
+
+  async function shareQuiz() {
+    const url = window.location.href;
+
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({
+          title: "Purple Project quiz",
+          text: "Seven quick questions, no judgement. Find out what you know, and what’s worth knowing.",
+          url,
+        });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareMessage("Link copied. Share it with someone who needs it.");
+    } catch {
+      setShareMessage("Copy this page’s address to share the quiz.");
+    }
   }
 
   if (finished) {
-    const result = resultFor(score, QUESTIONS.length);
-
     return (
       <div className="border border-brand-200 bg-white p-7 sm:p-12">
-        <p className="font-heading text-[0.7rem] font-semibold tracking-[0.18em] text-brand-700 uppercase">
-          Your result
-        </p>
-        <p className="mt-6 font-heading text-display-md text-brand-950">
+        <h2 className="sr-only">Your result</h2>
+
+        <p className="font-heading text-display-lg text-brand-950">
           {score}
-          <span className="text-brand-400"> / {QUESTIONS.length}</span>
+          <span className="text-brand-300"> / {QUESTIONS.length}</span>
         </p>
-        <h2 className="mt-2 font-display text-script-md text-brand-700 italic">
-          {result.title}
-        </h2>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-          {result.body}
+
+        <p className="mt-4 max-w-xl text-lg leading-snug font-semibold text-brand-900/85 text-pretty sm:text-xl">
+          {resultFor(score, QUESTIONS.length)}
         </p>
 
         <div className="mt-9 flex flex-wrap items-center gap-3">
-          <Button type="button" variant="brand" size="cta" onClick={restart}>
-            <RotateCcw aria-hidden />
-            Take it again
+          <Button type="button" variant="brand" size="cta" onClick={shareQuiz}>
+            <Share2 aria-hidden />
+            Share this quiz
           </Button>
+
           <Button
             variant="brand-outline"
             size="cta"
             nativeButton={false}
             render={<Link href="/get-the-facts" />}
           >
-            Read the facts
+            Get the facts
+          </Button>
+        </div>
+
+        {shareMessage ? (
+          <p
+            role="status"
+            className="mt-4 border-l-2 border-primary bg-lavender px-4 py-3 text-sm leading-relaxed text-brand-900/80"
+          >
+            {shareMessage}
+          </p>
+        ) : null}
+
+        <div className="mt-8 border-t border-brand-200 pt-5">
+          <Button
+            type="button"
+            variant="ghost"
+            size="lg"
+            onClick={restart}
+            className="px-0 text-brand-700 hover:bg-transparent hover:text-brand-800"
+          >
+            <RotateCcw aria-hidden />
+            Take it again
           </Button>
         </div>
       </div>
@@ -203,18 +201,19 @@ export function KnowledgeQuiz() {
   }
 
   return (
-    <div className="border border-brand-200 bg-white p-7 sm:p-12">
-      {/* Progress */}
+    <div className="border border-brand-200 bg-white p-7 sm:p-10 lg:p-12">
       <div className="flex items-center justify-between gap-4">
-        <p className="font-heading text-[0.7rem] font-semibold tracking-[0.18em] text-brand-700 uppercase">
+        <p className="font-heading text-sm font-bold text-brand-700">
           Question {index + 1} of {QUESTIONS.length}
         </p>
-        <p className="text-xs font-medium text-muted-foreground">
-          {score} correct
-        </p>
       </div>
+
       <div
-        aria-hidden
+        role="progressbar"
+        aria-label="Quiz progress"
+        aria-valuemin={1}
+        aria-valuemax={QUESTIONS.length}
+        aria-valuenow={index + 1}
         className="mt-3 h-1 w-full overflow-hidden bg-brand-100"
       >
         <div
@@ -230,7 +229,11 @@ export function KnowledgeQuiz() {
         {question.prompt}
       </h2>
 
-      <div role="group" aria-labelledby="quiz-question" className="mt-7 grid gap-3">
+      <div
+        role="group"
+        aria-labelledby="quiz-question"
+        className="mt-7 grid gap-3"
+      >
         {question.options.map((option, optionIndex) => {
           const isAnswer = optionIndex === question.answer;
           const isSelected = optionIndex === selected;
@@ -281,7 +284,7 @@ export function KnowledgeQuiz() {
       <div aria-live="polite" className="min-h-20">
         {answered ? (
           <div className="mt-6 border-l-2 border-primary bg-lavender px-4 py-3 text-sm leading-relaxed text-brand-900/80">
-            <span className="font-heading text-[0.65rem] font-bold tracking-[0.16em] text-brand-700 uppercase">
+            <span className="font-heading text-xs font-bold text-brand-700">
               {selected === question.answer ? "Correct" : "Not quite"}
             </span>
             <p className="mt-1.5">{question.explanation}</p>

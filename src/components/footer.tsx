@@ -14,7 +14,7 @@ import { Container, Section } from "@/components/ds";
 /* here. Each draws in `currentColor` and inherits its size from the          */
 /* `className` passed by the badge, exactly like a lucide icon.               */
 
-function FacebookIcon({ className, ...props }: React.ComponentProps<"svg">) {
+export function FacebookIcon({ className, ...props }: React.ComponentProps<"svg">) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -28,7 +28,7 @@ function FacebookIcon({ className, ...props }: React.ComponentProps<"svg">) {
   );
 }
 
-function InstagramIcon({ className, ...props }: React.ComponentProps<"svg">) {
+export function InstagramIcon({ className, ...props }: React.ComponentProps<"svg">) {
   return (
     <svg
       viewBox="0 0 24 24"
