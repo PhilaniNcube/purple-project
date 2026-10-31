@@ -198,8 +198,8 @@ function MobileNavItem({
  */
 export function Navigation() {
   const pathname = usePathname();
-  /** The homepage and the Our Story page open on a full-bleed dark hero, so
-   *  only there does the bar start transparent. Every other route needs the
+  /** Routes that open on a full-bleed dark hero start with a transparent bar
+   *  so the wordmark floats over the artwork. Every other route needs the
    *  solid brand bar so the white wordmark and links stay legible from the
    *  first pixel. */
   const isOverHero =
@@ -207,7 +207,10 @@ export function Navigation() {
     pathname.startsWith("/our-story") ||
     pathname.startsWith("/get-the-facts") ||
     pathname.startsWith("/get-involved") ||
-    pathname.startsWith("/donate");
+    pathname.startsWith("/donate") ||
+    pathname.startsWith("/volunteer") ||
+    pathname.startsWith("/partner-with-us") ||
+    pathname.startsWith("/share-your-story");
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
