@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import { Container, Display, Script, Section } from "@/components/ds";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 /**
  * "No shame. Just support."
@@ -46,11 +48,19 @@ export function NoShame() {
           <Display as="span" size="md">
             No shame.
           </Display>
-          <span  className="mt-1 font-display italic text-5xl sm:text-6xl lg:text-8xl translate-x-8 md:translate-x-10 lg:translate-x-16 text-primary sm:mt-2">
+          <span className="mt-1 font-display italic text-5xl sm:text-6xl lg:text-8xl translate-x-8 md:translate-x-10 lg:translate-x-16 text-primary sm:mt-2">
             Just support.
           </span>
         </h2>
-      
+        <Button
+
+          size="cta"
+          nativeButton={false}
+          className="mt-6"
+          render={<Link href="/get-the-facts" />}
+        >
+          Learn More
+        </Button>
       </Container>
     </Section>
   );

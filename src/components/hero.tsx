@@ -50,7 +50,7 @@ export function Hero() {
 
       <Container className="relative flex flex-1 flex-col items-center justify-center py-32 text-center">
         <h1 className="flex w-full flex-col items-center">
-       
+
 
           {/* "AGAINST" — stroke-only outline type. The path is filled with
               `none` and stroked, so the outline can be drawn on later with
@@ -77,24 +77,16 @@ export function Hero() {
           <span className="mt-2 block font-heading text-display-md uppercase text-white lg:whitespace-nowrap">
             Silence has cost us enough
           </span>
-             <span className="block font-display text-script-xl italic text-white">
+          <span className="block font-display text-script-xl italic text-white">
             Let&rsquo;s talk
           </span>
         </h1>
 
         <p className="mt-8 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-        Join a movement breaking the stigma around gynaecological cancer and sparking life-saving conversations.
+          Join a movement breaking the stigma around gynaecological cancer and sparking life-saving conversations.
         </p>
 
-        <Button
-          variant="inverse"
-          size="cta"
-          nativeButton={false}
-          className="mt-10"
-          render={<Link href="/get-the-facts" />}
-        >
-          Get the facts
-        </Button>
+
       </Container>
 
       <Link
