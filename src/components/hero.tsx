@@ -86,6 +86,16 @@ export function Hero() {
           Join a movement breaking the stigma around gynaecological cancer and sparking life-saving conversations.
         </p>
 
+        <Button
+          variant="outline"
+          size="cta"
+          nativeButton={false}
+          className="mt-6"
+          render={<Link href="/get-the-facts" />}
+        >
+          Learn More
+        </Button>
+
 
       </Container>
 
