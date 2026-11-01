@@ -52,7 +52,7 @@ export function NoShame() {
             Just support.
           </span>
         </h2>
-        <Button
+        {/* <Button
 
           size="cta"
           nativeButton={false}
@@ -60,7 +60,7 @@ export function NoShame() {
           render={<Link href="/get-the-facts" />}
         >
           Learn More
-        </Button>
+        </Button> */}
       </Container>
     </Section>
   );
