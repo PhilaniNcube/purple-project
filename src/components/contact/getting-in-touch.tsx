@@ -108,13 +108,7 @@ export function GettingInTouch() {
                     {audience.body}
                   </p>
 
-                  <span className="relative mt-8 inline-flex items-center gap-2 font-heading text-[0.7rem] font-semibold tracking-[0.16em] text-brand-800 uppercase">
-                    Get in touch
-                    <ArrowDown
-                      aria-hidden
-                      className="size-3.5 transition-transform duration-300 group-hover:translate-y-0.5"
-                    />
-                  </span>
+
                 </Link>
               </li>
             );

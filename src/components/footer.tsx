@@ -186,7 +186,7 @@ const legalLinks: FooterLink[] = [
 async function CopyrightYear() {
   await connection();
 
-  return <>© {new Date().getFullYear()} Purple Project. All rights reserved.</>;
+  return <>© {new Date().getFullYear()} Built with ❤️ by <a href="https://conceptafrika.com/" rel="noreferrer" target="_blank">Concept Afrika. </a> All rights reserved.</>;
 }
 
 /**
@@ -283,7 +283,7 @@ export function Footer() {
         {/* Closing line — copyright and legal links */}
         <div className="mt-12 flex flex-col gap-4 border-t border-white/15 pt-6 text-xs text-white/70 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p>
-            <Suspense fallback={<>© Purple Project.</>}>
+            <Suspense fallback={<>Built with Love by <a href="https://conceptafrika.com/" rel="noreferrer" target="_blank">Concept Afrika </a></>}>
               <CopyrightYear />
             </Suspense>
           </p>

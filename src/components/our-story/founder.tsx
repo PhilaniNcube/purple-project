@@ -164,13 +164,14 @@ export function OurStoryFounder() {
               Atlantis along the West Coast, she was the first in her family to
               go to university, studying medicine at Stellenbosch University
               before working in Gqeberha and Kimberley, where her path in
-              oncology took root. Witnessing a growing number of young women
+              oncology took root.
+            </p>
+            <p className="max-w-xl text-sm leading-relaxed text-foreground/80" >Witnessing a growing number of young women
               dying in their prime from late presentation and advanced disease,
               mostly due to a lack of awareness and the silence and shame it
               carries, led her to start Purple Project: a place where
               gynaecological cancer can be talked about openly, early and
-              without shame.
-            </p>
+              without shame.</p>
           </div>
 
           {/* Portrait — anchored to the right edge at every breakpoint. The

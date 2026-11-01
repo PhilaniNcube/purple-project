@@ -57,7 +57,7 @@ export function ContactHero() {
 
         <p className="mt-10 max-w-2xl text-base leading-relaxed text-pretty text-white/85 sm:mt-12 sm:text-lg">
           A question, a story, an idea, or something you&rsquo;ve been afraid to
-          ask. No question is too awkward here. No shame, just support.
+          ask. <br />No question is too awkward here. No shame, just support.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

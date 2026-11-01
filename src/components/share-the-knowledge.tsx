@@ -14,8 +14,8 @@ gsap.registerPlugin(useGSAP, DrawSVGPlugin);
 /**
  * "Share the knowledge. Protect women."
  *
- * A full-bleed brand band carrying the headline lockup on its own: the outline
- * type is drawn on as the band scrolls in, with nothing behind it to compete.
+ * A full-bleed brand band carrying the headline lockup over background video
+ * footage (drops.mp4): the outline type is drawn on as the band scrolls in.
  *
  * The headline mirrors `straight-from`: "SHARE THE KNOWLEDGE." is the outline
  * SVG from `public/images/SHARE THE KNOWLEDGE.svg`, split into its `M…Z`
@@ -82,8 +82,21 @@ export function ShareTheKnowledge() {
     <Section
       id="knowledge"
       tone="brand"
-      className="flex min-h-[80svh] items-center bg-brand-400 text-white"
+      className="relative isolate flex min-h-[80svh] items-center overflow-hidden bg-brand-400 text-white"
     >
+      {/* Background footage */}
+      <video
+        className="pointer-events-none absolute inset-0 -z-20 size-full object-cover mix-blend-multiply"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden
+      >
+        <source src="/videos/drops.mp4" type="video/mp4" />
+      </video>
+
       {/* No-JS fallback: reveal the outline paths that the stylesheet hides. */}
       <noscript>
         <style>{`[data-draw]{stroke-dasharray:none!important;stroke-dashoffset:0!important}`}</style>

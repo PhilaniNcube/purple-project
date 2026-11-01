@@ -62,9 +62,10 @@ export function FactsHero() {
 
         <p className="mt-8 max-w-6xl text-base leading-relaxed text-pretty text-white/85">
           Five gynaecological cancers. Most people have only heard of one.
+        </p>
+        <p className="max-w-6xl text-base leading-relaxed text-pretty text-white/85">
           Here&rsquo;s what to know about all of them, in plain language.
         </p>
-
         <Button
           variant="inverse-outline"
           size="cta"

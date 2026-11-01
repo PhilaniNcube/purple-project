@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
+import { ArrowDown } from "lucide-react";
 
 /**
  * Get involved hero.
@@ -12,8 +11,8 @@ import { Button } from "@/components/ui/button";
  *
  * The lockup keeps the brand's two voices, both centred on one axis — the
  * stroke-only "BE PART OF" carrying the invitation, its italic serif
- * counterweight "The movement" answering it — then one sentence of scope and a
- * single outlined call to action. The site navigation floats above it.
+ * counterweight "The movement" answering it — then one sentence of scope and
+ * the floating scroll cue. The site navigation floats above it.
  */
 export function InvolvedHero() {
   return (
@@ -53,17 +52,15 @@ export function InvolvedHero() {
           goal of eliminating cervical cancer, and improve cancer care and
           prevention for women across the country.
         </p>
-
-        <Button
-          variant="inverse-outline"
-          size="lg"
-          nativeButton={false}
-          className="mt-10 px-5"
-          render={<Link href="#ways" />}
-        >
-          Explore ways to get involved
-        </Button>
       </div>
+
+      <Link
+        href="#ways"
+        aria-label="Scroll to ways to get involved"
+        className="relative mx-auto mb-10 flex size-14 shrink-0 items-center justify-center rounded-full border border-white/60 text-white transition-colors outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/70"
+      >
+        <ArrowDown aria-hidden className="size-6 animate-float" />
+      </Link>
     </section>
   );
 }

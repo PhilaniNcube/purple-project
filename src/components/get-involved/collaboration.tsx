@@ -102,7 +102,7 @@ export function Collaboration() {
                 {item.body}
               </p>
 
-              <Button
+              {/* <Button
                 variant="inverse-outline"
                 size="lg"
                 nativeButton={false}
@@ -110,7 +110,7 @@ export function Collaboration() {
                 render={<Link href="/contact" />}
               >
                 Send Enquiry
-              </Button>
+              </Button> */}
             </li>
           ))}
         </ul>
@@ -120,7 +120,7 @@ export function Collaboration() {
           how at relate.org.za.
         </p>
 
-        <div className="mt-6 flex justify-center">
+        <div className="mt-6 flex justify-center gap-5">
           <Button
             variant="inverse-outline"
             size="lg"
@@ -129,6 +129,15 @@ export function Collaboration() {
             render={<Link href="https://relate.org.za" />}
           >
             Visit Relate
+          </Button>
+          <Button
+            variant="inverse-outline"
+            size="lg"
+            nativeButton={false}
+            className="px-5 "
+            render={<Link href="/contact" />}
+          >
+            Send Enquiry
           </Button>
         </div>
       </Container>

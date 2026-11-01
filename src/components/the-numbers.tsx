@@ -58,7 +58,7 @@ const STATS: Stat[] = [
   },
   {
     value: "90",
-    accent: "70 · 90",
+    accent: "90 · 70 · 70",
     label:
       "South Africa’s 2030 targets for vaccination, screening and treatment.",
     icon: { src: "/images/targets.svg", width: 56, height: 56 },
