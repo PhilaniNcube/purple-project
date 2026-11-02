@@ -87,7 +87,7 @@ export function Hero() {
         </p>
 
         <Button
-          variant="outline"
+          variant="default"
           size="cta"
           nativeButton={false}
           className="mt-6"
