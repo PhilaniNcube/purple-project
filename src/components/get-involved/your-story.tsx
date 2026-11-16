@@ -46,8 +46,7 @@ export function YourStory() {
             </h2>
 
             <p className="mt-8 max-w-md font-display text-xl leading-snug font-bold italic text-pretty text-foreground">
-              For the patient, survivor, caregiver or someone who has lost a
-              loved one, your story can help another woman speak up sooner.
+              For the patient, survivor, caregiver or someone who has lost a loved one, your story can help another woman find her voice.
             </p>
 
             <p className="mt-6 max-w-md text-sm leading-relaxed text-pretty text-ink-700">

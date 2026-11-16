@@ -48,9 +48,7 @@ export function InvolvedHero() {
         </h1>
 
         <p className="mt-20 max-w-4xl text-base leading-relaxed text-pretty text-white/85 sm:text-lg">
-          With your support, we can help South Africa climb closer to its 2030
-          goal of eliminating cervical cancer, and improve cancer care and
-          prevention for women across the country.
+          With your support, we can help South Africa climb closer to its 2030 goal of eliminating cervical cancer, and improve gynaecological cancer care and prevention for women across the country.
         </p>
       </div>
 

@@ -15,7 +15,7 @@ const TARGETS = [
     label: "of women screened with a high-performance test by ages 25 and 55",
   },
   {
-    value: "70",
+    value: "90",
     label: "of women diagnosed with cervical disease receiving appropriate treatment",
   },
 ];
