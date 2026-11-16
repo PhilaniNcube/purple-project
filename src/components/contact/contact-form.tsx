@@ -2,7 +2,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 
 import { ContactMessageForm } from "@/components/contact/contact-message-form";
 import { Container, Section } from "@/components/ds";
-import { FacebookIcon, InstagramIcon } from "@/components/footer";
+import { FacebookIcon, InstagramIcon, LinkedInIcon } from "@/components/footer";
 import { CONTACT_EMAIL } from "@/lib/contact";
 
 /** Channels listed under 04 FIND US in the copy deck. */
@@ -26,6 +26,13 @@ const CHANNELS = [
     handle: "/purpleprojectcancerawareness",
     href: "https://www.facebook.com/purpleprojectcancerawareness",
     icon: FacebookIcon,
+    external: true,
+  },
+  {
+    label: "LinkedIn",
+    handle: "/purple-project-npo",
+    href: "https://www.linkedin.com/in/purple-project-npo-399782420/?isSelfProfile=false",
+    icon: LinkedInIcon,
     external: true,
   },
 ] as const;

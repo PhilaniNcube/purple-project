@@ -1,7 +1,7 @@
 import { Container, Section } from "@/components/ds";
 import { PartnerEnquiryForm } from "@/components/partner-with-us/enquiry-form";
 
-const CONTACT_EMAIL = "hello@purpleproject.org.za";
+const CONTACT_EMAIL = "desk@purpleproject.co.za";
 
 /**
  * "Send an enquiry."

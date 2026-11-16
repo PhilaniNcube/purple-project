@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-const CONTACT_EMAIL = "hello@purpleproject.org.za";
+const CONTACT_EMAIL = "desk@purpleproject.co.za";
 
 /** The two credit choices listed in the story form. */
 const CREDIT_OPTIONS = ["Use my name", "Keep me anonymous"] as const;

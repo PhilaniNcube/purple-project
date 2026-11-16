@@ -1,7 +1,7 @@
 import { Container, Section } from "@/components/ds";
 import { ShareStoryForm } from "@/components/share-your-story/story-form";
 
-const CONTACT_EMAIL = "hello@purpleproject.org.za";
+const CONTACT_EMAIL = "desk@purpleproject.co.za";
 
 /**
  * "Share your story."

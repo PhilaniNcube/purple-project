@@ -45,7 +45,7 @@ export default function CookiePolicyPage() {
         {
           heading: "More information",
           paragraphs: [
-            "For more about how we handle personal information, read our privacy policy. Questions can be sent to hello@purpleproject.org.za.",
+            "For more about how we handle personal information, read our privacy policy. Questions can be sent to desk@purpleproject.co.za.",
           ],
         },
       ]}

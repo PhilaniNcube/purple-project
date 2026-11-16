@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-const CONTACT_EMAIL = "hello@purpleproject.org.za";
+const CONTACT_EMAIL = "desk@purpleproject.co.za";
 
 /** Items listed under "What would you like to give?" in 04 PLEDGE FORM. */
 const PLEDGE_ITEMS = [

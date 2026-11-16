@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 const PAYMENT_HREF =
   process.env.NEXT_PUBLIC_PAYMENT_URL ||
-  "mailto:hello@purpleproject.org.za?subject=Online%20donation%20%E2%80%94%20Purple%20Project";
+  "mailto:desk@purpleproject.co.za?subject=Online%20donation%20%E2%80%94%20Purple%20Project";
 
 const WAYS_TO_GIVE = [
   {

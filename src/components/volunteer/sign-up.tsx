@@ -1,7 +1,7 @@
 import { Container, Section } from "@/components/ds";
 import { VolunteerSignUpForm } from "@/components/volunteer/sign-up-form";
 
-const CONTACT_EMAIL = "hello@purpleproject.org.za";
+const CONTACT_EMAIL = "desk@purpleproject.co.za";
 
 /**
  * "Sign me up."

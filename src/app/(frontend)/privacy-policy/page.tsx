@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
           heading: "Who we are",
           paragraphs: [
             "Purple Project is a South African non-profit movement that raises awareness of gynaecological cancer through education, early detection and practical support.",
-            "For the purposes of this policy, Purple Project is the responsible party for the personal information described below. You can reach us at hello@purpleproject.org.za.",
+            "For the purposes of this policy, Purple Project is the responsible party for the personal information described below. You can reach us at desk@purpleproject.co.za.",
           ],
         },
         {
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
           heading: "Your rights",
           paragraphs: [
             "Under POPIA you may ask to access the personal information we hold about you, ask us to correct or delete it, object to certain processing, or withdraw consent. You may also complain to the Information Regulator of South Africa.",
-            "To make a request, email hello@purpleproject.org.za. We may need to verify your identity before we act on it.",
+            "To make a request, email desk@purpleproject.co.za. We may need to verify your identity before we act on it.",
           ],
         },
         {
@@ -85,7 +85,7 @@ export default function PrivacyPolicyPage() {
         {
           heading: "Contact us",
           paragraphs: [
-            "Questions about this policy or your information can be sent to hello@purpleproject.org.za.",
+            "Questions about this policy or your information can be sent to desk@purpleproject.co.za.",
           ],
         },
       ]}

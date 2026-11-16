@@ -12,7 +12,7 @@ const TARGETS = [
   },
   {
     value: "70",
-    label: "of women screened with a high-performance test by ages 35 and 45",
+    label: "of women screened with a high-performance test by ages 25 and 55",
   },
   {
     value: "70",

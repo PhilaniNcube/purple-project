@@ -27,28 +27,29 @@ export function NoShame() {
       id="no-shame"
       tone="light"
       padding="none"
-      className="isolate flex min-h-[60vh] items-start justify-center overflow-hidden  lg:min-h-200"
+      className="isolate flex min-h-[max(60svh,30rem)] items-start justify-center overflow-clip sm:min-h-[max(60svh,34rem)] lg:min-h-200"
     >
-      {/* Background — the chair. The band's ~1.9:1 aspect against the 4:3
-          artwork crops a sliver off the top (which is where the windows sit)
-          and bottom, framing the chair in the lower half with a strip of floor
-          beneath it, as in the reference. The 46% focal point keeps the chair
-          centred horizontally and just below the headline lockup. */}
+      {/* Background — the chair. The band is at least tall enough that the
+          chair always lands below the headline: an initial 60svh band, with
+          a floor for short laptop/tablet windows, widening to a fixed 800px
+          on desktop. The 46% focal point keeps the chair centred and clear of
+          the copy on phones and desktop; the tighter 24% crop on tablets
+          leaves more of the white wall above the chair for the lockup. */}
       <Image
         src="/images/chair.webp"
         alt=""
         aria-hidden
         fill
         sizes="100vw"
-        className="-z-20 object-cover object-[50%_46%]"
+        className="-z-20 object-cover object-[50%_46%] sm:object-[50%_24%] lg:object-[50%_46%]"
       />
 
-      <Container className="relative pt-24 text-center sm:pt-32 lg:pt-38">
+      <Container className="relative pt-[clamp(6rem,14vw,9.5rem)] text-center">
         <h2 className="flex flex-col items-center">
           <Display as="span" size="md">
             No shame.
           </Display>
-          <span className="mt-1 font-display italic text-5xl sm:text-6xl lg:text-8xl translate-x-8 md:translate-x-10 lg:translate-x-16 text-primary sm:mt-2">
+          <span className="mt-1 translate-x-[clamp(1rem,6vw,4rem)] font-display text-[clamp(2.75rem,6.7vw,6rem)] leading-none italic text-primary sm:mt-2">
             Just support.
           </span>
         </h2>

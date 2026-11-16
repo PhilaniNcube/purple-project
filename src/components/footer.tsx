@@ -70,7 +70,7 @@ function TikTokIcon({ className, ...props }: React.ComponentProps<"svg">) {
   );
 }
 
-function LinkedInIcon({ className, ...props }: React.ComponentProps<"svg">) {
+export function LinkedInIcon({ className, ...props }: React.ComponentProps<"svg">) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -159,7 +159,7 @@ const footerColumns: FooterColumn[] = [
     heading: "Contact",
     links: [
       { label: "WhatsApp", href: "https://wa.me/27000000000" },
-      { label: "Email us", href: "mailto:hello@purpleproject.org.za" },
+      { label: "Email us", href: "mailto:desk@purpleproject.co.za" },
       { label: "FAQs", href: "/faqs" },
       // Placeholder inbox — swap for the real address.
     ],
@@ -186,7 +186,7 @@ const legalLinks: FooterLink[] = [
 async function CopyrightYear() {
   await connection();
 
-  return <>© {new Date().getFullYear()} Built with ❤️ by <a href="https://conceptafrika.com/" rel="noreferrer" target="_blank">Concept Afrika. </a> All rights reserved.</>;
+  return <>© {new Date().getFullYear()} Built by <a href="https://conceptafrika.com/" rel="noreferrer" target="_blank">Concept Afrika. </a> All rights reserved.</>;
 }
 
 /**

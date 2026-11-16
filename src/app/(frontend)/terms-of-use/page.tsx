@@ -18,7 +18,7 @@ export default function TermsOfUsePage() {
         {
           heading: "About these terms",
           paragraphs: [
-            "This website is operated by Purple Project, a South African non-profit movement. If you have a question about these terms, email hello@purpleproject.org.za.",
+            "This website is operated by Purple Project, a South African non-profit movement. If you have a question about these terms, email desk@purpleproject.co.za.",
           ],
         },
         {
