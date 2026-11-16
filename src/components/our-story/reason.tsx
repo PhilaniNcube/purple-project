@@ -181,11 +181,15 @@ export function OurStoryReason() {
           </div>
 
           {/* Arched editorial photograph — closes the band, flush with its
-              bottom edge. */}
-          <div className="relative aspect-square overflow-hidden rounded-none bg-lavender lg:col-start-1 lg:row-start-2 lg:mt-10">
+              bottom edge. Ratio matches the source file (3:2) so `object-cover`
+              does not crop the group; a squarer box cut off the woman seated at
+              the left edge.
+              Placeholder: iStock #2157542125 (watermarked) pending client
+              approval and licence purchase. Swap the file once licensed. */}
+          <div className="relative aspect-3/2 overflow-hidden rounded-none bg-lavender lg:col-start-1 lg:row-start-2 lg:mt-10 lg:self-end">
             <Image
-              src="/images/reason.jpg"
-              alt="Three women standing close together, looking ahead"
+              src="/images/reason-women-brick-wall.jpg"
+              alt="Five women of different ages and ethnicities sitting side by side against a brick wall, smiling at the camera"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover"

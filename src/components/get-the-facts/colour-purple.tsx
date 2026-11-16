@@ -61,10 +61,7 @@ export function ColourPurple() {
           </h2>
 
           <p className="max-w-[30rem] text-base leading-snug text-pretty text-white/90">
-            Purple is the umbrella colour representing this group of cancers,
-            and our aim is to make it as well known as pink. It also honours
-            caregivers and cancer survivors, and everything the colour stands
-            for: courage, dignity and hope.
+            Purple represents gynaecological cancers, and it is also a colour of inclusion. Its lighter shade, lavender, is the collective colour for all cancers, so no cancer and no person is left out. It also honours caregivers and cancer survivors, and everything the colour stands for: courage, dignity and hope.
           </p>
         </div>
       </Container>

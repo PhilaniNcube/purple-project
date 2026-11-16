@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Award, HandHeart, Handshake, Share2 } from "lucide-react";
 
@@ -41,12 +42,19 @@ const WAYS = [
  *
  * The first band under the get-involved hero: the invitation, itemised. The
  * headline uses the brand's two voices again — the stroke-only "FOUR WAYS"
- * answered by the italic serif "to start" — and each way is a soft card on the
- * pale ground: an icon, a one-line title, a sentence of what it actually
+ * answered by the italic serif "to start".
+ *
+ * A wide photograph of volunteers — men and women high-fiving over donation
+ * parcels — separates the headline from the four ways, which sit beneath it as
+ * soft cards: an icon, a one-line title, a sentence of what it actually
  * involves, and the outlined button that takes the visitor there.
  *
- * Cards are equal-height and centred so the four buttons sit on one line
- * however the copy wraps.
+ * Cards are equal-height and centred so the buttons sit on one line however the
+ * copy wraps.
+ *
+ * NOTE: /images/volunteers-preview.webp is the watermarked iStock comp
+ * (Jacob Wackerhausen, id 2155998573). Replace it with the licensed file once
+ * the image is purchased.
  */
 export function WaysToStart() {
   return (
@@ -59,7 +67,22 @@ export function WaysToStart() {
           </span>
         </h2>
 
-        <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+        {/* Volunteers — men and women high-fiving over donation parcels. */}
+        <div className="relative mt-12 aspect-4/3 overflow-hidden rounded-2xl bg-brand-200 sm:aspect-16/9 lg:mt-16 lg:aspect-[2.35/1]">
+          <Image
+            src="/images/volunteers-preview.webp"
+            alt="Volunteers in a park sharing a high five while sorting parcels for donation"
+            fill
+            sizes="(min-width: 1024px) 1200px, 100vw"
+            className="object-cover object-[50%_20%]"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-brand-900/10 mix-blend-multiply"
+          />
+        </div>
+
+        <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {WAYS.map((way) => {
             const Icon = way.icon;
 
