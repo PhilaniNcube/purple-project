@@ -30,4 +30,18 @@ export const PARTNERS: Partner[] = [
     height: 84,
     maxWidth: "max-w-[177px]",
   },
+  {
+    name: "Project ECHO",
+    src: "/images/echo.jpeg",
+    width: 168,
+    height: 90,
+    maxWidth: "max-w-[168px]",
+  },
+  {
+    name: "CHOC — Childhood Cancer Foundation South Africa",
+    src: "/images/choc.jpeg",
+    width: 96,
+    height: 90,
+    maxWidth: "max-w-[96px]",
+  },
 ];
