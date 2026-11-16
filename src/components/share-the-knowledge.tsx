@@ -116,7 +116,7 @@ export function ShareTheKnowledge() {
               fill="none"
               role="img"
               aria-label="Share the knowledge."
-              className="mx-auto block h-auto w-[16.5em] max-w-full text-brand-950"
+              className="mx-auto block h-auto w-[16.5em] max-w-full text-white"
             >
               {OUTLINE_SUBPATHS.map((d, index) => (
                 <path

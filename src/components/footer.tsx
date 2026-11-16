@@ -227,6 +227,9 @@ export function Footer() {
               education, early detection and practical support. No Shame, Just
               Support. No One Fights Alone.
             </p>
+            <p className="mt-3 text-xs font-medium tracking-wider text-white/70">
+              NPO 326-102 · PBO 930089773
+            </p>
           </div>
 
           <div className="flex flex-col gap-4 lg:items-end">
