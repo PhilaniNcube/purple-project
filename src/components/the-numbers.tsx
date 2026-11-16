@@ -45,34 +45,29 @@ type Stat = {
 
 const STATS: Stat[] = [
   {
-    value: "1.5",
+    value: "3.6",
     accent: "million+",
-    label: "Girls reached by school-based HPV vaccination every year.",
+    label: "Girls vaccinated against HPV since 2014.",
     icon: { src: "/images/vaccination.svg", width: 56, height: 56 },
   },
   {
-    value: "1.8",
-    accent: "million+",
+    value: "800k",
+    accent: "women",
     label: "Women screened for cervical cancer every year.",
     icon: { src: "/images/screening.svg", width: 56, height: 56 },
   },
   {
     value: "90",
-    accent: "90 · 70 · 70",
+    accent: "90 · 70 · 90",
     label:
-      "South Africa’s 2030 targets: vaccinate 90% of girls, screen 70% of women and treat 70% of those diagnosed with cervical disease.",
+      "South Africa’s 2030 targets for cervical cancer vaccination, screening and treatment.",
     icon: { src: "/images/targets.svg", width: 56, height: 56 },
   },
   {
-    value: "2030",
-    label:
-      "The year South Africa aims to eliminate cervical cancer as a public health problem.",
-    icon: { src: "/images/calendar-2030.svg", width: 56, height: 56 },
-  },
-  {
     value: "1",
+    accent: "dose",
     label:
-      "Cervical cancer is the leading cause of cancer-related death of women in South Africa.",
+      "Dose of HPV vaccine is enough for most girls",
     icon: { src: "/images/ribbon.svg", width: 56, height: 56 },
   },
 ];

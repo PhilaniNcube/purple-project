@@ -70,11 +70,7 @@ export function OurStoryHero() {
             first line and the last line share the same column width. */}
         <div className="mt-12 flex max-w-2xl flex-col gap-4 text-pretty text-base leading-relaxed text-white/85 sm:mt-16 sm:text-lg">
           <p>
-            Purple Project began in 2022 with a sanitary drive for women in
-            cancer care: a small gesture that helped them keep their dignity
-            through treatment. It also showed us how many young women were
-            arriving with advanced cancers, and how little was known and talked
-            about.
+            Purple Project began in 2022 with a sanitary drive for women navigating their cancer journey: a small gesture that helped them keep their dignity through treatment. It also showed us how many young women were arriving with advanced cancers, and how little was known and talked about.
           </p>
 
           <p className="font-medium text-white">

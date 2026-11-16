@@ -213,12 +213,7 @@ export function Signs() {
               </ul>
 
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-pretty text-ink-700">
-                Age isn&rsquo;t a reason to brush symptoms aside. Women living
-                with HIV have around six times the risk of cervical cancer,
-                which makes regular screening especially important. South Africa
-                is moving to HPV DNA testing as the main way to screen for
-                cervical cancer, so ask your clinic what screening is right for
-                you.
+                Early signs of ovarian cancer can be vague and easy to dismiss, even in younger women. The risk is higher with a family history of breast cancer, so tell your doctor if cancer runs in your family.
               </p>
 
               <Button
