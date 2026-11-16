@@ -53,23 +53,12 @@ export function Prevention() {
 
         <div className="mt-10 max-w-3xl space-y-3 text-base leading-snug text-pretty text-white/85">
           <p>
-            HPV, the human papillomavirus, is behind nearly all cervical cancers.
-            The US Centers for Disease Control and Prevention (CDC) estimates it
-            causes over 90% of cervical and anal cancers, and about 70% of
-            vaginal and vulvar cancers.
+            HPV, the human papillomavirus, is behind virtually all cervical cancers, and two types, 16 and 18, cause around 70% of cases worldwide. Persistent infection with cancer-causing types can also lead to anal, penile and oropharyngeal (throat) cancers.
           </p>
           <p>
-            South Africa&rsquo;s school-based programme has offered the HPV
-            vaccine free in public schools since 2014, and now reaches more than
-            1.5 million girls every year. It uses a single dose, as the World
-            Health Organization (WHO) recommends, and is being strengthened to
-            reach girls aged 9 to 15 who are out of school. The country also
-            plans to extend vaccination to boys when feasible.
+            South Africa has offered the HPV vaccine through public schools since 2014, to eligible girls aged 9 to 15, and has reached about 3.6 million girls to date. Since October 2024, one dose has been enough for most girls. Vaccination is now being extended to private and independent schools by the Departments of Health and Basic Education, and girls who missed their dose can still catch up. It is working: in a South African study, HPV 16 and 18 infections fell by 83% among girls eligible for the vaccine, including girls living with HIV. Vaccinating boys may follow, depending on cost.
           </p>
-          <p>
-            Having questions about the vaccine is normal. We work with parents,
-            teachers and schools to answer them and help young people register.
-          </p>
+
         </div>
 
         <Button

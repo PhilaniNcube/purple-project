@@ -88,10 +88,7 @@ export function FiveCancers() {
           </ul>
 
           <p className="mt-8 max-w-[38rem] text-base leading-relaxed text-pretty text-foreground/80 sm:text-lg">
-            They&rsquo;re different cancers with one problem in common: not
-            enough people talk about them, so they&rsquo;re often found late. The
-            encouraging part is that cervical cancer is one of the most
-            preventable and treatable cancers there is.
+            They&rsquo;re different cancers with one problem in common: not enough people talk about them, so they&rsquo;re often found late. Breast cancer is the most common cancer in women, and changes in the BRCA1 and BRCA2 genes (BRCA stands for Breast Cancer) raise the risk of both breast and ovarian cancer. Women with risk factors such as high blood pressure, diabetes, high cholesterol and high BMI stand a higher risk of developing uterine cancer. The encouraging part is that cervical cancer is one of the most preventable and treatable cancers there is.
           </p>
         </div>
       </Container>
