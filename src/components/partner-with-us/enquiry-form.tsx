@@ -8,30 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-
-const CONTACT_EMAIL = "desk@purpleproject.co.za";
-
-/** The partnership routes listed in the enquiry form. */
-const PARTNERSHIP_TYPES = [
-  "Financial support",
-  "In-kind gifts",
-  "Campaign sponsorship",
-  "Community outreach",
-  "Not sure yet",
-] as const;
+import { DESK_EMAIL } from "@/lib/contact";
+import { submitPartnerForm } from "@/lib/form-actions";
+import {
+  initialFormState,
+  PARTNERSHIP_TYPES,
+  type FormSubmissionState,
+} from "@/lib/form-state";
 
 /**
  * Partnership enquiry form.
- *
- * The site has no partnership inbox wired up yet, so the form composes a
- * pre-filled email in the visitor's own mail app. That keeps the enquiry
- * deliberate, gives the sender a copy of what they sent and means no company
- * or personal detail is stored on the website.
  */
 export function PartnerEnquiryForm() {
   const [selectedTypes, setSelectedTypes] = React.useState<string[]>([]);
   const [typeError, setTypeError] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
+  const [state, setState] = React.useState<FormSubmissionState>(initialFormState);
+  const [isPending, startTransition] = React.useTransition();
 
   function toggleType(type: string) {
     setSelectedTypes((current) => {
@@ -52,34 +44,21 @@ export function PartnerEnquiryForm() {
       return;
     }
 
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const organisation = String(data.get("organisation") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
+    const formData = new FormData(event.currentTarget);
 
-    const subject = encodeURIComponent(
-      `Partnership enquiry — ${organisation || name}`,
-    );
-    const body = encodeURIComponent(
-      [
-        `Name: ${name}`,
-        `Organisation: ${organisation}`,
-        `Email: ${email}`,
-        `Phone: ${phone}`,
-        `How would you like to partner?: ${selectedTypes.join(", ")}`,
-        "",
-        "Message:",
-        message,
-      ].join("\n"),
-    );
-
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    startTransition(async () => {
+      const result = await submitPartnerForm(formData);
+      setState(result);
+    });
   }
 
-  if (submitted) {
+  function handleReset() {
+    setState(initialFormState);
+    setSelectedTypes([]);
+    setTypeError(false);
+  }
+
+  if (state.status === "success") {
     return (
       <div
         role="status"
@@ -99,13 +78,12 @@ export function PartnerEnquiryForm() {
         </p>
 
         <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-          Your email app should also open with your enquiry ready to send. If it
-          did not open automatically, you can email us directly at{" "}
+          Need to add anything else? You can also email us at{" "}
           <a
-            href={`mailto:${CONTACT_EMAIL}?subject=Partnership%20enquiry`}
+            href={`mailto:${DESK_EMAIL}?subject=Partnership%20enquiry`}
             className="font-medium text-brand-700 underline underline-offset-2"
           >
-            {CONTACT_EMAIL}
+            {DESK_EMAIL}
           </a>
           .
         </p>
@@ -115,7 +93,7 @@ export function PartnerEnquiryForm() {
           variant="brand-outline"
           size="cta"
           className="mt-8"
-          onClick={() => setSubmitted(false)}
+          onClick={handleReset}
         >
           Back to form
         </Button>
@@ -123,8 +101,24 @@ export function PartnerEnquiryForm() {
     );
   }
 
+  const activeTypeError = typeError
+    ? "Please select at least one way you would like to partner."
+    : state.errors?.partnership;
+
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
+      {/* Honeypot: hidden from people, tempting to bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="partner-website">Website</label>
+        <input
+          id="partner-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
           <Label htmlFor="partner-name">Name</Label>
@@ -136,7 +130,16 @@ export function PartnerEnquiryForm() {
             autoComplete="name"
             placeholder="Your name"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.name)}
+            aria-describedby={
+              state.errors?.name ? "partner-name-error" : undefined
+            }
           />
+          {state.errors?.name ? (
+            <p id="partner-name-error" className="text-xs text-destructive">
+              {state.errors.name}
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-2">
@@ -149,7 +152,21 @@ export function PartnerEnquiryForm() {
             autoComplete="organization"
             placeholder="Your organisation"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.organisation)}
+            aria-describedby={
+              state.errors?.organisation
+                ? "partner-organisation-error"
+                : undefined
+            }
           />
+          {state.errors?.organisation ? (
+            <p
+              id="partner-organisation-error"
+              className="text-xs text-destructive"
+            >
+              {state.errors.organisation}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -164,7 +181,16 @@ export function PartnerEnquiryForm() {
             autoComplete="email"
             placeholder="you@example.com"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.email)}
+            aria-describedby={
+              state.errors?.email ? "partner-email-error" : undefined
+            }
           />
+          {state.errors?.email ? (
+            <p id="partner-email-error" className="text-xs text-destructive">
+              {state.errors.email}
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-2">
@@ -177,7 +203,16 @@ export function PartnerEnquiryForm() {
             autoComplete="tel"
             placeholder="e.g. 082 000 0000"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.phone)}
+            aria-describedby={
+              state.errors?.phone ? "partner-phone-error" : undefined
+            }
           />
+          {state.errors?.phone ? (
+            <p id="partner-phone-error" className="text-xs text-destructive">
+              {state.errors.phone}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -227,9 +262,9 @@ export function PartnerEnquiryForm() {
           })}
         </div>
 
-        {typeError ? (
+        {activeTypeError ? (
           <p role="alert" className="text-xs text-destructive">
-            Please select at least one way you would like to partner.
+            {activeTypeError}
           </p>
         ) : null}
       </fieldset>
@@ -243,16 +278,41 @@ export function PartnerEnquiryForm() {
           rows={5}
           maxLength={2000}
           placeholder="Tell us a little about your organisation and what you have in mind"
+          aria-invalid={Boolean(state.errors?.message)}
+          aria-describedby={
+            state.errors?.message ? "partner-message-error" : undefined
+          }
         />
+        {state.errors?.message ? (
+          <p id="partner-message-error" className="text-xs text-destructive">
+            {state.errors.message}
+          </p>
+        ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 pt-2">
-        <Button type="submit" variant="brand" size="cta">
-          Send enquiry
+      {state.status === "error" && state.message ? (
+        <div
+          role="alert"
+          className="border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+        >
+          <p>{state.message}</p>
+          <p className="mt-1 text-xs text-foreground/80">
+            You can also email us directly at{" "}
+            <a
+              href={`mailto:${DESK_EMAIL}?subject=Partnership%20enquiry`}
+              className="font-medium text-brand-700 underline underline-offset-2"
+            >
+              {DESK_EMAIL}
+            </a>
+            .
+          </p>
+        </div>
+      ) : null}
+
+      <div className="pt-2">
+        <Button type="submit" variant="brand" size="cta" disabled={isPending}>
+          {isPending ? "Sending…" : "Send enquiry"}
         </Button>
-        <p className="text-xs leading-relaxed text-muted-foreground">
-          This opens your email app with your enquiry ready to send.
-        </p>
       </div>
     </form>
   );

@@ -8,24 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-
-const CONTACT_EMAIL = "desk@purpleproject.co.za";
-
-/** Items listed under "What would you like to give?" in 04 PLEDGE FORM. */
-const PLEDGE_ITEMS = [
-  "Sanitary towels",
-  "Soap and body wash",
-  "Toothbrushes and toothpaste",
-  "Deodorant and roll-on",
-  "Body lotion",
-  "Other",
-] as const;
-
-/** Hand-over options listed in 04 PLEDGE FORM. */
-const HANDOVER_OPTIONS = [
-  "I’ll drop it off",
-  "Please arrange collection",
-] as const;
+import { DESK_EMAIL } from "@/lib/contact";
+import { submitPledgeForm } from "@/lib/form-actions";
+import {
+  HANDOVER_OPTIONS,
+  initialFormState,
+  PLEDGE_ITEMS,
+  type FormSubmissionState,
+} from "@/lib/form-state";
 
 /**
  * Interactive in-kind pledge form rendered inside `PledgeForm`.
@@ -36,7 +26,8 @@ export function PledgeInKindForm() {
   ]);
   const [handover, setHandover] = React.useState<string>(HANDOVER_OPTIONS[0]);
   const [itemError, setItemError] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
+  const [state, setState] = React.useState<FormSubmissionState>(initialFormState);
+  const [isPending, startTransition] = React.useTransition();
 
   function toggleItem(item: string) {
     setSelectedItems((prev) => {
@@ -56,33 +47,22 @@ export function PledgeInKindForm() {
       return;
     }
 
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
-    const quantity = String(data.get("quantity") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
+    const formData = new FormData(event.currentTarget);
 
-    const subject = encodeURIComponent(
-      `In-kind pledge${name ? ` — ${name}` : ""}`,
-    );
-    const body = encodeURIComponent(
-      [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Phone: ${phone}`,
-        `What would you like to give?: ${selectedItems.join(", ")}`,
-        `Roughly how much?: ${quantity}`,
-        `Hand-over: ${handover}`,
-        ...(message ? ["", "Message:", message] : []),
-      ].join("\n"),
-    );
-
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    startTransition(async () => {
+      const result = await submitPledgeForm(formData);
+      setState(result);
+    });
   }
 
-  if (submitted) {
+  function handleReset() {
+    setState(initialFormState);
+    setSelectedItems(["Sanitary towels"]);
+    setHandover(HANDOVER_OPTIONS[0]);
+    setItemError(false);
+  }
+
+  if (state.status === "success") {
     return (
       <div
         role="status"
@@ -106,13 +86,12 @@ export function PledgeInKindForm() {
         </p>
 
         <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-          Your email app should also open with your pledge ready to send. If it
-          did not open automatically, you can email us directly at{" "}
+          Need to update anything? You can also email us at{" "}
           <a
-            href={`mailto:${CONTACT_EMAIL}?subject=In-kind%20pledge`}
+            href={`mailto:${DESK_EMAIL}?subject=In-kind%20pledge`}
             className="font-medium text-brand-700 underline underline-offset-2"
           >
-            {CONTACT_EMAIL}
+            {DESK_EMAIL}
           </a>
           .
         </p>
@@ -122,7 +101,7 @@ export function PledgeInKindForm() {
           variant="brand-outline"
           size="cta"
           className="mt-8"
-          onClick={() => setSubmitted(false)}
+          onClick={handleReset}
         >
           Make another pledge
         </Button>
@@ -130,8 +109,24 @@ export function PledgeInKindForm() {
     );
   }
 
+  const activeItemsError = itemError
+    ? "Please select at least one item you would like to give."
+    : state.errors?.items;
+
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
+      {/* Honeypot: hidden from people, tempting to bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="pledge-website">Website</label>
+        <input
+          id="pledge-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
           <Label htmlFor="pledge-name">Name</Label>
@@ -143,7 +138,16 @@ export function PledgeInKindForm() {
             autoComplete="name"
             placeholder="Your name"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.name)}
+            aria-describedby={
+              state.errors?.name ? "pledge-name-error" : undefined
+            }
           />
+          {state.errors?.name ? (
+            <p id="pledge-name-error" className="text-xs text-destructive">
+              {state.errors.name}
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-2">
@@ -156,7 +160,16 @@ export function PledgeInKindForm() {
             autoComplete="email"
             placeholder="you@example.com"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.email)}
+            aria-describedby={
+              state.errors?.email ? "pledge-email-error" : undefined
+            }
           />
+          {state.errors?.email ? (
+            <p id="pledge-email-error" className="text-xs text-destructive">
+              {state.errors.email}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -170,7 +183,16 @@ export function PledgeInKindForm() {
           autoComplete="tel"
           placeholder="e.g. 082 000 0000"
           className="h-10"
+          aria-invalid={Boolean(state.errors?.phone)}
+          aria-describedby={
+            state.errors?.phone ? "pledge-phone-error" : undefined
+          }
         />
+        {state.errors?.phone ? (
+          <p id="pledge-phone-error" className="text-xs text-destructive">
+            {state.errors.phone}
+          </p>
+        ) : null}
       </div>
 
       {/* What would you like to give? */}
@@ -186,7 +208,7 @@ export function PledgeInKindForm() {
               <label
                 key={item}
                 className={cn(
-                  "flex cursor-pointer items-center gap-3 border px-3.5 py-3 text-sm transition-colors select-none",
+                  "flex cursor-pointer items-center gap-3 border px-3.5 py-3 text-sm transition-colors select-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring/50",
                   checked
                     ? "border-brand-700 bg-lavender/75 font-medium text-brand-950"
                     : "border-input bg-white text-foreground hover:border-brand-300 hover:bg-brand-50/50",
@@ -218,9 +240,9 @@ export function PledgeInKindForm() {
             );
           })}
         </div>
-        {itemError ? (
+        {activeItemsError ? (
           <p role="alert" className="text-xs text-destructive">
-            Please select at least one item you would like to give.
+            {activeItemsError}
           </p>
         ) : null}
       </fieldset>
@@ -235,7 +257,16 @@ export function PledgeInKindForm() {
           maxLength={200}
           placeholder="e.g. 20 packs, 1 box, or what you have in mind"
           className="h-10"
+          aria-invalid={Boolean(state.errors?.quantity)}
+          aria-describedby={
+            state.errors?.quantity ? "pledge-quantity-error" : undefined
+          }
         />
+        {state.errors?.quantity ? (
+          <p id="pledge-quantity-error" className="text-xs text-destructive">
+            {state.errors.quantity}
+          </p>
+        ) : null}
       </div>
 
       {/* Hand-over */}
@@ -251,7 +282,7 @@ export function PledgeInKindForm() {
               <label
                 key={option}
                 className={cn(
-                  "flex cursor-pointer items-center gap-3 border px-3.5 py-3 text-sm transition-colors select-none",
+                  "flex cursor-pointer items-center gap-3 border px-3.5 py-3 text-sm transition-colors select-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring/50",
                   selected
                     ? "border-brand-700 bg-lavender/75 font-medium text-brand-950"
                     : "border-input bg-white text-foreground hover:border-brand-300 hover:bg-brand-50/50",
@@ -281,6 +312,11 @@ export function PledgeInKindForm() {
             );
           })}
         </div>
+        {state.errors?.handover ? (
+          <p role="alert" className="text-xs text-destructive">
+            {state.errors.handover}
+          </p>
+        ) : null}
       </fieldset>
 
       {/* Message */}
@@ -292,15 +328,42 @@ export function PledgeInKindForm() {
           rows={4}
           maxLength={2000}
           placeholder="Any extra details about your items, area or preferred times"
+          aria-invalid={Boolean(state.errors?.message)}
+          aria-describedby={
+            state.errors?.message ? "pledge-message-error" : undefined
+          }
         />
+        {state.errors?.message ? (
+          <p id="pledge-message-error" className="text-xs text-destructive">
+            {state.errors.message}
+          </p>
+        ) : null}
       </div>
 
+      {state.status === "error" && state.message ? (
+        <div
+          role="alert"
+          className="border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+        >
+          <p>{state.message}</p>
+          <p className="mt-1 text-xs text-foreground/80">
+            You can also email us directly at{" "}
+            <a
+              href={`mailto:${DESK_EMAIL}?subject=In-kind%20pledge`}
+              className="font-medium text-brand-700 underline underline-offset-2"
+            >
+              {DESK_EMAIL}
+            </a>
+            .
+          </p>
+        </div>
+      ) : null}
+
       <div className="pt-2">
-        <Button type="submit" variant="brand" size="cta">
-          Send my pledge
+        <Button type="submit" variant="brand" size="cta" disabled={isPending}>
+          {isPending ? "Sending…" : "Send my pledge"}
         </Button>
       </div>
     </form>
   );
 }
-

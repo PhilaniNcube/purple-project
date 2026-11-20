@@ -9,29 +9,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CONTACT_EMAIL } from "@/lib/contact";
-
-/** Options listed under "I'm getting in touch as…" in 03 CONTACT FORM. */
-const ROLES = [
-  "Patient or family member",
-  "Parent",
-  "School",
-  "Business or partner",
-  "Healthcare professional",
-  "Other",
-] as const;
+import { DESK_EMAIL } from "@/lib/contact";
+import { submitContactForm } from "@/lib/form-actions";
+import {
+  CONTACT_ROLES,
+  initialFormState,
+  type FormSubmissionState,
+} from "@/lib/form-state";
 
 /**
  * Interactive contact form rendered inside `ContactFormSection`.
- *
- * Like the volunteer and pledge forms, there is no inbox wired up yet, so the
- * form composes a pre-filled email in the visitor's own mail app. No personal
- * detail is stored on the website.
  */
 export function ContactMessageForm() {
   const [role, setRole] = React.useState<string>("");
   const [roleError, setRoleError] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
+  const [state, setState] = React.useState<FormSubmissionState>(initialFormState);
+  const [isPending, startTransition] = React.useTransition();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,32 +34,21 @@ export function ContactMessageForm() {
       return;
     }
 
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim();
+    const formData = new FormData(event.currentTarget);
 
-    const subject = encodeURIComponent(
-      `Website enquiry — ${role}${name ? ` — ${name}` : ""}`,
-    );
-    const body = encodeURIComponent(
-      [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `I’m getting in touch as: ${role}`,
-        "",
-        "Message:",
-        message,
-        "",
-        "I agree to Purple Project contacting me about my message.",
-      ].join("\n"),
-    );
-
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    startTransition(async () => {
+      const result = await submitContactForm(formData);
+      setState(result);
+    });
   }
 
-  if (submitted) {
+  function handleReset() {
+    setState(initialFormState);
+    setRole("");
+    setRoleError(false);
+  }
+
+  if (state.status === "success") {
     return (
       <div
         role="status"
@@ -90,13 +72,12 @@ export function ContactMessageForm() {
         </p>
 
         <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-          Your email app should also open with your message ready to send. If it
-          did not open automatically, you can email us directly at{" "}
+          Need to add anything else? You can also email us at{" "}
           <a
-            href={`mailto:${CONTACT_EMAIL}`}
+            href={`mailto:${DESK_EMAIL}`}
             className="font-medium text-brand-700 underline underline-offset-2"
           >
-            {CONTACT_EMAIL}
+            {DESK_EMAIL}
           </a>
           .
         </p>
@@ -106,7 +87,7 @@ export function ContactMessageForm() {
           variant="brand-outline"
           size="cta"
           className="mt-8"
-          onClick={() => setSubmitted(false)}
+          onClick={handleReset}
         >
           Send another message
         </Button>
@@ -114,8 +95,24 @@ export function ContactMessageForm() {
     );
   }
 
+  const activeRoleError = roleError
+    ? "Please let us know who you are getting in touch as."
+    : state.errors?.role;
+
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
+      {/* Honeypot: hidden from people, tempting to bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
           <Label htmlFor="contact-name">Name</Label>
@@ -127,7 +124,16 @@ export function ContactMessageForm() {
             autoComplete="name"
             placeholder="Your name"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.name)}
+            aria-describedby={
+              state.errors?.name ? "contact-name-error" : undefined
+            }
           />
+          {state.errors?.name ? (
+            <p id="contact-name-error" className="text-xs text-destructive">
+              {state.errors.name}
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-2">
@@ -140,7 +146,16 @@ export function ContactMessageForm() {
             autoComplete="email"
             placeholder="you@example.com"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.email)}
+            aria-describedby={
+              state.errors?.email ? "contact-email-error" : undefined
+            }
           />
+          {state.errors?.email ? (
+            <p id="contact-email-error" className="text-xs text-destructive">
+              {state.errors.email}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -150,7 +165,7 @@ export function ContactMessageForm() {
           I&rsquo;m getting in touch as&hellip;
         </legend>
         <div className="mt-1 grid gap-2.5 sm:grid-cols-2">
-          {ROLES.map((option) => {
+          {CONTACT_ROLES.map((option) => {
             const selected = role === option;
 
             return (
@@ -190,9 +205,9 @@ export function ContactMessageForm() {
             );
           })}
         </div>
-        {roleError ? (
+        {activeRoleError ? (
           <p role="alert" className="text-xs text-destructive">
-            Please let us know who you are getting in touch as.
+            {activeRoleError}
           </p>
         ) : null}
       </fieldset>
@@ -207,42 +222,74 @@ export function ContactMessageForm() {
           rows={5}
           maxLength={3000}
           placeholder="Ask us anything. No question is too awkward."
+          aria-invalid={Boolean(state.errors?.message)}
+          aria-describedby={
+            state.errors?.message ? "contact-message-error" : undefined
+          }
         />
+        {state.errors?.message ? (
+          <p id="contact-message-error" className="text-xs text-destructive">
+            {state.errors.message}
+          </p>
+        ) : null}
       </div>
 
       {/* Consent */}
-      <label className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-foreground">
-        <input
-          type="checkbox"
-          name="consent"
-          required
-          className="peer sr-only"
-        />
-        <span
-          aria-hidden
-          className="mt-0.5 flex size-4 shrink-0 items-center justify-center border border-ink-300 bg-white text-transparent transition-colors peer-checked:border-brand-700 peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-ring/50"
-        >
-          <Check className="size-3" strokeWidth={3} />
-        </span>
-        <span>
-          I agree to Purple Project contacting me about my message.{" "}
-          <Link
-            href="/privacy-policy"
-            className="font-medium text-brand-700 underline underline-offset-2 hover:text-brand-900"
+      <div className="grid gap-1.5">
+        <label className="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-foreground">
+          <input
+            type="checkbox"
+            name="consent"
+            required
+            className="peer sr-only"
+          />
+          <span
+            aria-hidden
+            className="mt-0.5 flex size-4 shrink-0 items-center justify-center border border-ink-300 bg-white text-transparent transition-colors peer-checked:border-brand-700 peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-ring/50"
           >
-            Privacy policy
-          </Link>
-          .
-        </span>
-      </label>
+            <Check className="size-3" strokeWidth={3} />
+          </span>
+          <span>
+            I agree to Purple Project contacting me about my message.{" "}
+            <Link
+              href="/privacy-policy"
+              className="font-medium text-brand-700 underline underline-offset-2 hover:text-brand-900"
+            >
+              Privacy policy
+            </Link>
+            .
+          </span>
+        </label>
+        {state.errors?.consent ? (
+          <p role="alert" className="text-xs text-destructive">
+            {state.errors.consent}
+          </p>
+        ) : null}
+      </div>
 
-      <div className="flex flex-wrap items-center gap-4 pt-2">
-        <Button type="submit" variant="brand" size="cta">
-          Send message
+      {state.status === "error" && state.message ? (
+        <div
+          role="alert"
+          className="border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+        >
+          <p>{state.message}</p>
+          <p className="mt-1 text-xs text-foreground/80">
+            You can also email us directly at{" "}
+            <a
+              href={`mailto:${DESK_EMAIL}`}
+              className="font-medium text-brand-700 underline underline-offset-2"
+            >
+              {DESK_EMAIL}
+            </a>
+            .
+          </p>
+        </div>
+      ) : null}
+
+      <div className="pt-2">
+        <Button type="submit" variant="brand" size="cta" disabled={isPending}>
+          {isPending ? "Sending…" : "Send message"}
         </Button>
-        <p className="text-xs leading-relaxed text-muted-foreground">
-          This opens your email app with your message ready to send.
-        </p>
       </div>
     </form>
   );

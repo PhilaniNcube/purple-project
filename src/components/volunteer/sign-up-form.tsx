@@ -8,30 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-
-const CONTACT_EMAIL = "desk@purpleproject.co.za";
-
-/** The ways to help listed under "SIGN-UP FORM". */
-const WAYS_TO_HELP = [
-  "Spread the word",
-  "Join us at events",
-  "Pack dignity packs",
-  "Start a conversation",
-  "Something else",
-] as const;
+import { DESK_EMAIL } from "@/lib/contact";
+import { submitVolunteerForm } from "@/lib/form-actions";
+import {
+  initialFormState,
+  VOLUNTEER_WAYS,
+  type FormSubmissionState,
+} from "@/lib/form-state";
 
 /**
  * Volunteer sign-up form.
- *
- * The site has no volunteer inbox wired up yet, so the form composes a
- * pre-filled email in the visitor's own mail app. That keeps the sign-up
- * deliberate, gives the visitor a copy of what they sent and means no personal
- * detail is stored on the website.
  */
 export function VolunteerSignUpForm() {
   const [selectedWays, setSelectedWays] = React.useState<string[]>([]);
   const [wayError, setWayError] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
+  const [state, setState] = React.useState<FormSubmissionState>(initialFormState);
+  const [isPending, startTransition] = React.useTransition();
 
   function toggleWay(way: string) {
     setSelectedWays((current) => {
@@ -52,30 +44,21 @@ export function VolunteerSignUpForm() {
       return;
     }
 
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const phone = String(data.get("phone") ?? "").trim();
-    const about = String(data.get("about") ?? "").trim();
+    const formData = new FormData(event.currentTarget);
 
-    const subject = encodeURIComponent(
-      `Volunteer sign-up${name ? ` — ${name}` : ""}`,
-    );
-    const body = encodeURIComponent(
-      [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Phone: ${phone}`,
-        `How would you like to help?: ${selectedWays.join(", ")}`,
-        ...(about ? ["", "A little about me:", about] : []),
-      ].join("\n"),
-    );
-
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    startTransition(async () => {
+      const result = await submitVolunteerForm(formData);
+      setState(result);
+    });
   }
 
-  if (submitted) {
+  function handleReset() {
+    setState(initialFormState);
+    setSelectedWays([]);
+    setWayError(false);
+  }
+
+  if (state.status === "success") {
     return (
       <div
         role="status"
@@ -95,13 +78,12 @@ export function VolunteerSignUpForm() {
         </p>
 
         <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-          Your email app should also open with your details ready to send. If it
-          did not open automatically, you can email us directly at{" "}
+          Need to add anything else? You can also email us at{" "}
           <a
-            href={`mailto:${CONTACT_EMAIL}?subject=Volunteer%20sign-up`}
+            href={`mailto:${DESK_EMAIL}?subject=Volunteer%20sign-up`}
             className="font-medium text-brand-700 underline underline-offset-2"
           >
-            {CONTACT_EMAIL}
+            {DESK_EMAIL}
           </a>
           .
         </p>
@@ -111,7 +93,7 @@ export function VolunteerSignUpForm() {
           variant="brand-outline"
           size="cta"
           className="mt-8"
-          onClick={() => setSubmitted(false)}
+          onClick={handleReset}
         >
           Back to form
         </Button>
@@ -119,8 +101,24 @@ export function VolunteerSignUpForm() {
     );
   }
 
+  const activeWaysError = wayError
+    ? "Please select at least one way you would like to help."
+    : state.errors?.ways;
+
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
+      {/* Honeypot: hidden from people, tempting to bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="volunteer-website">Website</label>
+        <input
+          id="volunteer-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
           <Label htmlFor="volunteer-name">Name</Label>
@@ -132,7 +130,16 @@ export function VolunteerSignUpForm() {
             autoComplete="name"
             placeholder="Your name"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.name)}
+            aria-describedby={
+              state.errors?.name ? "volunteer-name-error" : undefined
+            }
           />
+          {state.errors?.name ? (
+            <p id="volunteer-name-error" className="text-xs text-destructive">
+              {state.errors.name}
+            </p>
+          ) : null}
         </div>
 
         <div className="grid gap-2">
@@ -145,7 +152,16 @@ export function VolunteerSignUpForm() {
             autoComplete="email"
             placeholder="you@example.com"
             className="h-10"
+            aria-invalid={Boolean(state.errors?.email)}
+            aria-describedby={
+              state.errors?.email ? "volunteer-email-error" : undefined
+            }
           />
+          {state.errors?.email ? (
+            <p id="volunteer-email-error" className="text-xs text-destructive">
+              {state.errors.email}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -159,7 +175,16 @@ export function VolunteerSignUpForm() {
           autoComplete="tel"
           placeholder="e.g. 082 000 0000"
           className="h-10"
+          aria-invalid={Boolean(state.errors?.phone)}
+          aria-describedby={
+            state.errors?.phone ? "volunteer-phone-error" : undefined
+          }
         />
+        {state.errors?.phone ? (
+          <p id="volunteer-phone-error" className="text-xs text-destructive">
+            {state.errors.phone}
+          </p>
+        ) : null}
       </div>
 
       <fieldset className="grid gap-2.5">
@@ -168,7 +193,7 @@ export function VolunteerSignUpForm() {
         </legend>
 
         <div className="mt-1 grid gap-2.5 sm:grid-cols-2">
-          {WAYS_TO_HELP.map((way) => {
+          {VOLUNTEER_WAYS.map((way) => {
             const checked = selectedWays.includes(way);
 
             return (
@@ -208,9 +233,9 @@ export function VolunteerSignUpForm() {
           })}
         </div>
 
-        {wayError ? (
+        {activeWaysError ? (
           <p role="alert" className="text-xs text-destructive">
-            Please select at least one way you would like to help.
+            {activeWaysError}
           </p>
         ) : null}
       </fieldset>
@@ -223,16 +248,41 @@ export function VolunteerSignUpForm() {
           rows={4}
           maxLength={1500}
           placeholder="What you enjoy doing, and how much time you have"
+          aria-invalid={Boolean(state.errors?.about)}
+          aria-describedby={
+            state.errors?.about ? "volunteer-about-error" : undefined
+          }
         />
+        {state.errors?.about ? (
+          <p id="volunteer-about-error" className="text-xs text-destructive">
+            {state.errors.about}
+          </p>
+        ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 pt-2">
-        <Button type="submit" variant="brand" size="cta">
-          Sign me up
+      {state.status === "error" && state.message ? (
+        <div
+          role="alert"
+          className="border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+        >
+          <p>{state.message}</p>
+          <p className="mt-1 text-xs text-foreground/80">
+            You can also email us directly at{" "}
+            <a
+              href={`mailto:${DESK_EMAIL}?subject=Volunteer%20sign-up`}
+              className="font-medium text-brand-700 underline underline-offset-2"
+            >
+              {DESK_EMAIL}
+            </a>
+            .
+          </p>
+        </div>
+      ) : null}
+
+      <div className="pt-2">
+        <Button type="submit" variant="brand" size="cta" disabled={isPending}>
+          {isPending ? "Sending…" : "Sign me up"}
         </Button>
-        <p className="text-xs leading-relaxed text-muted-foreground">
-          This opens your email app with your details ready to send.
-        </p>
       </div>
     </form>
   );
