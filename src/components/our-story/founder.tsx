@@ -108,7 +108,7 @@ export function OurStoryFounder() {
       <Container size="wide">
         <div
           ref={root}
-          className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16 mr-[calc(50%-50vw)]"
+          className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16"
         >
           {/* Copy — extra bottom padding lifts the copy off the band's bottom
               edge, independent of the portrait, which stays flush. */}
@@ -174,17 +174,13 @@ export function OurStoryFounder() {
               without shame.</p>
           </div>
 
-          {/* Portrait — anchored to the right edge at every breakpoint. The
-              negative `mr-[calc(50%-50vw)]` cancels the Container's centring
-              gutter, so the cut-out sits flush against the viewport's right
-              edge on mobile and desktop alike. The Section's `overflow-hidden`
-              keeps the bleed from creating a horizontal scrollbar. */}
-          <div className="flex justify-end">
+
+          <div className="">
             <Image
-              src="/images/founder-2.png"
+              src="/images/melissa-2.webp"
               alt="Dr. Melissa Pietersen, founder of Purple Project, speaking at an event"
-              width={595}
-              height={562}
+              width={1000}
+              height={1000}
               sizes="(min-width: 1024px) 34rem, (min-width: 640px) 32rem, 100vw"
               className="h-auto w-full max-w-md sm:max-w-lg lg:max-w-136 "
               loading="eager"
