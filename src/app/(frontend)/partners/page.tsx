@@ -71,7 +71,7 @@ export default function PartnersPage() {
                 key={partner.src}
                 className="flex flex-col bg-white p-7 sm:p-9"
               >
-                <div className="flex h-24 items-center">
+                <div className="flex min-h-24 items-center">
                   <Image
                     src={partner.src}
                     alt={partner.name}

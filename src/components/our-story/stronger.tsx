@@ -14,10 +14,10 @@ import { PARTNERS } from "@/lib/partners";
  *
  * Both headline lines are set in the brand purple rather than the usual
  * outline + solid pairing — the statement is meant to read as a plain,
- * confident claim, not another scroll-drawn headline. The logos are rendered
- * at their native pixel sizes so the lock-ups keep the proportions they were
- * drawn with (each file has its own transparent padding), and the row only
- * tightens below `sm`, where the three stack and shrink to fit the column.
+ * confident claim, not another scroll-drawn headline. The logos are cropped
+ * to their artwork and capped at their own max width so each lock-up keeps
+ * the proportions it was drawn with, and the row collapses to a single
+ * column below `sm`, where the logos shrink to fit the column.
  *
  * The button is deliberately quiet: an outlined ghost at rest that picks up a
  * faint brand wash on hover, keeping the invitation secondary to the names
