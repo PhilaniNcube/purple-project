@@ -44,7 +44,7 @@ export function OurStoryStronger() {
 
           <ul
             aria-label="Our partners"
-            className="mt-14 grid w-full max-w-4xl items-center justify-items-center gap-y-10 sm:mt-20 sm:grid-cols-3 sm:gap-x-8 lg:gap-x-12"
+            className="mt-14 grid w-full max-w-4xl items-center justify-items-center gap-y-10 sm:mt-20 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 md:gap-x-8 lg:gap-x-12"
           >
             {PARTNERS.map((partner) => (
               <li key={partner.src} className="flex w-full justify-center">
