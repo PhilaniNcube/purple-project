@@ -18,7 +18,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   BANKING_DETAILS,
   formatBankingDetailsText,
-  IS_PLACEHOLDER_BANKING_DETAILS,
   ORGANISATION_REGISTRATIONS,
 } from "@/lib/banking";
 import { DESK_EMAIL } from "@/lib/contact";
@@ -127,7 +126,8 @@ export function DonateOnlineModal({
         <div className="shrink-0 bg-brand-800 ps-6 pe-6 pbs-5 pbe-5 text-white sm:ps-8 sm:pe-8 sm:pbs-6 sm:pbe-6">
           <div className="flex items-start justify-between gap-4">
             <p className="font-heading text-[0.7rem] font-semibold tracking-[0.18em] text-brand-200 uppercase">
-              EFT &amp; online giving · NPO {ORGANISATION_REGISTRATIONS.npo} · PBO{" "}
+              EFT &amp; online giving · NPC {ORGANISATION_REGISTRATIONS.npc} ·
+              NPO {ORGANISATION_REGISTRATIONS.npo} · PBO{" "}
               {ORGANISATION_REGISTRATIONS.pbo}
             </p>
 
@@ -159,17 +159,6 @@ export function DonateOnlineModal({
           data-lenis-prevent=""
           className="[min-block-size:0px] flex-1 overflow-y-auto overscroll-contain ps-6 pe-6 pbs-6 pbe-6 [scrollbar-gutter:stable] sm:ps-8 sm:pe-8"
         >
-          {IS_PLACEHOLDER_BANKING_DETAILS ? (
-            <div
-              role="note"
-              className="mbe-5 border-is-3 border-brand-700 bg-lavender/75 ps-4 pe-4 pbs-3 pbe-3 text-xs leading-relaxed text-brand-950"
-            >
-              Placeholder banking details — official Purple Project account
-              details are being finalised and will replace the placeholders
-              below shortly.
-            </div>
-          ) : null}
-
           <dl className="divide-y divide-brand-200/80 border-bs border-be border-brand-200/80">
             {BANKING_DETAILS.map((row) => {
               const isCopied = copiedFieldId === row.id;
