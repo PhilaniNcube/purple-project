@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, CreditCard, Package } from "lucide-react";
 
+import { DonateOnlineModal } from "@/components/donate/donate-online-modal";
 import { Container, Section } from "@/components/ds";
 import { Button } from "@/components/ui/button";
-
-const PAYMENT_HREF =
-  process.env.NEXT_PUBLIC_PAYMENT_URL ||
-  "mailto:desk@purpleproject.co.za?subject=Online%20donation%20%E2%80%94%20Purple%20Project";
 
 const WAYS_TO_GIVE = [
   {
@@ -17,9 +14,7 @@ const WAYS_TO_GIVE = [
     title: "Give online.",
     body: "Make a secure online donation to fund the workshops and outreach that take information into communities.",
     cta: "Donate online",
-    href: PAYMENT_HREF,
-    variant: "brand" as const,
-    external: true,
+    kind: "modal" as const,
   },
   {
     index: "02",
@@ -30,8 +25,7 @@ const WAYS_TO_GIVE = [
     body: "Prefer to give in kind? Tell us what you’d like to donate, such as sanitary towels, soap and body wash, toothbrushes and toothpaste, deodorant, body lotion or other toiletries, and we’ll arrange the hand-over.",
     cta: "Pledge items",
     href: "#pledge-form",
-    variant: "secondary" as const,
-    external: false,
+    kind: "link" as const,
   },
 ] as const;
 
@@ -116,16 +110,11 @@ export function TwoWaysToGive() {
                 </p>
 
                 <div className="relative mt-8 pt-2">
-                  {way.external ? (
-                    <Button
-                      variant="brand"
-                      size="cta"
-                      nativeButton={false}
-                      render={<a href={way.href} />}
-                    >
+                  {way.kind === "modal" ? (
+                    <DonateOnlineModal variant="brand" size="cta">
                       {way.cta}
                       <ArrowUpRight aria-hidden className="size-4" />
-                    </Button>
+                    </DonateOnlineModal>
                   ) : (
                     <Button
                       variant="secondary"

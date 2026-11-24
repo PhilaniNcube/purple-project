@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 
+import { DonateOnlineModal } from "@/components/donate/donate-online-modal";
 import { Container } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 
@@ -62,14 +63,9 @@ export function DonateHero() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Button
-            variant="inverse"
-            size="cta"
-            nativeButton={false}
-            render={<Link href="#ways-to-give" />}
-          >
+          <DonateOnlineModal variant="inverse" size="cta">
             Donate online
-          </Button>
+          </DonateOnlineModal>
           <Button
             variant="inverse-outline"
             size="cta"

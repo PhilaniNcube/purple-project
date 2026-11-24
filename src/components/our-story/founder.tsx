@@ -166,12 +166,7 @@ export function OurStoryFounder() {
               before working in Gqeberha and Kimberley, where her path in
               oncology took root.
             </p>
-            <p className="max-w-xl text-sm leading-relaxed text-foreground/80" >Witnessing a growing number of young women
-              dying in their prime from late presentation and advanced disease,
-              mostly due to a lack of awareness and the silence and shame it
-              carries, led her to start Purple Project: a place where
-              gynaecological cancer can be talked about openly, early and
-              without shame.</p>
+            <p className="max-w-xl text-sm leading-relaxed text-foreground/80" >Due to her work with Purple Project, Dr Pietersen was recognised with The Herald/Nelson Mandela University Citizen of the Year award in the Health category. She was awarded in September 2026.</p>
           </div>
 
 

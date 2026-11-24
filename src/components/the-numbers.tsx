@@ -57,17 +57,24 @@ const STATS: Stat[] = [
     icon: { src: "/images/screening.svg", width: 56, height: 56 },
   },
   {
-    value: "90",
-    accent: "90 · 70 · 90",
+    value: "33%",
+    accent: "of countries",
     label:
-      "South Africa’s 2030 targets for cervical cancer vaccination, screening and treatment.",
+      "Only 33 percent of countries have implemented vaccination programmes.",
     icon: { src: "/images/targets.svg", width: 56, height: 56 },
+  },
+  {
+    value: "2030",
+    accent: "target",
+    label:
+      "WHO’s elimination goal: 90% vaccinated, 70% screened and 90% treated.",
+    icon: { src: "/images/calendar-2030.svg", width: 56, height: 56 },
   },
   {
     value: "1",
     accent: "dose",
     label:
-      "Dose of HPV vaccine is enough for most girls",
+      "One dose has been proven to be enough for most girls.",
     icon: { src: "/images/ribbon.svg", width: 56, height: 56 },
   },
 ];

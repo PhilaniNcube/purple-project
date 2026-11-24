@@ -213,7 +213,7 @@ export function Signs() {
               </ul>
 
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-pretty text-ink-700">
-                Early signs of ovarian cancer can be vague and easy to dismiss, even in younger women. The risk is higher with a family history of breast cancer, so tell your doctor if cancer runs in your family.
+                Early signs of all gynaecological cancers can be vague and easy to dismiss. With the average age of affected women falling between 15 and 44 years. This includes cervical cancer, ovarian and endometrial cancer.
               </p>
 
               <Button

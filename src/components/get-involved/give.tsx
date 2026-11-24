@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Check } from "lucide-react";
 
+import { DonateOnlineModal } from "@/components/donate/donate-online-modal";
 import { Container, Section } from "@/components/ds";
-import { Button } from "@/components/ui/button";
 
 /** What a donation actually pays for, listed in the closing card. */
 const IMPACT = [
@@ -103,15 +102,13 @@ export function Give() {
           </div>
         </div>
 
-        <Button
+        <DonateOnlineModal
           variant="inverse-outline"
           size="lg"
-          nativeButton={false}
           className="mx-auto mt-14 flex w-fit px-5"
-          render={<Link href="/donate" />}
         >
           Donate online
-        </Button>
+        </DonateOnlineModal>
 
         {/* Where the money goes — the receipt for the ask above. */}
         <div className="mt-12 rounded-xl bg-brand-950/70 px-6 py-7 text-left sm:px-8">
